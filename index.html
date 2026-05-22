@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobRadar.ch — Trouvez votre emploi pendant que vous dormez</title>
+  <meta name="description" content="Le bot qui scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent à votre profil." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f4f0;
+      --accent: #d4f04a;
+      --accent-dark: #a8c233;
+      --gray: #888;
+      --border: rgba(255,255,255,0.1);
+      --card-bg: #141414;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .logo span { color: var(--white); }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--black);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .nav-cta:hover { background: var(--accent-dark); transform: scale(1.03); }
+
+    /* HERO */
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(212,240,74,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      border: 1px solid rgba(212,240,74,0.3);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gray);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-top: 1.5rem;
+      font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-main {
+      background: var(--accent);
+      color: var(--black);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-block;
+    }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,240,74,0.25); }
+    .btn-ghost {
+      color: var(--gray);
+      font-size: 14px;
+      font-family: 'DM Mono', monospace;
+      text-decoration: none;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .stat-item { }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray);
+      font-family: 'DM Mono', monospace;
+      margin-top: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TICKER */
+    .ticker-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 12px 0;
+      background: var(--card-bg);
+    }
+    .ticker {
+      display: flex;
+      gap: 3rem;
+      white-space: nowrap;
+      animation: ticker 20s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .ticker-item .t-dot { color: var(--accent); }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* HOW IT WORKS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .step-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      position: relative;
+    }
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .step-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .feat-card:hover { border-color: rgba(212,240,74,0.3); }
+    .feat-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(212,240,74,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 1rem;
+    }
+    .feat-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .feat-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.2s;
+    }
+    .plan-card.featured {
+      border-color: var(--accent);
+      position: relative;
+    }
+    .popular-badge {
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      padding: 4px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .plan-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .plan-price sub {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray);
+    }
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .plan-features li {
+      font-size: 14px;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 400;
+    }
+    .plan-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .plan-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .plan-btn:hover { transform: translateY(-1px); }
+    .plan-btn.filled { background: var(--accent); color: var(--black); }
+    .plan-btn.outline { border: 1px solid var(--border); color: var(--white); }
+
+    /* CTA SECTION */
+    .cta-section {
+      margin: 0 2rem 4rem;
+      background: var(--accent);
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .cta-section h2 { color: var(--black); margin-bottom: 1rem; }
+    .cta-section p { color: rgba(0,0,0,0.6); font-size: 16px; margin-bottom: 2rem; font-weight: 400; }
+    .btn-dark {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s;
+    }
+    .btn-dark:hover { transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .hero { padding: 3rem 1rem 2rem; }
+      section { padding: 3rem 1rem; }
+      .cta-section { margin: 0 1rem 3rem; padding: 2.5rem 1.5rem; }
+      footer { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Job<span>Radar</span>.ch</div>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta">Rejoindre la bêta</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">
+    <div class="dot"></div>
+    Bêta ouverte — accès gratuit
+  </div>
+  <h1>Votre emploi,<br>trouvé <em>pendant</em><br>que vous dormez.</h1>
+  <p class="hero-sub">JobRadar scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent vraiment à votre profil — avec une lettre de motivation prête à envoyer.</p>
+  <div class="hero-actions">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main">Rejoindre la liste d'attente →</a>
+    <a href="#comment" class="btn-ghost">Comment ça marche ↓</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">22<span>+</span></div>
+      <div class="stat-label">offres scannées / heure</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">sites couverts</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Suisse romande</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="t-dot">●</span> Technicien maintenance — Nestlé, Orbe ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> SAP PM Coordinator — Fribourg ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> Électromécanicien — Vaud ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> Key User SAP — Genève ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> Technicien maintenance — Nestlé, Orbe ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> SAP PM Coordinator — Fribourg ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> Électromécanicien — Vaud ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">●</span> Key User SAP — Genève ✓ MATCH</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="comment">
+  <div class="section-tag">// Comment ça marche</div>
+  <h2>Simple comme<br>envoyer un SMS.</h2>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01 —</div>
+      <div class="step-icon">📋</div>
+      <div class="step-title">Vous décrivez votre profil</div>
+      <div class="step-desc">Métier, cantons acceptés, langues, horaires souhaités. Deux minutes suffisent.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02 —</div>
+      <div class="step-icon">🤖</div>
+      <div class="step-title">Le bot scanne en continu</div>
+      <div class="step-desc">JobUp et Jobs.ch sont analysés toutes les heures, 24h/24, 7j/7.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03 —</div>
+      <div class="step-icon">📲</div>
+      <div class="step-title">Vous recevez les meilleures offres</div>
+      <div class="step-desc">Analyse IA avec score de correspondance + lettre de motivation personnalisée sur Telegram.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-tag">// Fonctionnalités</div>
+  <h2>Tout ce dont vous<br>avez besoin.</h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">Analyse IA précise</div>
+      <div class="feat-desc">Chaque offre est notée sur 10 selon votre profil exact. Fini les offres hors sujet.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Alertes en temps réel</div>
+      <div class="feat-desc">Notifié sur Telegram uniquement pour les offres pertinentes, dès leur publication.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">✍️</div>
+      <div class="feat-title">Lettre de motivation auto</div>
+      <div class="feat-desc">Une lettre personnalisée générée pour chaque offre. Plus qu'à envoyer.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🇨🇭</div>
+      <div class="feat-title">Conçu pour la Suisse</div>
+      <div class="feat-desc">Cantons, langues, spécificités du marché suisse — tout est pris en compte.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🕐</div>
+      <div class="feat-title">24h/24 sans interruption</div>
+      <div class="feat-desc">Le bot tourne même quand vous dormez, êtes en entretien, ou cherchez ailleurs.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <div class="feat-title">Données privées</div>
+      <div class="feat-desc">Votre profil reste confidentiel. Aucune donnée partagée à des tiers.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section>
+  <div class="section-tag">// Tarifs</div>
+  <h2>Transparent,<br>sans surprise.</h2>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">GRATUIT</div>
+      <div class="plan-price">0.- <sub>/ mois</sub></div>
+      <ul class="plan-features">
+        <li>1 recherche active</li>
+        <li>Alertes Telegram</li>
+        <li>JobUp uniquement</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">Commencer</a>
+    </div>
+    <div class="plan-card featured">
+      <div class="popular-badge">⭐ POPULAIRE</div>
+      <div class="plan-name">STANDARD</div>
+      <div class="plan-price">9.90 <sub>CHF / mois</sub></div>
+      <ul class="plan-features">
+        <li>Toutes les recherches</li>
+        <li>JobUp + Jobs.ch</li>
+        <li>Lettres de motivation</li>
+        <li>Alertes prioritaires</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled">S'inscrire en bêta</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">PREMIUM</div>
+      <div class="plan-price">19.90 <sub>CHF / mois</sub></div>
+      <ul class="plan-features">
+        <li>Tout Standard inclus</li>
+        <li>LinkedIn + Indeed</li>
+        <li>Optimisation CV par IA</li>
+        <li>Support prioritaire</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">S'inscrire en bêta</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Prêt à laisser<br>l'IA chercher pour vous ?</h2>
+  <p>Rejoignez la liste d'attente et soyez parmi les premiers à accéder à JobRadar.</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark">Je veux accès en priorité →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Job<span>Radar</span>.ch</div>
+  <p>© 2026 JobRadar.ch — Suisse romande</p>
+  <p>contact@jobradar.ch</p>
+</footer>
+
+</body>
+</html>

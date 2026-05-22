@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobRadar.ch — Vos recherches d'emploi pendant que vous dormez</title>
+  <meta name="description" content="Le bot qui scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent à votre profil." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080b08;
+      --white: #f0f2ee;
+      --accent: #c8f025;
+      --accent-dark: #a0c01a;
+      --gray: #7a8a72;
+      --border: rgba(255,255,255,0.08);
+      --card-bg: #0f140f;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -5%, rgba(180,240,30,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 85% 70%, rgba(100,180,20,0.06) 0%, transparent 60%);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 5%;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(8,11,8,0.88);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+    .logo { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.05em; }
+    .logo span { color: var(--white); }
+    .nav-cta {
+      background: var(--accent); color: var(--black); border: none;
+      padding: 9px 22px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: transform 0.15s, background 0.15s;
+    }
+    .nav-cta:hover { background: var(--accent-dark); transform: scale(1.03); }
+    .hero {
+      min-height: 90vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 5rem 5% 4rem;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
+      border: 1px solid rgba(200,240,37,0.25); padding: 6px 16px; border-radius: 100px;
+      margin-bottom: 2rem; animation: fadeUp 0.6s ease both;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.6); }
+    }
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800;
+      line-height: 1.25; letter-spacing: -0.02em; max-width: 720px;
+      animation: fadeUp 0.6s 0.1s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      font-size: 1rem; color: var(--gray); max-width: 560px;
+      line-height: 1.9; margin-top: 1.75rem; font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 14px; margin-top: 2.5rem;
+      flex-wrap: wrap; align-items: center; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .btn-main {
+      background: var(--accent); color: var(--black); border: none;
+      padding: 14px 32px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,240,37,0.2); }
+    .btn-ghost {
+      color: var(--gray); font-size: 13px;
+      font-family: 'DM Mono', monospace; text-decoration: none; transition: color 0.15s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+    .hero-stats {
+      display: flex; gap: 4rem; margin-top: 4rem;
+      padding-top: 2.5rem; border-top: 1px solid var(--border);
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.4s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--white); text-align: center; }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--gray); font-family: 'DM Mono', monospace; margin-top: 4px; text-align: center; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .ticker-wrap {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden; padding: 14px 0; background: rgba(15,20,15,0.6);
+    }
+    .ticker { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 25s linear infinite; }
+    .ticker-item {
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray);
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .t-dot { color: var(--accent); }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .section-tag {
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3;
+    }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+    }
+    .step-card { background: var(--card-bg); padding: 2.5rem; }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 1.5rem; }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 0.75rem; }
+    .step-desc { font-size: 14px; color: var(--gray); line-height: 1.8; font-weight: 400; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feat-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 18px; padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feat-card:hover { border-color: rgba(200,240,37,0.25); transform: translateY(-3px); }
+    .feat-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(200,240,37,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 1.25rem;
+    }
+    .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: var(--gray); line-height: 1.8; font-weight: 400; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+    .plan-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; position: relative;
+    }
+    .plan-card.featured { border-color: var(--accent); }
+    .popular-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: var(--black);
+      font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
+      padding: 4px 16px; border-radius: 100px; white-space: nowrap;
+    }
+    .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
+    .plan-price { font-size: 2.2rem; font-weight: 800; color: var(--white); margin-bottom: 1.5rem; }
+    .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+    .plan-features li { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+    .plan-features li::before { content: 'v'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .plan-btn {
+      display: block; text-align: center; padding: 12px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+      text-decoration: none; transition: transform 0.15s, opacity 0.15s;
+    }
+    .plan-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+    .plan-btn.filled { background: var(--accent); color: var(--black); }
+    .plan-btn.outline { border: 1px solid var(--border); color: var(--white); }
+    .cta-section {
+      margin: 0 5% 5rem;
+      background: var(--accent); border-radius: 28px;
+      padding: 5rem 3rem; text-align: center;
+    }
+    .cta-section h2 { color: var(--black); margin-bottom: 1rem; }
+    .cta-section p { color: rgba(0,0,0,0.55); font-size: 16px; margin-bottom: 2rem; line-height: 1.7; }
+    .btn-dark {
+      background: var(--black); color: var(--white); border: none;
+      padding: 14px 36px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s;
+    }
+    .btn-dark:hover { transform: translateY(-2px); }
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 5%;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); }
+    @media (max-width: 900px) {
+      .steps-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .cta-section { margin: 0 5% 3rem; padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Job<span>Radar</span>.ch</div>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta">Rejoindre la beta</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag"><div class="dot"></div>Beta ouverte - acces gratuit</div>
+  <h1>Vos recherches d'emploi <em>pendant</em> que vous dormez.</h1>
+  <p class="hero-sub">JobRadar scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent vraiment a votre profil, avec une lettre de motivation prete a envoyer.</p>
+  <div class="hero-actions">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main">Rejoindre la liste d'attente</a>
+    <a href="#comment" class="btn-ghost">Comment ca marche</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">22<span>+</span></div>
+      <div class="stat-label">offres scannees / heure</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">sites couverts</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Suisse romande</div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
+  </div>
+</div>
+
+<div class="section-wrap" id="comment">
+  <div class="section-tag">// Comment ca marche</div>
+  <h2>Simple comme envoyer un SMS.</h2>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">📋</div>
+      <div class="step-title">Vous decrivez votre profil</div>
+      <div class="step-desc">Metier, cantons acceptes, langues, horaires souhaites. Deux minutes suffisent.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">🤖</div>
+      <div class="step-title">Le bot scanne en continu</div>
+      <div class="step-desc">JobUp et Jobs.ch sont analyses toutes les heures, 24h/24, 7j/7.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">📲</div>
+      <div class="step-title">Vous recevez les meilleures offres</div>
+      <div class="step-desc">Analyse IA avec score de correspondance et lettre de motivation personnalisee sur Telegram.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-tag">// Fonctionnalites</div>
+  <h2>Tout ce dont vous avez besoin.</h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">Analyse IA precise</div>
+      <div class="feat-desc">Chaque offre est notee sur 10 selon votre profil exact. Fini les offres hors sujet.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Alertes en temps reel</div>
+      <div class="feat-desc">Notifie sur Telegram uniquement pour les offres pertinentes, des leur publication.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">✍️</div>
+      <div class="feat-title">Lettre de motivation auto</div>
+      <div class="feat-desc">Une lettre personnalisee generee pour chaque offre. Plus qu'a envoyer.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🇨🇭</div>
+      <div class="feat-title">Concu pour la Suisse</div>
+      <div class="feat-desc">Cantons, langues, specificites du marche suisse, tout est pris en compte.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🕐</div>
+      <div class="feat-title">24h/24 sans interruption</div>
+      <div class="feat-desc">Le bot tourne meme quand vous dormez, etes en entretien, ou cherchez ailleurs.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <div class="feat-title">Donnees privees</div>
+      <div class="feat-desc">Votre profil reste confidentiel. Aucune donnee partagee a des tiers.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-tag">// Tarifs</div>
+  <h2>Transparent, sans surprise.</h2>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">GRATUIT</div>
+      <div class="plan-price">0.- <sub>/ mois</sub></div>
+      <ul class="plan-features">
+        <li>1 recherche active</li>
+        <li>Alertes Telegram</li>
+        <li>JobUp uniquement</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">Commencer</a>
+    </div>
+    <div class="plan-card featured">
+      <div class="popular-badge">POPULAIRE</div>
+      <div class="plan-name">STANDARD</div>
+      <div class="plan-price">9.90 <sub>CHF / mois</sub></div>
+      <ul class="plan-features">
+        <li>Toutes les recherches</li>
+        <li>JobUp + Jobs.ch</li>
+        <li>Lettres de motivation</li>
+        <li>Alertes prioritaires</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled">S'inscrire en beta</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">PREMIUM</div>
+      <div class="plan-price">19.90 <sub>CHF / mois</sub></div>
+      <ul class="plan-features">
+        <li>Tout Standard inclus</li>
+        <li>LinkedIn + Indeed</li>
+        <li>Optimisation CV par IA</li>
+        <li>Support prioritaire</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">S'inscrire en beta</a>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>Pret a laisser l'IA chercher pour vous ?</h2>
+  <p>Rejoignez la liste d'attente et soyez parmi les premiers a acceder a JobRadar. C'est gratuit pendant la beta.</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark">Je veux acces en priorite</a>
+</div>
+
+<footer>
+  <div class="logo">Job<span>Radar</span>.ch</div>
+  <p>2026 JobRadar.ch - Suisse romande</p>
+  <p>contact@jobradar.ch</p>
+</footer>
+
+</body>
+</html>

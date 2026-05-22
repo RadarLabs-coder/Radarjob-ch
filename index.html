@@ -51,17 +51,22 @@
     .lang-dropdown {
       display: none; position: absolute; top: calc(100% + 8px); right: 0;
       background: #1a201a; border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden; min-width: 160px;
+      border-radius: 14px; overflow: hidden;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4); z-index: 200;
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
     }
-    .lang-selector.open .lang-dropdown { display: block; }
+    .lang-selector.open .lang-dropdown { display: flex; }
     .lang-option {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 16px; cursor: pointer; font-size: 14px;
-      transition: background 0.15s; color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      padding: 8px 12px; cursor: pointer; font-size: 22px;
+      border-radius: 8px;
+      transition: background 0.15s;
     }
     .lang-option:hover { background: rgba(255,255,255,0.07); }
-    .lang-option.active { color: var(--accent); }
+    .lang-option.active { background: rgba(200,240,37,0.1); }
     .lang-flag { font-size: 18px; }
     .nav-cta {
       background: var(--accent); color: var(--black); border: none;
@@ -233,16 +238,15 @@
   <div class="nav-right">
     <div class="lang-selector" id="langSelector">
       <button class="lang-btn" onclick="toggleLang()">
-        <span id="currentFlag">🇫🇷</span>
-        <span id="currentLang">FR</span>
-        <span>▾</span>
+        <span id="currentFlag" style="font-size:20px;">🇫🇷</span>
+        <span style="font-size:11px; color: var(--gray);">▾</span>
       </button>
       <div class="lang-dropdown">
-        <div class="lang-option active" onclick="setLang('fr')"><span class="lang-flag">🇫🇷</span> Français</div>
-        <div class="lang-option" onclick="setLang('de')"><span class="lang-flag">🇩🇪</span> Deutsch</div>
-        <div class="lang-option" onclick="setLang('it')"><span class="lang-flag">🇮🇹</span> Italiano</div>
-        <div class="lang-option" onclick="setLang('en')"><span class="lang-flag">🇬🇧</span> English</div>
-        <div class="lang-option" onclick="setLang('pt')"><span class="lang-flag">🇵🇹</span> Português</div>
+        <div class="lang-option active" onclick="setLang('fr')"><span class="lang-flag">🇫🇷</span></div>
+        <div class="lang-option" onclick="setLang('de')"><span class="lang-flag">🇩🇪</span></div>
+        <div class="lang-option" onclick="setLang('it')"><span class="lang-flag">🇮🇹</span></div>
+        <div class="lang-option" onclick="setLang('en')"><span class="lang-flag">🇬🇧</span></div>
+        <div class="lang-option" onclick="setLang('pt')"><span class="lang-flag">🇵🇹</span></div>
       </div>
     </div>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta" id="navCta">Rejoindre la bêta</a>

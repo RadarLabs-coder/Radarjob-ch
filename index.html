@@ -3,465 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JobRadar.ch — Trouvez votre emploi pendant que vous dormez</title>
+  <title>JobRadar.ch — Vos recherches d'emploi pendant que vous dormez</title>
   <meta name="description" content="Le bot qui scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent à votre profil." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --black: #0a0a0a;
-      --white: #f5f4f0;
-      --accent: #d4f04a;
-      --accent-dark: #a8c233;
-      --gray: #888;
-      --border: rgba(255,255,255,0.1);
-      --card-bg: #141414;
+      --black: #080b08;
+      --white: #f0f2ee;
+      --accent: #c8f025;
+      --accent-dark: #a0c01a;
+      --gray: #7a8a72;
+      --border: rgba(255,255,255,0.08);
+      --card-bg: #0f140f;
     }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--black);
       color: var(--white);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -5%, rgba(180,240,30,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 85% 70%, rgba(100,180,20,0.06) 0%, transparent 60%);
     }
-
-    /* NAV */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 5%;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(8,11,8,0.88);
+      backdrop-filter: blur(16px);
       z-index: 100;
     }
-    .logo {
-      font-family: 'DM Mono', monospace;
-      font-size: 16px;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
+    .logo { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.05em; }
     .logo span { color: var(--white); }
     .nav-cta {
-      background: var(--accent);
-      color: var(--black);
-      border: none;
-      padding: 8px 20px;
-      border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.15s, background 0.15s;
+      background: var(--accent); color: var(--black); border: none;
+      padding: 9px 22px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: transform 0.15s, background 0.15s;
     }
     .nav-cta:hover { background: var(--accent-dark); transform: scale(1.03); }
-
-    /* HERO */
     .hero {
-      min-height: 88vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 4rem 2rem 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -200px; right: -200px;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(212,240,74,0.12) 0%, transparent 70%);
-      pointer-events: none;
+      min-height: 90vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 5rem 5% 4rem;
     }
     .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--accent);
-      border: 1px solid rgba(212,240,74,0.3);
-      padding: 6px 14px;
-      border-radius: 100px;
-      margin-bottom: 2rem;
-      width: fit-content;
-      animation: fadeUp 0.6s ease both;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
+      border: 1px solid rgba(200,240,37,0.25); padding: 6px 16px; border-radius: 100px;
+      margin-bottom: 2rem; animation: fadeUp 0.6s ease both;
     }
     .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
       animation: pulse 1.8s infinite;
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
+      50% { opacity: 0.3; transform: scale(0.6); }
     }
     h1 {
-      font-size: clamp(1.7rem, 4vw, 2.8rem);
-      font-weight: 800;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-      max-width: 600px;
-      animation: fadeUp 0.6s 0.1s ease both;
+      font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800;
+      line-height: 1.25; letter-spacing: -0.02em; max-width: 720px;
+      animation: fadeUp 0.6s 0.1s ease both; opacity: 0; animation-fill-mode: forwards;
     }
-    h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
+    h1 em { font-style: normal; color: var(--accent); }
     .hero-sub {
-      font-size: 1.05rem;
-      color: var(--gray);
-      max-width: 500px;
-      line-height: 1.9;
-      margin-top: 2rem;
-      font-weight: 400;
-      animation: fadeUp 0.6s 0.2s ease both;
+      font-size: 1rem; color: var(--gray); max-width: 560px;
+      line-height: 1.9; margin-top: 1.75rem; font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both; opacity: 0; animation-fill-mode: forwards;
     }
     .hero-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-      align-items: center;
-      animation: fadeUp 0.6s 0.3s ease both;
+      display: flex; gap: 14px; margin-top: 2.5rem;
+      flex-wrap: wrap; align-items: center; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both; opacity: 0; animation-fill-mode: forwards;
     }
     .btn-main {
-      background: var(--accent);
-      color: var(--black);
-      border: none;
-      padding: 14px 32px;
-      border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
+      background: var(--accent); color: var(--black); border: none;
+      padding: 14px 32px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block;
       transition: transform 0.15s, box-shadow 0.15s;
-      display: inline-block;
     }
-    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,240,74,0.25); }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,240,37,0.2); }
     .btn-ghost {
-      color: var(--gray);
-      font-size: 14px;
-      font-family: 'DM Mono', monospace;
-      text-decoration: none;
+      color: var(--gray); font-size: 13px;
+      font-family: 'DM Mono', monospace; text-decoration: none; transition: color 0.15s;
     }
+    .btn-ghost:hover { color: var(--white); }
     .hero-stats {
-      display: flex;
-      gap: 2.5rem;
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.4s ease both;
+      display: flex; gap: 4rem; margin-top: 4rem;
+      padding-top: 2.5rem; border-top: 1px solid var(--border);
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.4s ease both; opacity: 0; animation-fill-mode: forwards;
     }
-    .stat-item { }
-    .stat-num {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--white);
-    }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--white); text-align: center; }
     .stat-num span { color: var(--accent); }
-    .stat-label {
-      font-size: 13px;
-      color: var(--gray);
-      font-family: 'DM Mono', monospace;
-      margin-top: 2px;
-    }
-
+    .stat-label { font-size: 12px; color: var(--gray); font-family: 'DM Mono', monospace; margin-top: 4px; text-align: center; }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* TICKER */
     .ticker-wrap {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-      padding: 12px 0;
-      background: var(--card-bg);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden; padding: 14px 0; background: rgba(15,20,15,0.6);
     }
-    .ticker {
-      display: flex;
-      gap: 3rem;
-      white-space: nowrap;
-      animation: ticker 20s linear infinite;
-    }
+    .ticker { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 25s linear infinite; }
     .ticker-item {
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      color: var(--gray);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray);
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
     }
-    .ticker-item .t-dot { color: var(--accent); }
+    .t-dot { color: var(--accent); }
     @keyframes ticker {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
-
-    /* HOW IT WORKS */
-    section {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
     .section-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem;
     }
     h2 {
-      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      margin-bottom: 2.5rem;
-      line-height: 1.3;
+      font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3;
     }
     .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
     }
-    .step-card {
-      background: var(--card-bg);
-      padding: 2.5rem;
-      position: relative;
-    }
-    .step-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-    .step-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .step-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .step-desc {
-      font-size: 14px;
-      color: var(--gray);
-      line-height: 1.8;
-      font-weight: 400;
-    }
-
-    /* FEATURES */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-    }
+    .step-card { background: var(--card-bg); padding: 2.5rem; }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 1.5rem; }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 0.75rem; }
+    .step-desc { font-size: 14px; color: var(--gray); line-height: 1.8; font-weight: 400; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .feat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.25rem;
-      transition: border-color 0.2s;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 18px; padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
     }
-    .feat-card:hover { border-color: rgba(212,240,74,0.3); }
+    .feat-card:hover { border-color: rgba(200,240,37,0.25); transform: translateY(-3px); }
     .feat-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: rgba(212,240,74,0.1);
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(200,240,37,0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      margin-bottom: 1rem;
+      font-size: 20px; margin-bottom: 1.25rem;
     }
-    .feat-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .feat-desc {
-      font-size: 14px;
-      color: var(--gray);
-      line-height: 1.8;
-      font-weight: 400;
-    }
-
-    /* PRICING */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
+    .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: var(--gray); line-height: 1.8; font-weight: 400; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
     .plan-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      transition: border-color 0.2s;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; position: relative;
     }
-    .plan-card.featured {
-      border-color: var(--accent);
-      position: relative;
-    }
+    .plan-card.featured { border-color: var(--accent); }
     .popular-badge {
-      position: absolute;
-      top: -12px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: var(--black);
-      font-size: 11px;
-      font-weight: 700;
-      font-family: 'DM Mono', monospace;
-      padding: 4px 14px;
-      border-radius: 100px;
-      white-space: nowrap;
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: var(--black);
+      font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
+      padding: 4px 16px; border-radius: 100px; white-space: nowrap;
     }
-    .plan-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      color: var(--gray);
-      margin-bottom: 8px;
-    }
-    .plan-price {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-    .plan-price sub {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--gray);
-    }
-    .plan-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
-    .plan-features li {
-      font-size: 14px;
-      color: var(--gray);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 400;
-    }
-    .plan-features li::before {
-      content: '✓';
-      color: var(--accent);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
+    .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
+    .plan-price { font-size: 2.2rem; font-weight: 800; color: var(--white); margin-bottom: 1.5rem; }
+    .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+    .plan-features li { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+    .plan-features li::before { content: 'v'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
     .plan-btn {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.15s;
+      display: block; text-align: center; padding: 12px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+      text-decoration: none; transition: transform 0.15s, opacity 0.15s;
     }
-    .plan-btn:hover { transform: translateY(-1px); }
+    .plan-btn:hover { transform: translateY(-1px); opacity: 0.9; }
     .plan-btn.filled { background: var(--accent); color: var(--black); }
     .plan-btn.outline { border: 1px solid var(--border); color: var(--white); }
-
-    /* CTA SECTION */
     .cta-section {
-      margin: 0 2rem 4rem;
-      background: var(--accent);
-      border-radius: 24px;
-      padding: 4rem 2rem;
-      text-align: center;
+      margin: 0 5% 5rem;
+      background: var(--accent); border-radius: 28px;
+      padding: 5rem 3rem; text-align: center;
     }
     .cta-section h2 { color: var(--black); margin-bottom: 1rem; }
-    .cta-section p { color: rgba(0,0,0,0.6); font-size: 16px; margin-bottom: 2rem; font-weight: 400; }
+    .cta-section p { color: rgba(0,0,0,0.55); font-size: 16px; margin-bottom: 2rem; line-height: 1.7; }
     .btn-dark {
-      background: var(--black);
-      color: var(--white);
-      border: none;
-      padding: 14px 32px;
-      border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: transform 0.15s;
+      background: var(--black); color: var(--white); border: none;
+      padding: 14px 36px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s;
     }
     .btn-dark:hover { transform: translateY(-2px); }
-
-    /* FOOTER */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+      border-top: 1px solid var(--border); padding: 2rem 5%;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
     }
-    footer p {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--gray);
-    }
-
-    @media (max-width: 600px) {
-      nav { padding: 1rem; }
-      .hero { padding: 3rem 1rem 2rem; }
-      section { padding: 3rem 1rem; }
-      .cta-section { margin: 0 1rem 3rem; padding: 2.5rem 1.5rem; }
-      footer { padding: 1.5rem 1rem; }
+    footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); }
+    @media (max-width: 900px) {
+      .steps-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .cta-section { margin: 0 5% 3rem; padding: 3rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">Job<span>Radar</span>.ch</div>
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta">Rejoindre la bêta</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta">Rejoindre la beta</a>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="hero-tag">
-    <div class="dot"></div>
-    Bêta ouverte — accès gratuit
-  </div>
-  <h1>Vos recherches<br>d'emploi <em>pendant</em><br>que vous dormez.</h1>
-  <p class="hero-sub">JobRadar scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent vraiment à votre profil — avec une lettre de motivation prête à envoyer.</p>
+  <div class="hero-tag"><div class="dot"></div>Beta ouverte - acces gratuit</div>
+  <h1>Vos recherches d'emploi <em>pendant</em> que vous dormez.</h1>
+  <p class="hero-sub">JobRadar scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie uniquement les postes qui correspondent vraiment a votre profil, avec une lettre de motivation prete a envoyer.</p>
   <div class="hero-actions">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main">Rejoindre la liste d'attente →</a>
-    <a href="#comment" class="btn-ghost">Comment ça marche ↓</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main">Rejoindre la liste d'attente</a>
+    <a href="#comment" class="btn-ghost">Comment ca marche</a>
   </div>
   <div class="hero-stats">
     <div class="stat-item">
       <div class="stat-num">22<span>+</span></div>
-      <div class="stat-label">offres scannées / heure</div>
+      <div class="stat-label">offres scannees / heure</div>
     </div>
     <div class="stat-item">
       <div class="stat-num">2</div>
@@ -474,88 +241,86 @@
   </div>
 </div>
 
-<!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker">
-    <div class="ticker-item"><span class="t-dot">●</span> Technicien maintenance — Nestlé, Orbe ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> SAP PM Coordinator — Fribourg ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> Électromécanicien — Vaud ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> Key User SAP — Genève ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> Technicien maintenance — Nestlé, Orbe ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> SAP PM Coordinator — Fribourg ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> Électromécanicien — Vaud ✓ MATCH</div>
-    <div class="ticker-item"><span class="t-dot">●</span> Key User SAP — Genève ✓ MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section id="comment">
-  <div class="section-tag">// Comment ça marche</div>
-  <h2>Simple comme<br>envoyer un SMS.</h2>
+<div class="section-wrap" id="comment">
+  <div class="section-tag">// Comment ca marche</div>
+  <h2>Simple comme envoyer un SMS.</h2>
   <div class="steps-grid">
     <div class="step-card">
-      <div class="step-num">01 —</div>
+      <div class="step-num">01</div>
       <div class="step-icon">📋</div>
-      <div class="step-title">Vous décrivez votre profil</div>
-      <div class="step-desc">Métier, cantons acceptés, langues, horaires souhaités. Deux minutes suffisent.</div>
+      <div class="step-title">Vous decrivez votre profil</div>
+      <div class="step-desc">Metier, cantons acceptes, langues, horaires souhaites. Deux minutes suffisent.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">02 —</div>
+      <div class="step-num">02</div>
       <div class="step-icon">🤖</div>
       <div class="step-title">Le bot scanne en continu</div>
-      <div class="step-desc">JobUp et Jobs.ch sont analysés toutes les heures, 24h/24, 7j/7.</div>
+      <div class="step-desc">JobUp et Jobs.ch sont analyses toutes les heures, 24h/24, 7j/7.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">03 —</div>
+      <div class="step-num">03</div>
       <div class="step-icon">📲</div>
       <div class="step-title">Vous recevez les meilleures offres</div>
-      <div class="step-desc">Analyse IA avec score de correspondance + lettre de motivation personnalisée sur Telegram.</div>
+      <div class="step-desc">Analyse IA avec score de correspondance et lettre de motivation personnalisee sur Telegram.</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FEATURES -->
-<section>
-  <div class="section-tag">// Fonctionnalités</div>
-  <h2>Tout ce dont vous<br>avez besoin.</h2>
+<div class="section-wrap">
+  <div class="section-tag">// Fonctionnalites</div>
+  <h2>Tout ce dont vous avez besoin.</h2>
   <div class="features-grid">
     <div class="feat-card">
       <div class="feat-icon">🎯</div>
-      <div class="feat-title">Analyse IA précise</div>
-      <div class="feat-desc">Chaque offre est notée sur 10 selon votre profil exact. Fini les offres hors sujet.</div>
+      <div class="feat-title">Analyse IA precise</div>
+      <div class="feat-desc">Chaque offre est notee sur 10 selon votre profil exact. Fini les offres hors sujet.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">⚡</div>
-      <div class="feat-title">Alertes en temps réel</div>
-      <div class="feat-desc">Notifié sur Telegram uniquement pour les offres pertinentes, dès leur publication.</div>
+      <div class="feat-title">Alertes en temps reel</div>
+      <div class="feat-desc">Notifie sur Telegram uniquement pour les offres pertinentes, des leur publication.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">✍️</div>
       <div class="feat-title">Lettre de motivation auto</div>
-      <div class="feat-desc">Une lettre personnalisée générée pour chaque offre. Plus qu'à envoyer.</div>
+      <div class="feat-desc">Une lettre personnalisee generee pour chaque offre. Plus qu'a envoyer.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">🇨🇭</div>
-      <div class="feat-title">Conçu pour la Suisse</div>
-      <div class="feat-desc">Cantons, langues, spécificités du marché suisse — tout est pris en compte.</div>
+      <div class="feat-title">Concu pour la Suisse</div>
+      <div class="feat-desc">Cantons, langues, specificites du marche suisse, tout est pris en compte.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">🕐</div>
       <div class="feat-title">24h/24 sans interruption</div>
-      <div class="feat-desc">Le bot tourne même quand vous dormez, êtes en entretien, ou cherchez ailleurs.</div>
+      <div class="feat-desc">Le bot tourne meme quand vous dormez, etes en entretien, ou cherchez ailleurs.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">🔒</div>
-      <div class="feat-title">Données privées</div>
-      <div class="feat-desc">Votre profil reste confidentiel. Aucune donnée partagée à des tiers.</div>
+      <div class="feat-title">Donnees privees</div>
+      <div class="feat-desc">Votre profil reste confidentiel. Aucune donnee partagee a des tiers.</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- PRICING -->
-<section>
+<div class="section-wrap">
   <div class="section-tag">// Tarifs</div>
-  <h2>Transparent,<br>sans surprise.</h2>
+  <h2>Transparent, sans surprise.</h2>
   <div class="pricing-grid">
     <div class="plan-card">
       <div class="plan-name">GRATUIT</div>
@@ -568,7 +333,7 @@
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">Commencer</a>
     </div>
     <div class="plan-card featured">
-      <div class="popular-badge">⭐ POPULAIRE</div>
+      <div class="popular-badge">POPULAIRE</div>
       <div class="plan-name">STANDARD</div>
       <div class="plan-price">9.90 <sub>CHF / mois</sub></div>
       <ul class="plan-features">
@@ -577,7 +342,7 @@
         <li>Lettres de motivation</li>
         <li>Alertes prioritaires</li>
       </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled">S'inscrire en bêta</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled">S'inscrire en beta</a>
     </div>
     <div class="plan-card">
       <div class="plan-name">PREMIUM</div>
@@ -588,22 +353,20 @@
         <li>Optimisation CV par IA</li>
         <li>Support prioritaire</li>
       </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">S'inscrire en bêta</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline">S'inscrire en beta</a>
     </div>
   </div>
-</section>
-
-<!-- CTA -->
-<div class="cta-section">
-  <h2>Prêt à laisser<br>l'IA chercher pour vous ?</h2>
-  <p>Rejoignez la liste d'attente et soyez parmi les premiers à accéder à JobRadar.</p>
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark">Je veux accès en priorité →</a>
 </div>
 
-<!-- FOOTER -->
+<div class="cta-section">
+  <h2>Pret a laisser l'IA chercher pour vous ?</h2>
+  <p>Rejoignez la liste d'attente et soyez parmi les premiers a acceder a JobRadar. C'est gratuit pendant la beta.</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark">Je veux acces en priorite</a>
+</div>
+
 <footer>
   <div class="logo">Job<span>Radar</span>.ch</div>
-  <p>© 2026 JobRadar.ch — Suisse romande</p>
+  <p>2026 JobRadar.ch - Suisse romande</p>
   <p>contact@jobradar.ch</p>
 </footer>
 

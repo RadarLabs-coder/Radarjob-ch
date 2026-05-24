@@ -6,7 +6,6 @@
   <title>Radarjob.ch</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCM6QPCBG0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -38,7 +37,6 @@
     .logo { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.05em; }
     .logo span { color: var(--white); }
     .nav-right { display: flex; align-items: center; gap: 16px; }
-    /* Language selector */
     .lang-selector { position: relative; }
     .lang-btn {
       background: rgba(255,255,255,0.06); border: 1px solid var(--border);
@@ -53,21 +51,16 @@
       background: #1a201a; border: 1px solid var(--border);
       border-radius: 14px; overflow: hidden;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4); z-index: 200;
-      padding: 6px;
-      display: none;
-      flex-direction: column;
-      gap: 2px;
+      padding: 6px; flex-direction: column; gap: 2px;
     }
     .lang-selector.open .lang-dropdown { display: flex; }
     .lang-option {
       display: flex; align-items: center; justify-content: center;
-      padding: 8px 12px; cursor: pointer; font-size: 22px;
-      border-radius: 8px;
-      transition: background 0.15s;
+      padding: 8px 14px; cursor: pointer; font-size: 24px;
+      border-radius: 8px; transition: background 0.15s;
     }
     .lang-option:hover { background: rgba(255,255,255,0.07); }
     .lang-option.active { background: rgba(200,240,37,0.1); }
-    .lang-flag { font-size: 18px; }
     .nav-cta {
       background: var(--accent); color: var(--black); border: none;
       padding: 9px 22px; border-radius: 100px;
@@ -84,17 +77,10 @@
       display: inline-flex; align-items: center; gap: 8px;
       font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
       border: 1px solid rgba(200,240,37,0.25); padding: 6px 16px;
-      border-radius: 100px; margin-bottom: 2rem;
-      animation: fadeUp 0.6s ease both;
+      border-radius: 100px; margin-bottom: 2rem; animation: fadeUp 0.6s ease both;
     }
-    .dot {
-      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
-      animation: pulse 1.8s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.6); }
-    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.6)} }
     h1 {
       font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800;
       line-height: 1.25; letter-spacing: -0.02em; max-width: 720px;
@@ -119,10 +105,7 @@
       transition: transform 0.15s, box-shadow 0.15s;
     }
     .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,240,37,0.2); }
-    .btn-ghost {
-      color: var(--gray); font-size: 13px;
-      font-family: 'DM Mono', monospace; text-decoration: none; transition: color 0.15s;
-    }
+    .btn-ghost { color: var(--gray); font-size: 13px; font-family: 'DM Mono', monospace; text-decoration: none; transition: color 0.15s; }
     .btn-ghost:hover { color: var(--white); }
     .hero-stats {
       display: flex; gap: 4rem; margin-top: 4rem;
@@ -133,97 +116,47 @@
     .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--white); text-align: center; }
     .stat-num span { color: var(--accent); }
     .stat-label { font-size: 12px; color: var(--gray); font-family: 'DM Mono', monospace; margin-top: 4px; text-align: center; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .ticker-wrap {
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      overflow: hidden; padding: 14px 0; background: rgba(15,20,15,0.6);
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .ticker-wrap { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 14px 0; background: rgba(15,20,15,0.6); }
     .ticker { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 25s linear infinite; }
-    .ticker-item {
-      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray);
-      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-    }
+    .ticker-item { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .t-dot { color: var(--accent); }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
     .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
-    .section-tag {
-      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent);
-      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem;
-    }
-    h2 {
-      font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800;
-      letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3;
-    }
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
-    }
+    .section-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+    h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
     .step-card { background: var(--card-bg); padding: 2.5rem; }
     .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 1.5rem; }
     .step-icon { font-size: 2rem; margin-bottom: 1rem; }
     .step-title { font-size: 16px; font-weight: 700; margin-bottom: 0.75rem; }
     .step-desc { font-size: 14px; color: var(--gray); line-height: 1.8; font-weight: 400; }
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .feat-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 18px; padding: 2rem; transition: border-color 0.2s, transform 0.2s;
-    }
+    .feat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; transition: border-color 0.2s, transform 0.2s; }
     .feat-card:hover { border-color: rgba(200,240,37,0.25); transform: translateY(-3px); }
-    .feat-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: rgba(200,240,37,0.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 1.25rem;
-    }
+    .feat-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(200,240,37,0.08); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 1.25rem; }
     .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
     .feat-desc { font-size: 13px; color: var(--gray); line-height: 1.8; font-weight: 400; }
     .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
-    .plan-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2rem; position: relative;
-    }
+    .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; }
     .plan-card.featured { border-color: var(--accent); }
-    .popular-badge {
-      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: var(--black);
-      font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
-      padding: 4px 16px; border-radius: 100px; white-space: nowrap;
-    }
+    .popular-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--black); font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
     .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
     .plan-price { font-size: 2.2rem; font-weight: 800; color: var(--white); margin-bottom: 1.5rem; }
     .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); }
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
     .plan-features li { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
-    .plan-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
-    .plan-btn {
-      display: block; text-align: center; padding: 12px; border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
-      text-decoration: none; transition: transform 0.15s, opacity 0.15s;
-    }
+    .plan-features li::before { content: 'v'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .plan-btn { display: block; text-align: center; padding: 12px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s, opacity 0.15s; }
     .plan-btn:hover { transform: translateY(-1px); opacity: 0.9; }
     .plan-btn.filled { background: var(--accent); color: var(--black); }
     .plan-btn.outline { border: 1px solid var(--border); color: var(--white); }
-    .cta-section {
-      margin: 0 5% 5rem; background: var(--accent);
-      border-radius: 28px; padding: 5rem 3rem; text-align: center;
-    }
+    .cta-section { margin: 0 5% 5rem; background: var(--accent); border-radius: 28px; padding: 5rem 3rem; text-align: center; }
     .cta-section h2 { color: var(--black); margin-bottom: 1rem; }
     .cta-section p { color: rgba(0,0,0,0.55); font-size: 16px; margin-bottom: 2rem; line-height: 1.7; }
-    .btn-dark {
-      background: var(--black); color: var(--white); border: none;
-      padding: 14px 36px; border-radius: 100px;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
-      cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s;
-    }
+    .btn-dark { background: var(--black); color: var(--white); border: none; padding: 14px 36px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
     .btn-dark:hover { transform: translateY(-2px); }
-    footer {
-      border-top: 1px solid var(--border); padding: 2rem 5%;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-    }
+    footer { border-top: 1px solid var(--border); padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
     footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); }
     @media (max-width: 900px) {
       .steps-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
@@ -238,119 +171,71 @@
   <div class="nav-right">
     <div class="lang-selector" id="langSelector">
       <button class="lang-btn" onclick="toggleLang()">
-        <span id="currentFlag" style="font-size:20px;">🇫🇷</span>
+        <span id="currentFlag" style="font-size:22px;">🇫🇷</span>
         <span style="font-size:11px; color: var(--gray);">▾</span>
       </button>
       <div class="lang-dropdown">
-        <div class="lang-option active" onclick="setLang('fr')"><span class="lang-flag">🇫🇷</span></div>
-        <div class="lang-option" onclick="setLang('de')"><span class="lang-flag">🇩🇪</span></div>
-        <div class="lang-option" onclick="setLang('it')"><span class="lang-flag">🇮🇹</span></div>
-        <div class="lang-option" onclick="setLang('en')"><span class="lang-flag">🇬🇧</span></div>
-        <div class="lang-option" onclick="setLang('pt')"><span class="lang-flag">🇵🇹</span></div>
+        <div class="lang-option active" onclick="setLang('fr')">🇫🇷</div>
+        <div class="lang-option" onclick="setLang('de')">🇩🇪</div>
+        <div class="lang-option" onclick="setLang('it')">🇮🇹</div>
+        <div class="lang-option" onclick="setLang('en')">🇬🇧</div>
+        <div class="lang-option" onclick="setLang('pt')">🇵🇹</div>
       </div>
     </div>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta" id="navCta">Rejoindre la bêta</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta" id="navCta">Rejoindre la beta</a>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-tag"><div class="dot"></div><span id="heroBadge">Bêta ouverte — accès gratuit</span></div>
-  <h1 id="heroTitle">Vos recherches d'emploi <em id="heroEm">pendant</em> que vous dormez.</h1>
-  <p class="hero-sub" id="heroSub">Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment à votre profil, avec une lettre de motivation prête à envoyer.</p>
+  <div class="hero-tag"><div class="dot"></div><span id="heroBadge">Beta ouverte — acces gratuit</span></div>
+  <h1 id="heroTitle">Vos recherches d'emploi <em>pendant</em> que vous dormez.</h1>
+  <p class="hero-sub" id="heroSub">Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment a votre profil, avec une lettre de motivation prete a envoyer.</p>
   <div class="hero-actions">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main" id="heroCta">Rejoindre la liste d'attente</a>
-    <a href="#comment" class="btn-ghost" id="heroScroll">Comment ça marche ↓</a>
+    <a href="#comment" class="btn-ghost" id="heroScroll">Comment ca marche</a>
   </div>
   <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-num">22<span>+</span></div>
-      <div class="stat-label" id="stat1">offres scannées / heure</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">2</div>
-      <div class="stat-label" id="stat2">sites couverts</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">100<span>%</span></div>
-      <div class="stat-label" id="stat3">Suisse romande</div>
-    </div>
+    <div class="stat-item"><div class="stat-num">22<span>+</span></div><div class="stat-label" id="stat1">offres scannees / heure</div></div>
+    <div class="stat-item"><div class="stat-num">2</div><div class="stat-label" id="stat2">sites couverts</div></div>
+    <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-label" id="stat3">Suisse romande</div></div>
   </div>
 </div>
 
 <div class="ticker-wrap">
   <div class="ticker">
-    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestlé, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
     <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
-    <div class="ticker-item"><span class="t-dot">+</span> Electromécanicien - Vaud MATCH</div>
-    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Genève MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
     <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
-    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestlé, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
     <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
-    <div class="ticker-item"><span class="t-dot">+</span> Electromécanicien - Vaud MATCH</div>
-    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Genève MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
     <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
   </div>
 </div>
 
 <div class="section-wrap" id="comment">
-  <div class="section-tag" id="howTag">// Comment ça marche</div>
+  <div class="section-tag" id="howTag">// Comment ca marche</div>
   <h2 id="howTitle">Simple comme envoyer un SMS.</h2>
   <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">01</div>
-      <div class="step-icon">📋</div>
-      <div class="step-title" id="step1Title">Vous décrivez votre profil</div>
-      <div class="step-desc" id="step1Desc">Métier, cantons acceptés, langues, horaires souhaités. Deux minutes suffisent.</div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">02</div>
-      <div class="step-icon">🤖</div>
-      <div class="step-title" id="step2Title">Le bot scanne en continu</div>
-      <div class="step-desc" id="step2Desc">JobUp et Jobs.ch sont analysés toutes les heures, 24h/24, 7j/7.</div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">03</div>
-      <div class="step-icon">📲</div>
-      <div class="step-title" id="step3Title">Vous recevez les meilleures offres</div>
-      <div class="step-desc" id="step3Desc">Analyse IA avec score de correspondance et lettre de motivation personnalisée sur votre smartphone.</div>
-    </div>
+    <div class="step-card"><div class="step-num">01</div><div class="step-icon">📋</div><div class="step-title" id="step1Title">Vous decrivez votre profil</div><div class="step-desc" id="step1Desc">Metier, cantons acceptes, langues, horaires souhaites. Deux minutes suffisent.</div></div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-icon">🤖</div><div class="step-title" id="step2Title">Le bot scanne en continu</div><div class="step-desc" id="step2Desc">JobUp et Jobs.ch sont analyses toutes les heures, 24h/24, 7j/7.</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-icon">📲</div><div class="step-title" id="step3Title">Vous recevez les meilleures offres</div><div class="step-desc" id="step3Desc">Analyse IA avec score de correspondance et lettre de motivation personnalisee sur votre smartphone.</div></div>
   </div>
 </div>
 
 <div class="section-wrap">
-  <div class="section-tag" id="featTag">// Fonctionnalités</div>
+  <div class="section-tag" id="featTag">// Fonctionnalites</div>
   <h2 id="featTitle">Tout ce dont vous avez besoin.</h2>
   <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon">🎯</div>
-      <div class="feat-title" id="f1t">Analyse IA précise</div>
-      <div class="feat-desc" id="f1d">Chaque offre est notée sur 10 selon votre profil exact. Fini les offres hors sujet.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">⚡</div>
-      <div class="feat-title" id="f2t">Alertes en temps réel</div>
-      <div class="feat-desc" id="f2d">Notifié sur votre smartphone uniquement pour les offres pertinentes, dès leur publication.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">✍️</div>
-      <div class="feat-title" id="f3t">Lettre de motivation auto</div>
-      <div class="feat-desc" id="f3d">Une lettre personnalisée générée pour chaque offre. Plus qu'à envoyer.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🇨🇭</div>
-      <div class="feat-title" id="f4t">Conçu pour la Suisse</div>
-      <div class="feat-desc" id="f4d">Cantons, langues, spécificités du marché suisse, tout est pris en compte.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🕐</div>
-      <div class="feat-title" id="f5t">24h/24 sans interruption</div>
-      <div class="feat-desc" id="f5d">Le bot tourne même quand vous dormez, êtes en entretien, ou cherchez ailleurs.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🔒</div>
-      <div class="feat-title" id="f6t">Données privées</div>
-      <div class="feat-desc" id="f6d">Votre profil reste confidentiel. Aucune donnée partagée à des tiers.</div>
-    </div>
+    <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title" id="f1t">Analyse IA precise</div><div class="feat-desc" id="f1d">Chaque offre notee sur 10 selon votre profil exact.</div></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title" id="f2t">Alertes en temps reel</div><div class="feat-desc" id="f2d">Notifie sur smartphone uniquement pour les offres pertinentes.</div></div>
+    <div class="feat-card"><div class="feat-icon">✍️</div><div class="feat-title" id="f3t">Lettre de motivation auto</div><div class="feat-desc" id="f3d">Une lettre personnalisee pour chaque offre. Plus qu'a envoyer.</div></div>
+    <div class="feat-card"><div class="feat-icon">🇨🇭</div><div class="feat-title" id="f4t">Concu pour la Suisse</div><div class="feat-desc" id="f4d">Cantons, langues, marche suisse, tout est pris en compte.</div></div>
+    <div class="feat-card"><div class="feat-icon">🕐</div><div class="feat-title" id="f5t">24h/24 sans interruption</div><div class="feat-desc" id="f5d">Le bot tourne meme quand vous dormez ou etes en entretien.</div></div>
+    <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-title" id="f6t">Donnees privees</div><div class="feat-desc" id="f6d">Votre profil reste confidentiel. Aucune donnee partagee a des tiers.</div></div>
   </div>
 </div>
 
@@ -361,199 +246,178 @@
     <div class="plan-card">
       <div class="plan-name" id="p1name">GRATUIT</div>
       <div class="plan-price">0.- <sub id="p1sub">/ mois</sub></div>
-      <ul class="plan-features">
-        <li id="p1f1">1 recherche active</li>
-        <li id="p1f2">Alertes smartphone</li>
-        <li id="p1f3">JobUp uniquement</li>
-      </ul>
+      <ul class="plan-features"><li id="p1f1">1 recherche active</li><li id="p1f2">Alertes smartphone</li><li id="p1f3">JobUp uniquement</li></ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p1btn">Commencer</a>
     </div>
     <div class="plan-card featured">
       <div class="popular-badge" id="popBadge">POPULAIRE</div>
       <div class="plan-name">STANDARD</div>
       <div class="plan-price">9.90 <sub>CHF / mois</sub></div>
-      <ul class="plan-features">
-        <li id="p2f1">Toutes les recherches</li>
-        <li id="p2f2">JobUp + Jobs.ch</li>
-        <li id="p2f3">Lettres de motivation</li>
-        <li id="p2f4">Alertes prioritaires</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled" id="p2btn">S'inscrire en bêta</a>
+      <ul class="plan-features"><li id="p2f1">Toutes les recherches</li><li id="p2f2">JobUp + Jobs.ch</li><li id="p2f3">Lettres de motivation</li><li id="p2f4">Alertes prioritaires</li></ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled" id="p2btn">S'inscrire en beta</a>
     </div>
     <div class="plan-card">
       <div class="plan-name">PREMIUM</div>
       <div class="plan-price">19.90 <sub>CHF / mois</sub></div>
-      <ul class="plan-features">
-        <li id="p3f1">Tout Standard inclus</li>
-        <li id="p3f2">LinkedIn + Indeed</li>
-        <li id="p3f3">Optimisation CV par IA</li>
-        <li id="p3f4">Support prioritaire</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p3btn">S'inscrire en bêta</a>
+      <ul class="plan-features"><li id="p3f1">Tout Standard inclus</li><li id="p3f2">LinkedIn + Indeed</li><li id="p3f3">Optimisation CV par IA</li><li id="p3f4">Support prioritaire</li></ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p3btn">S'inscrire en beta</a>
     </div>
   </div>
 </div>
 
 <div class="cta-section">
-  <h2 id="ctaTitle">Prêt à laisser l'IA chercher pour vous ?</h2>
-  <p id="ctaDesc">Rejoignez la liste d'attente et soyez parmi les premiers à accéder à Radarjob. C'est gratuit pendant la bêta.</p>
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark" id="ctaBtn">Je veux accès en priorité</a>
+  <h2 id="ctaTitle">Pret a laisser l'IA chercher pour vous ?</h2>
+  <p id="ctaDesc">Rejoignez la liste d'attente et soyez parmi les premiers a acceder a Radarjob. C'est gratuit pendant la beta.</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark" id="ctaBtn">Je veux acces en priorite</a>
 </div>
 
 <footer>
-  <div class="logo">Job<span>Radar</span>.ch</div>
+  <div class="logo">Radar<span>Job</span>.ch</div>
   <p>2026 Radarjob.ch — Suisse</p>
-  <p>contact@Radarjob.ch</p>
+  <p>contact@radarjob.ch</p>
 </footer>
 
 <script>
-const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header";
-
 const translations = {
   fr: {
-    flag: "🇫🇷", code: "FR",
-    navCta: "Rejoindre la bêta",
-    heroBadge: "Bêta ouverte — accès gratuit",
+    flag: "🇫🇷",
+    navCta: "Rejoindre la beta",
+    heroBadge: "Beta ouverte — acces gratuit",
     heroTitle: "Vos recherches d'emploi <em>pendant</em> que vous dormez.",
-    heroSub: "Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment à votre profil, avec une lettre de motivation prête à envoyer.",
-    heroCta: "Rejoindre la liste d'attente",
-    heroScroll: "Comment ça marche ↓",
-    stat1: "offres scannées / heure", stat2: "sites couverts", stat3: "Suisse romande",
-    howTag: "// Comment ça marche", howTitle: "Simple comme envoyer un SMS.",
-    step1Title: "Vous décrivez votre profil", step1Desc: "Métier, cantons acceptés, langues, horaires souhaités. Deux minutes suffisent.",
-    step2Title: "Le bot scanne en continu", step2Desc: "JobUp et Jobs.ch sont analysés toutes les heures, 24h/24, 7j/7.",
-    step3Title: "Vous recevez les meilleures offres", step3Desc: "Analyse IA avec score de correspondance et lettre de motivation personnalisée sur votre smartphone.",
-    featTag: "// Fonctionnalités", featTitle: "Tout ce dont vous avez besoin.",
-    f1t: "Analyse IA précise", f1d: "Chaque offre est notée sur 10 selon votre profil exact. Fini les offres hors sujet.",
-    f2t: "Alertes en temps réel", f2d: "Notifié sur votre smartphone uniquement pour les offres pertinentes.",
-    f3t: "Lettre de motivation auto", f3d: "Une lettre personnalisée générée pour chaque offre. Plus qu'à envoyer.",
-    f4t: "Conçu pour la Suisse", f4d: "Cantons, langues, spécificités du marché suisse, tout est pris en compte.",
-    f5t: "24h/24 sans interruption", f5d: "Le bot tourne même quand vous dormez ou êtes en entretien.",
-    f6t: "Données privées", f6d: "Votre profil reste confidentiel. Aucune donnée partagée à des tiers.",
+    heroSub: "Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment a votre profil.",
+    heroCta: "Rejoindre la liste d'attente", heroScroll: "Comment ca marche",
+    stat1: "offres scannees / heure", stat2: "sites couverts", stat3: "Suisse romande",
+    howTag: "// Comment ca marche", howTitle: "Simple comme envoyer un SMS.",
+    step1Title: "Vous decrivez votre profil", step1Desc: "Metier, cantons, langues, horaires. Deux minutes suffisent.",
+    step2Title: "Le bot scanne en continu", step2Desc: "JobUp et Jobs.ch analyses toutes les heures, 24h/24, 7j/7.",
+    step3Title: "Vous recevez les meilleures offres", step3Desc: "Analyse IA avec score et lettre de motivation sur votre smartphone.",
+    featTag: "// Fonctionnalites", featTitle: "Tout ce dont vous avez besoin.",
+    f1t: "Analyse IA precise", f1d: "Chaque offre notee sur 10 selon votre profil exact.",
+    f2t: "Alertes en temps reel", f2d: "Notifie sur smartphone uniquement pour les offres pertinentes.",
+    f3t: "Lettre de motivation auto", f3d: "Une lettre personnalisee pour chaque offre.",
+    f4t: "Concu pour la Suisse", f4d: "Cantons, langues, marche suisse, tout est pris en compte.",
+    f5t: "24h/24 sans interruption", f5d: "Le bot tourne meme quand vous dormez.",
+    f6t: "Donnees privees", f6d: "Votre profil reste confidentiel.",
     priceTag: "// Tarifs", priceTitle: "Transparent, sans surprise.",
     p1name: "GRATUIT", p1sub: "/ mois", p1f1: "1 recherche active", p1f2: "Alertes smartphone", p1f3: "JobUp uniquement", p1btn: "Commencer",
-    p2f1: "Toutes les recherches", p2f2: "JobUp + Jobs.ch", p2f3: "Lettres de motivation", p2f4: "Alertes prioritaires", p2btn: "S'inscrire en bêta",
-    p3f1: "Tout Standard inclus", p3f2: "LinkedIn + Indeed", p3f3: "Optimisation CV par IA", p3f4: "Support prioritaire", p3btn: "S'inscrire en bêta",
+    p2f1: "Toutes les recherches", p2f2: "JobUp + Jobs.ch", p2f3: "Lettres de motivation", p2f4: "Alertes prioritaires", p2btn: "S'inscrire en beta",
+    p3f1: "Tout Standard inclus", p3f2: "LinkedIn + Indeed", p3f3: "Optimisation CV IA", p3f4: "Support prioritaire", p3btn: "S'inscrire en beta",
     popBadge: "POPULAIRE",
-    ctaTitle: "Prêt à laisser l'IA chercher pour vous ?",
-    ctaDesc: "Rejoignez la liste d'attente et soyez parmi les premiers à accéder à Radarjob. C'est gratuit pendant la bêta.",
-    ctaBtn: "Je veux accès en priorité"
+    ctaTitle: "Pret a laisser l'IA chercher pour vous ?",
+    ctaDesc: "Rejoignez la liste d'attente et soyez parmi les premiers a acceder a Radarjob.",
+    ctaBtn: "Je veux acces en priorite"
   },
   de: {
-    flag: "🇩🇪", code: "DE",
+    flag: "🇩🇪",
     navCta: "Beta beitreten",
     heroBadge: "Beta offen — kostenloser Zugang",
-    heroTitle: "Ihre Jobsuche <em>während</em> Sie schlafen.",
-    heroSub: "Radarjob durchsucht JobUp und Jobs.ch kontinuierlich, analysiert jedes Angebot mit KI und sendet Ihnen nur die passenden Stellen direkt auf Ihr Smartphone — mit einem fertigen Motivationsschreiben.",
-    heroCta: "Warteliste beitreten",
-    heroScroll: "Wie funktioniert es ↓",
-    stat1: "Angebote gescannt / Stunde", stat2: "Seiten abgedeckt", stat3: "Deutschschweiz",
+    heroTitle: "Ihre Jobsuche <em>wahrend</em> Sie schlafen.",
+    heroSub: "Radarjob durchsucht JobUp und Jobs.ch kontinuierlich, analysiert jedes Angebot mit KI und sendet nur passende Stellen direkt auf Ihr Smartphone.",
+    heroCta: "Warteliste beitreten", heroScroll: "Wie funktioniert es",
+    stat1: "Angebote / Stunde", stat2: "Seiten abgedeckt", stat3: "Schweiz",
     howTag: "// Wie es funktioniert", howTitle: "So einfach wie eine SMS.",
-    step1Title: "Sie beschreiben Ihr Profil", step1Desc: "Beruf, Kantone, Sprachen, gewünschte Arbeitszeiten. Zwei Minuten genügen.",
-    step2Title: "Der Bot scannt kontinuierlich", step2Desc: "JobUp und Jobs.ch werden stündlich analysiert, 24/7.",
-    step3Title: "Sie erhalten die besten Angebote", step3Desc: "KI-Analyse mit Übereinstimmungswert und personalisiertem Motivationsschreiben auf Ihrem Smartphone.",
+    step1Title: "Sie beschreiben Ihr Profil", step1Desc: "Beruf, Kantone, Sprachen, Arbeitszeiten. Zwei Minuten genugen.",
+    step2Title: "Der Bot scannt kontinuierlich", step2Desc: "JobUp und Jobs.ch stundlich analysiert, 24/7.",
+    step3Title: "Sie erhalten die besten Angebote", step3Desc: "KI-Analyse mit Motivationsschreiben auf Ihrem Smartphone.",
     featTag: "// Funktionen", featTitle: "Alles was Sie brauchen.",
-    f1t: "Präzise KI-Analyse", f1d: "Jedes Angebot wird auf 10 bewertet. Keine irrelevanten Stellen mehr.",
-    f2t: "Echtzeit-Benachrichtigungen", f2d: "Nur relevante Angebote direkt auf Ihr Smartphone.",
-    f3t: "Automatisches Motivationsschreiben", f3d: "Ein personalisiertes Schreiben für jedes Angebot. Nur noch senden.",
-    f4t: "Für die Schweiz konzipiert", f4d: "Kantone, Sprachen, Schweizer Arbeitsmarkt — alles berücksichtigt.",
-    f5t: "24/7 ohne Unterbrechung", f5d: "Der Bot läuft auch wenn Sie schlafen oder im Vorstellungsgespräch sind.",
-    f6t: "Private Daten", f6d: "Ihr Profil bleibt vertraulich. Keine Daten an Dritte weitergegeben.",
-    priceTag: "// Preise", priceTitle: "Transparent, keine Überraschungen.",
+    f1t: "Prazise KI-Analyse", f1d: "Jedes Angebot auf 10 bewertet.",
+    f2t: "Echtzeit-Benachrichtigungen", f2d: "Nur relevante Angebote auf Ihr Smartphone.",
+    f3t: "Automatisches Motivationsschreiben", f3d: "Personalisiertes Schreiben fur jedes Angebot.",
+    f4t: "Fur die Schweiz konzipiert", f4d: "Kantone, Sprachen, Schweizer Arbeitsmarkt.",
+    f5t: "24/7 ohne Unterbrechung", f5d: "Der Bot lauft auch wenn Sie schlafen.",
+    f6t: "Private Daten", f6d: "Ihr Profil bleibt vertraulich.",
+    priceTag: "// Preise", priceTitle: "Transparent, keine Uberraschungen.",
     p1name: "KOSTENLOS", p1sub: "/ Monat", p1f1: "1 aktive Suche", p1f2: "Smartphone-Benachrichtigungen", p1f3: "Nur JobUp", p1btn: "Starten",
-    p2f1: "Alle Suchanfragen", p2f2: "JobUp + Jobs.ch", p2f3: "Motivationsschreiben", p2f4: "Prioritäts-Benachrichtigungen", p2btn: "Beta beitreten",
-    p3f1: "Alles aus Standard", p3f2: "LinkedIn + Indeed", p3f3: "KI-Lebenslaufoptimierung", p3f4: "Prioritätssupport", p3btn: "Beta beitreten",
+    p2f1: "Alle Suchanfragen", p2f2: "JobUp + Jobs.ch", p2f3: "Motivationsschreiben", p2f4: "Prioritats-Benachrichtigungen", p2btn: "Beta beitreten",
+    p3f1: "Alles aus Standard", p3f2: "LinkedIn + Indeed", p3f3: "KI-Lebenslaufoptimierung", p3f4: "Prioritatssupport", p3btn: "Beta beitreten",
     popBadge: "BELIEBT",
-    ctaTitle: "Bereit, die KI für Sie suchen zu lassen?",
-    ctaDesc: "Treten Sie der Warteliste bei und gehören Sie zu den Ersten, die Zugang zu Radarjob erhalten. Während der Beta kostenlos.",
-    ctaBtn: "Ich möchte Prioritätszugang"
+    ctaTitle: "Bereit, die KI fur Sie suchen zu lassen?",
+    ctaDesc: "Treten Sie der Warteliste bei. Wahrend der Beta kostenlos.",
+    ctaBtn: "Ich mochte Prioritatszugang"
   },
   it: {
-    flag: "🇮🇹", code: "IT",
+    flag: "🇮🇹",
     navCta: "Unisciti alla beta",
     heroBadge: "Beta aperta — accesso gratuito",
     heroTitle: "La tua ricerca di lavoro <em>mentre</em> dormi.",
-    heroSub: "Radarjob analizza JobUp e Jobs.ch in continuo, valuta ogni offerta con l'IA e ti invia direttamente sullo smartphone solo i posti che corrispondono al tuo profilo, con una lettera di motivazione pronta da inviare.",
-    heroCta: "Unisciti alla lista d'attesa",
-    heroScroll: "Come funziona ↓",
-    stat1: "offerte scansionate / ora", stat2: "siti coperti", stat3: "Svizzera italiana",
-    howTag: "// Come funziona", howTitle: "Semplice come inviare un SMS.",
-    step1Title: "Descrivi il tuo profilo", step1Desc: "Professione, cantoni, lingue, orari desiderati. Due minuti bastano.",
-    step2Title: "Il bot scansiona continuamente", step2Desc: "JobUp e Jobs.ch vengono analizzati ogni ora, 24/24, 7/7.",
-    step3Title: "Ricevi le migliori offerte", step3Desc: "Analisi IA con punteggio di corrispondenza e lettera di motivazione personalizzata sul tuo smartphone.",
-    featTag: "// Funzionalità", featTitle: "Tutto ciò di cui hai bisogno.",
-    f1t: "Analisi IA precisa", f1d: "Ogni offerta viene valutata su 10 in base al tuo profilo esatto.",
-    f2t: "Avvisi in tempo reale", f2d: "Notificato sullo smartphone solo per le offerte pertinenti.",
-    f3t: "Lettera di motivazione automatica", f3d: "Una lettera personalizzata generata per ogni offerta. Non resta che inviarla.",
-    f4t: "Progettato per la Svizzera", f4d: "Cantoni, lingue, specificità del mercato svizzero — tutto considerato.",
-    f5t: "24/24 senza interruzioni", f5d: "Il bot funziona anche mentre dormi o sei in colloquio.",
-    f6t: "Dati privati", f6d: "Il tuo profilo rimane confidenziale. Nessun dato condiviso con terzi.",
+    heroSub: "Radarjob analizza JobUp e Jobs.ch in continuo e ti invia solo i posti che corrispondono al tuo profilo, con una lettera di motivazione pronta.",
+    heroCta: "Unisciti alla lista d'attesa", heroScroll: "Come funziona",
+    stat1: "offerte / ora", stat2: "siti coperti", stat3: "Svizzera",
+    howTag: "// Come funziona", howTitle: "Semplice come un SMS.",
+    step1Title: "Descrivi il tuo profilo", step1Desc: "Professione, cantoni, lingue, orari. Due minuti bastano.",
+    step2Title: "Il bot scansiona continuamente", step2Desc: "JobUp e Jobs.ch analizzati ogni ora, 24/24.",
+    step3Title: "Ricevi le migliori offerte", step3Desc: "Analisi IA con lettera di motivazione sul tuo smartphone.",
+    featTag: "// Funzionalita", featTitle: "Tutto cio di cui hai bisogno.",
+    f1t: "Analisi IA precisa", f1d: "Ogni offerta valutata su 10.",
+    f2t: "Avvisi in tempo reale", f2d: "Notificato solo per offerte pertinenti.",
+    f3t: "Lettera automatica", f3d: "Lettera personalizzata per ogni offerta.",
+    f4t: "Per la Svizzera", f4d: "Cantoni, lingue, mercato svizzero.",
+    f5t: "24/24 senza interruzioni", f5d: "Il bot funziona anche mentre dormi.",
+    f6t: "Dati privati", f6d: "Profilo confidenziale.",
     priceTag: "// Prezzi", priceTitle: "Trasparente, senza sorprese.",
     p1name: "GRATUITO", p1sub: "/ mese", p1f1: "1 ricerca attiva", p1f2: "Notifiche smartphone", p1f3: "Solo JobUp", p1btn: "Inizia",
     p2f1: "Tutte le ricerche", p2f2: "JobUp + Jobs.ch", p2f3: "Lettere di motivazione", p2f4: "Notifiche prioritarie", p2btn: "Iscriviti alla beta",
-    p3f1: "Tutto Standard incluso", p3f2: "LinkedIn + Indeed", p3f3: "Ottimizzazione CV con IA", p3f4: "Supporto prioritario", p3btn: "Iscriviti alla beta",
+    p3f1: "Tutto Standard incluso", p3f2: "LinkedIn + Indeed", p3f3: "CV con IA", p3f4: "Supporto prioritario", p3btn: "Iscriviti alla beta",
     popBadge: "POPOLARE",
     ctaTitle: "Pronto a lasciare che l'IA cerchi per te?",
-    ctaDesc: "Unisciti alla lista d'attesa e sii tra i primi ad accedere a Radarjob. Gratuito durante la beta.",
+    ctaDesc: "Unisciti alla lista d'attesa. Gratuito durante la beta.",
     ctaBtn: "Voglio accesso prioritario"
   },
   en: {
-    flag: "🇬🇧", code: "EN",
+    flag: "🇬🇧",
     navCta: "Join the beta",
     heroBadge: "Beta open — free access",
     heroTitle: "Your job search <em>while</em> you sleep.",
-    heroSub: "Radarjob continuously scans JobUp and Jobs.ch, analyses each offer with AI and sends only the matching positions directly to your smartphone — with a ready-to-send cover letter.",
-    heroCta: "Join the waitlist",
-    heroScroll: "How it works ↓",
+    heroSub: "Radarjob continuously scans JobUp and Jobs.ch and sends only matching positions directly to your smartphone with a ready-to-send cover letter.",
+    heroCta: "Join the waitlist", heroScroll: "How it works",
     stat1: "offers scanned / hour", stat2: "sites covered", stat3: "Switzerland",
     howTag: "// How it works", howTitle: "As simple as sending a text.",
-    step1Title: "You describe your profile", step1Desc: "Job title, cantons, languages, preferred hours. Two minutes is all it takes.",
-    step2Title: "The bot scans continuously", step2Desc: "JobUp and Jobs.ch are analysed every hour, 24/7.",
-    step3Title: "You receive the best offers", step3Desc: "AI analysis with match score and personalised cover letter directly on your smartphone.",
+    step1Title: "You describe your profile", step1Desc: "Job title, cantons, languages, hours. Two minutes is all it takes.",
+    step2Title: "The bot scans continuously", step2Desc: "JobUp and Jobs.ch analysed every hour, 24/7.",
+    step3Title: "You receive the best offers", step3Desc: "AI analysis with cover letter on your smartphone.",
     featTag: "// Features", featTitle: "Everything you need.",
-    f1t: "Precise AI analysis", f1d: "Each offer is scored out of 10 based on your exact profile. No more irrelevant jobs.",
-    f2t: "Real-time alerts", f2d: "Notified on your smartphone only for relevant offers, as soon as they're posted.",
-    f3t: "Automatic cover letter", f3d: "A personalised letter generated for each offer. Just hit send.",
-    f4t: "Built for Switzerland", f4d: "Cantons, languages, Swiss job market specifics — all taken into account.",
-    f5t: "24/7 without interruption", f5d: "The bot runs even when you sleep, are in an interview, or searching elsewhere.",
-    f6t: "Private data", f6d: "Your profile stays confidential. No data shared with third parties.",
+    f1t: "Precise AI analysis", f1d: "Each offer scored out of 10.",
+    f2t: "Real-time alerts", f2d: "Notified only for relevant offers.",
+    f3t: "Automatic cover letter", f3d: "Personalised letter for each offer.",
+    f4t: "Built for Switzerland", f4d: "Cantons, languages, Swiss market.",
+    f5t: "24/7 without interruption", f5d: "The bot runs even when you sleep.",
+    f6t: "Private data", f6d: "Your profile stays confidential.",
     priceTag: "// Pricing", priceTitle: "Transparent, no surprises.",
     p1name: "FREE", p1sub: "/ month", p1f1: "1 active search", p1f2: "Smartphone alerts", p1f3: "JobUp only", p1btn: "Get started",
     p2f1: "All searches", p2f2: "JobUp + Jobs.ch", p2f3: "Cover letters", p2f4: "Priority alerts", p2btn: "Join beta",
     p3f1: "Everything in Standard", p3f2: "LinkedIn + Indeed", p3f3: "AI CV optimisation", p3f4: "Priority support", p3btn: "Join beta",
     popBadge: "POPULAR",
     ctaTitle: "Ready to let AI search for you?",
-    ctaDesc: "Join the waitlist and be among the first to access Radarjob. It's free during the beta.",
+    ctaDesc: "Join the waitlist and be among the first to access Radarjob. Free during beta.",
     ctaBtn: "I want priority access"
   },
   pt: {
-    flag: "🇵🇹", code: "PT",
+    flag: "🇵🇹",
     navCta: "Entrar na beta",
     heroBadge: "Beta aberta — acesso gratuito",
     heroTitle: "A sua busca de emprego <em>enquanto</em> dorme.",
-    heroSub: "Radarjob analisa o JobUp e Jobs.ch continuamente, avalia cada oferta com IA e envia diretamente para o seu smartphone apenas os postos que correspondem ao seu perfil, com uma carta de motivação pronta a enviar.",
-    heroCta: "Entrar na lista de espera",
-    heroScroll: "Como funciona ↓",
-    stat1: "ofertas analisadas / hora", stat2: "sites cobertos", stat3: "Suíça",
-    howTag: "// Como funciona", howTitle: "Simples como enviar uma mensagem.",
-    step1Title: "Descreve o seu perfil", step1Desc: "Profissão, cantões, idiomas, horários desejados. Dois minutos chegam.",
-    step2Title: "O bot analisa continuamente", step2Desc: "JobUp e Jobs.ch são analisados a cada hora, 24h/24, 7d/7.",
-    step3Title: "Recebe as melhores ofertas", step3Desc: "Análise IA com pontuação de correspondência e carta de motivação personalizada no seu smartphone.",
+    heroSub: "Radarjob analisa JobUp e Jobs.ch continuamente e envia apenas os postos correspondentes ao seu perfil, com carta de motivacao pronta.",
+    heroCta: "Entrar na lista de espera", heroScroll: "Como funciona",
+    stat1: "ofertas / hora", stat2: "sites cobertos", stat3: "Suica",
+    howTag: "// Como funciona", howTitle: "Simples como uma mensagem.",
+    step1Title: "Descreve o seu perfil", step1Desc: "Profissao, cantoes, idiomas, horarios. Dois minutos chegam.",
+    step2Title: "O bot analisa continuamente", step2Desc: "JobUp e Jobs.ch analisados a cada hora, 24h/24.",
+    step3Title: "Recebe as melhores ofertas", step3Desc: "Analise IA com carta de motivacao no seu smartphone.",
     featTag: "// Funcionalidades", featTitle: "Tudo o que precisa.",
-    f1t: "Análise IA precisa", f1d: "Cada oferta é pontuada de 0 a 10 com base no seu perfil exato.",
-    f2t: "Alertas em tempo real", f2d: "Notificado no smartphone apenas para as ofertas relevantes.",
-    f3t: "Carta de motivação automática", f3d: "Uma carta personalizada gerada para cada oferta. Só falta enviar.",
-    f4t: "Criado para a Suíça", f4d: "Cantões, idiomas, especificidades do mercado suíço — tudo considerado.",
-    f5t: "24h/24 sem interrupção", f5d: "O bot funciona mesmo quando dorme ou está em entrevista.",
-    f6t: "Dados privados", f6d: "O seu perfil fica confidencial. Nenhum dado partilhado com terceiros.",
-    priceTag: "// Preços", priceTitle: "Transparente, sem surpresas.",
-    p1name: "GRATUITO", p1sub: "/ mês", p1f1: "1 pesquisa ativa", p1f2: "Alertas no smartphone", p1f3: "Apenas JobUp", p1btn: "Começar",
-    p2f1: "Todas as pesquisas", p2f2: "JobUp + Jobs.ch", p2f3: "Cartas de motivação", p2f4: "Alertas prioritários", p2btn: "Entrar na beta",
-    p3f1: "Tudo do Standard incluído", p3f2: "LinkedIn + Indeed", p3f3: "Otimização de CV com IA", p3f4: "Suporte prioritário", p3btn: "Entrar na beta",
+    f1t: "Analise IA precisa", f1d: "Cada oferta pontuada de 0 a 10.",
+    f2t: "Alertas em tempo real", f2d: "Notificado apenas para ofertas relevantes.",
+    f3t: "Carta automatica", f3d: "Carta personalizada para cada oferta.",
+    f4t: "Criado para a Suica", f4d: "Cantoes, idiomas, mercado suico.",
+    f5t: "24h/24 sem interrupcao", f5d: "O bot funciona mesmo quando dorme.",
+    f6t: "Dados privados", f6d: "Perfil confidencial.",
+    priceTag: "// Precos", priceTitle: "Transparente, sem surpresas.",
+    p1name: "GRATUITO", p1sub: "/ mes", p1f1: "1 pesquisa ativa", p1f2: "Alertas smartphone", p1f3: "Apenas JobUp", p1btn: "Comecar",
+    p2f1: "Todas as pesquisas", p2f2: "JobUp + Jobs.ch", p2f3: "Cartas de motivacao", p2f4: "Alertas prioritarios", p2btn: "Entrar na beta",
+    p3f1: "Tudo do Standard", p3f2: "LinkedIn + Indeed", p3f3: "CV com IA", p3f4: "Suporte prioritario", p3btn: "Entrar na beta",
     popBadge: "POPULAR",
     ctaTitle: "Pronto para deixar a IA procurar por si?",
-    ctaDesc: "Entre na lista de espera e seja dos primeiros a aceder ao Radarjob. Gratuito durante a beta.",
-    ctaBtn: "Quero acesso prioritário"
+    ctaDesc: "Entre na lista de espera. Gratuito durante a beta.",
+    ctaBtn: "Quero acesso prioritario"
   }
 };
 
@@ -570,7 +434,6 @@ document.addEventListener('click', function(e) {
 function setLang(lang) {
   const t = translations[lang];
   document.getElementById('currentFlag').textContent = t.flag;
-  document.getElementById('currentLang').textContent = t.code;
   document.getElementById('navCta').textContent = t.navCta;
   document.getElementById('heroBadge').textContent = t.heroBadge;
   document.getElementById('heroTitle').innerHTML = t.heroTitle;

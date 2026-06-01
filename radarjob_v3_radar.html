@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radarjob.ch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCM6QPCBG0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GCM6QPCBG0');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0f0a; --white: #eaf2e6; --accent: #00ff66;
+      --accent-soft: #5fd98a; --gray: #8fa888;
+      --border: rgba(0,255,102,0.1); --card-bg: #0d130d;
+      --text-body: #b8c9b2;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 50% -8%, rgba(0,255,102,0.08) 0%, transparent 60%);
+    }
+
+    /* Matrix canvas — discret mais visible, fade out vers le bas */
+    #matrix-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      z-index: 0; opacity: 0.22; pointer-events: none;
+      mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+      -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+    }
+
+    /* All content above canvas */
+    nav, .hero, .ticker-wrap, .section-wrap, .cta-section, footer { position: relative; z-index: 2; }
+
+    /* NAV */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 5%; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: rgba(10,15,10,0.9);
+      backdrop-filter: blur(16px); z-index: 100;
+    }
+    .logo { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; }
+    .logo span { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .lang-selector { position: relative; }
+    .lang-btn {
+      background: rgba(0,255,102,0.05); border: 1px solid var(--border);
+      color: var(--white); padding: 7px 14px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: background 0.2s;
+    }
+    .lang-btn:hover { background: rgba(0,255,102,0.1); }
+    .lang-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: #141a14; border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5); z-index: 200;
+      padding: 6px; flex-direction: column; gap: 2px;
+    }
+    .lang-selector.open .lang-dropdown { display: flex; }
+    .lang-option {
+      display: flex; align-items: center; justify-content: center;
+      padding: 8px 14px; cursor: pointer; font-size: 24px;
+      border-radius: 8px; transition: background 0.15s;
+    }
+    .lang-option:hover { background: rgba(0,255,102,0.08); }
+    .lang-option.active { background: rgba(0,255,102,0.12); }
+    .nav-cta {
+      background: var(--accent); color: #003314; border: none;
+      padding: 9px 22px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .nav-cta:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,255,102,0.3); }
+
+    /* HERO */
+    .hero {
+      min-height: 88vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 4rem 5% 4rem;
+    }
+
+    /* ROBOT */
+    .robot-wrap {
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 0 16px rgba(0,255,102,0.4));
+      animation: float 3.5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .antenna-dot { animation: ant 1.6s ease-in-out infinite; }
+    @keyframes ant { 0%,100%{opacity:1;r:3} 50%{opacity:0.3;r:4.5} }
+    .radar-sweep { animation: radar 2.8s linear infinite; transform-origin: 70px 70px; }
+    @keyframes radar { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .radar-blip { animation: ant 1.5s ease-in-out infinite; }
+    .radar-blip2 { animation: ant 1.5s ease-in-out infinite 0.8s; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
+      border: 1px solid rgba(0,255,102,0.2); padding: 6px 16px;
+      border-radius: 100px; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s infinite; box-shadow: 0 0 8px var(--accent); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.6)} }
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700;
+      line-height: 1.35; letter-spacing: -0.01em; max-width: 620px;
+      color: #fff; min-height: 1.35em; margin: 0 auto;
+      animation: fadeUp 0.6s 0.1s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .type-cursor { color: var(--accent); font-weight: 400; animation: blinkCursor 0.8s step-end infinite; }
+    @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--text-body); max-width: 560px;
+      line-height: 1.85; margin-top: 1.75rem; font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 14px; margin-top: 2.5rem;
+      flex-wrap: wrap; align-items: center; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .btn-main {
+      background: var(--accent); color: #003314; border: none;
+      padding: 15px 34px; border-radius: 100px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,102,0.3); }
+    .btn-ghost { color: var(--gray); font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; text-decoration: none; transition: color 0.15s; }
+    .btn-ghost:hover { color: var(--accent); }
+    .hero-stats {
+      display: flex; gap: 4rem; margin-top: 4rem;
+      padding-top: 2.5rem; border-top: 1px solid var(--border);
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.4s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .stat-num { font-family: 'Orbitron', monospace; font-size: 1.9rem; font-weight: 700; color: var(--white); text-align: center; }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--gray); font-family: 'DM Mono', monospace; margin-top: 6px; text-align: center; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* TICKER */
+    .ticker-wrap { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 13px 0; background: rgba(13,19,13,0.7); }
+    .ticker { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 28s linear infinite; }
+    .ticker-item { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .t-dot { color: var(--accent); font-weight: bold; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SECTIONS */
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .section-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+    h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3; color: #fff; }
+
+    /* STEPS */
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+    .step-card { background: var(--card-bg); padding: 2.5rem; transition: background 0.2s; position: relative; overflow: hidden; }
+    .step-card:hover { background: #101810; }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 1.5rem; }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 0.75rem; color: #fff; }
+    .step-desc { font-size: 14px; color: var(--text-body); line-height: 1.8; font-weight: 400; }
+
+    /* FEATURES */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+    .feat-card:hover { border-color: rgba(0,255,102,0.25); transform: translateY(-3px); }
+    /* Ligne de scan qui traverse les cards au survol */
+    .feat-card::after, .step-card::after, .plan-card::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+      box-shadow: 0 0 12px var(--accent); opacity: 0; pointer-events: none;
+    }
+    .feat-card:hover::after, .step-card:hover::after, .plan-card:hover::after {
+      animation: scanCard 1s ease-in-out; opacity: 1;
+    }
+    @keyframes scanCard {
+      0% { top: 0; left: -100%; }
+      100% { top: 100%; left: 100%; }
+    }
+    .feat-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(0,255,102,0.08); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 1.25rem; }
+    .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .feat-desc { font-size: 13px; color: var(--text-body); line-height: 1.8; font-weight: 400; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; overflow: hidden; }
+    .plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.3); }
+    .plan-card .plan-btn { margin-top: auto; }
+    .plan-card.featured { border-color: var(--accent); animation: glowPulse 2.5s ease-in-out infinite; }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 16px rgba(0,255,102,0.15); border-color: rgba(0,255,102,0.5); }
+      50% { box-shadow: 0 0 32px rgba(0,255,102,0.4), 0 0 60px rgba(0,255,102,0.1); border-color: rgba(0,255,102,1); }
+    }
+    .popular-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #003314; font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
+    .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
+    .plan-price { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; }
+    .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); font-family: 'DM Mono', monospace; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 1.75rem; }
+    .plan-features li { font-size: 14px; color: var(--text-body); display: flex; align-items: center; gap: 8px; }
+    .plan-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .plan-features li.no { color: #5a6a55; }
+    .plan-features li.no::before { content: '✕'; color: #c25555; }
+    .plan-btn { display: block; text-align: center; padding: 13px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; }
+    .plan-btn:hover { transform: translateY(-1px); }
+    .plan-btn.filled { background: var(--accent); color: #003314; }
+    .plan-btn.filled:hover { box-shadow: 0 4px 16px rgba(0,255,102,0.3); }
+    .plan-btn.outline { border: 1px solid var(--border); color: var(--white); }
+    .plan-btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* CTA */
+    .cta-section { margin: 0 5% 5rem; background: var(--accent); border-radius: 28px; padding: 5rem 3rem; text-align: center; }
+    .cta-section h2 { color: #002810; margin-bottom: 1rem; }
+    .cta-section p { color: rgba(0,40,16,0.7); font-size: 16px; margin-bottom: 2rem; line-height: 1.7; }
+    .btn-dark { background: #051005; color: var(--accent); border: none; padding: 15px 38px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
+    .btn-dark:hover { transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    footer p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); }
+
+    @media (max-width: 900px) {
+      .steps-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .cta-section { margin: 0 5% 3rem; padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<nav>
+  <div class="logo">Radar<span>Job</span>.ch</div>
+  <div class="nav-right">
+    <div class="lang-selector" id="langSelector">
+      <button class="lang-btn" onclick="toggleLang()">
+        <span id="currentFlag" style="font-size:22px;">🇫🇷</span>
+        <span style="font-size:11px; color: var(--gray);">▾</span>
+      </button>
+      <div class="lang-dropdown">
+        <div class="lang-option active" onclick="setLang('fr')">🇫🇷</div>
+        <div class="lang-option" onclick="setLang('de')">🇩🇪</div>
+        <div class="lang-option" onclick="setLang('it')">🇮🇹</div>
+        <div class="lang-option" onclick="setLang('en')">🇬🇧</div>
+        <div class="lang-option" onclick="setLang('pt')">🇵🇹</div>
+      </div>
+    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta" id="navCta">Rejoindre la beta</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="robot-wrap">
+    <svg viewBox="0 0 140 160" width="135" height="155" style="overflow:visible;" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="40" width="80" height="60" rx="10" fill="#030d03" stroke="#00ff66" stroke-width="2"/>
+      <circle cx="70" cy="70" r="22" fill="#001a00" stroke="#00cc44" stroke-width="1"/>
+      <circle cx="70" cy="70" r="14" fill="none" stroke="#00cc44" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="70" cy="70" r="7" fill="none" stroke="#00cc44" stroke-width="0.5" opacity="0.5"/>
+      <path class="radar-sweep" d="M 70 70 L 70 48 A 22 22 0 0 1 88 60 Z" fill="#00ff66" opacity="0.3"/>
+      <line class="radar-sweep" x1="70" y1="70" x2="70" y2="48" stroke="#00ff66" stroke-width="1.5"/>
+      <circle cx="70" cy="70" r="3" fill="#00ff66"/>
+      <circle class="radar-blip" cx="80" cy="62" r="1.5" fill="#aaffcc"/>
+      <circle class="radar-blip2" cx="62" cy="78" r="1.5" fill="#aaffcc"/>
+      <line x1="70" y1="40" x2="70" y2="26" stroke="#00ff66" stroke-width="2"/>
+      <path d="M 64 26 Q 70 18 76 26" stroke="#00ff66" stroke-width="2" fill="none"/>
+      <circle class="antenna-dot" cx="70" cy="22" r="3" fill="#00ff66"/>
+      <rect x="44" y="100" width="52" height="48" rx="8" fill="#030d03" stroke="#00ff66" stroke-width="2"/>
+      <rect x="52" y="110" width="36" height="8" rx="2" fill="#00ff66" opacity="0.7"/>
+      <rect x="52" y="122" width="24" height="5" rx="1" fill="#00ff66" opacity="0.4"/>
+      <rect x="52" y="131" width="30" height="5" rx="1" fill="#00ff66" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="hero-tag"><div class="dot"></div><span id="heroBadge">Beta ouverte — acces gratuit</span></div>
+  <h1 id="heroTitle"></h1>
+  <p class="hero-sub" id="heroSub">Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment a votre profil, avec une lettre de motivation prete a envoyer.</p>
+  <div class="hero-actions">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main" id="heroCta">Rejoindre la liste d'attente</a>
+    <a href="#comment" class="btn-ghost" id="heroScroll">Comment ca marche</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">22<span>+</span></div><div class="stat-label" id="stat1">offres scannees / heure</div></div>
+    <div class="stat-item"><div class="stat-num">2</div><div class="stat-label" id="stat2">sites couverts</div></div>
+    <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-label" id="stat3">Suisse romande</div></div>
+  </div>
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Technicien maintenance - Nestle, Orbe MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> SAP PM Coordinator - Fribourg MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Electromecanicien - Vaud MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Key User SAP - Geneve MATCH</div>
+    <div class="ticker-item"><span class="t-dot">+</span> Coordinateur technique - Berne MATCH</div>
+  </div>
+</div>
+
+<div class="section-wrap" id="comment">
+  <div class="section-tag" id="howTag">// Comment ca marche</div>
+  <h2 id="howTitle">Simple comme envoyer un SMS.</h2>
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-num">01</div><div class="step-icon">📋</div><div class="step-title" id="step1Title">Vous decrivez votre profil</div><div class="step-desc" id="step1Desc">Metier, cantons acceptes, langues, horaires souhaites. Deux minutes suffisent.</div></div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-icon">🤖</div><div class="step-title" id="step2Title">Le bot scanne en continu</div><div class="step-desc" id="step2Desc">JobUp et Jobs.ch sont analyses toutes les heures, 24h/24, 7j/7.</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-icon">📲</div><div class="step-title" id="step3Title">Vous recevez les meilleures offres</div><div class="step-desc" id="step3Desc">Analyse IA avec score de correspondance et lettre de motivation personnalisee sur votre smartphone.</div></div>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-tag" id="featTag">// Fonctionnalites</div>
+  <h2 id="featTitle">Tout ce dont vous avez besoin.</h2>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title" id="f1t">Analyse IA precise</div><div class="feat-desc" id="f1d">Chaque offre notee sur 10 selon votre profil exact.</div></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title" id="f2t">Alertes en temps reel</div><div class="feat-desc" id="f2d">Notifie sur smartphone uniquement pour les offres pertinentes.</div></div>
+    <div class="feat-card"><div class="feat-icon">✍️</div><div class="feat-title" id="f3t">Lettre de motivation auto</div><div class="feat-desc" id="f3d">Une lettre personnalisee pour chaque offre. Plus qu'a envoyer.</div></div>
+    <div class="feat-card"><div class="feat-icon">🇨🇭</div><div class="feat-title" id="f4t">Concu pour la Suisse</div><div class="feat-desc" id="f4d">Cantons, langues, marche suisse, tout est pris en compte.</div></div>
+    <div class="feat-card"><div class="feat-icon">🕐</div><div class="feat-title" id="f5t">24h/24 sans interruption</div><div class="feat-desc" id="f5d">Le bot tourne meme quand vous dormez ou etes en entretien.</div></div>
+    <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-title" id="f6t">Donnees privees</div><div class="feat-desc" id="f6d">Votre profil reste confidentiel. Aucune donnee partagee a des tiers.</div></div>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-tag" id="priceTag">// Tarifs</div>
+  <h2 id="priceTitle">Transparent, sans surprise.</h2>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name" id="p1name">GRATUIT</div>
+      <div class="plan-price">0.- <sub id="p1sub">/ 1 mois</sub></div>
+      <ul class="plan-features">
+        <li id="p1f1">1 recherche active</li>
+        <li id="p1f2">Alertes smartphone</li>
+        <li id="p1f3">JobUp uniquement</li>
+        <li>Sans carte bancaire</li>
+        <li class="no">Jobs.ch</li>
+        <li class="no">Lettres de motivation IA</li>
+        <li class="no">Bot actif 24h/24</li>
+        <li class="no">Postulation automatique</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p1btn">Commencer</a>
+    </div>
+    <div class="plan-card featured">
+      <div class="popular-badge" id="popBadge">POPULAIRE</div>
+      <div class="plan-name">STANDARD</div>
+      <div class="plan-price">0.50 <sub>CHF / jour</sub></div>
+      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;">Moins qu'un café ☕ — 14.90 CHF/mois</div>
+      <ul class="plan-features">
+        <li id="p2f1">5 recherches actives</li>
+        <li id="p2f2">JobUp + Jobs.ch</li>
+        <li id="p2f3">Lettres de motivation IA</li>
+        <li>Bot actif 24h/24 🤖</li>
+        <li class="no">Postulation automatique</li>
+        <li class="no">Scan nouvelles offres en priorité</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled" id="p2btn">S'inscrire en beta</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">PREMIUM</div>
+      <div class="plan-price">0.83 <sub>CHF / jour</sub></div>
+      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;">Moins qu'un café ☕ — 24.90 CHF/mois</div>
+      <ul class="plan-features">
+        <li id="p3f1">14 recherches actives</li>
+        <li id="p3f2">JobUp + Jobs.ch</li>
+        <li id="p3f3">Lettres de motivation IA</li>
+        <li>Bot actif 24h/24 🤖</li>
+        <li id="p3f4">🚀 Postulation automatique</li>
+        <li id="p3f5">Scan nouvelles offres en priorité</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p3btn">S'inscrire en beta</a>
+    </div>
+  </div>
+  <p style="text-align:center;color:#aaa;font-size:15px;font-weight:600;margin-top:24px;">✅ Sans engagement — annulez à tout moment</p>
+</div>
+
+<div class="cta-section">
+  <h2 id="ctaTitle">Pret a laisser l'IA chercher pour vous ?</h2>
+  <p id="ctaDesc">Rejoignez la liste d'attente et soyez parmi les premiers a acceder a Radarjob. C'est gratuit pendant la beta.</p>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark" id="ctaBtn">Je veux acces en priorite</a>
+</div>
+
+<footer>
+  <div class="logo">Radar<span>Job</span>.ch</div>
+  <p>2026 Radarjob.ch — Suisse</p>
+  <p>contact@radarjob.ch</p>
+</footer>
+
+<script>
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF';
+const fs = 14; let drops;
+function init() { drops = Array(Math.floor(canvas.width/fs)).fill(1); }
+init();
+window.addEventListener('resize', init);
+function draw() {
+  ctx.fillStyle = 'rgba(10,15,10,0.06)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  for (let i=0; i<drops.length; i++) {
+    ctx.fillStyle = '#00ff66';
+    ctx.globalAlpha = Math.random()*0.5+0.5;
+    ctx.font = fs+'px monospace';
+    ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fs, drops[i]*fs);
+    ctx.globalAlpha = 1;
+    if (drops[i]*fs > canvas.height && Math.random()>0.98) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw, 60);
+</script>
+
+<script>
+const translations = {
+  fr: {
+    flag: "🇫🇷",
+    navCta: "Rejoindre la beta",
+    heroBadge: "Beta ouverte — acces gratuit",
+    heroTitle: "Vos recherches d'emploi <em>pendant</em> que vous dormez.",
+    heroSub: "Radarjob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment a votre profil.",
+    heroCta: "Rejoindre la liste d'attente", heroScroll: "Comment ca marche",
+    stat1: "offres scannees / heure", stat2: "sites couverts", stat3: "Suisse romande",
+    howTag: "// Comment ca marche", howTitle: "Simple comme envoyer un SMS.",
+    step1Title: "Vous decrivez votre profil", step1Desc: "Metier, cantons, langues, horaires. Deux minutes suffisent.",
+    step2Title: "Le bot scanne en continu", step2Desc: "JobUp et Jobs.ch analyses toutes les heures, 24h/24, 7j/7.",
+    step3Title: "Vous recevez les meilleures offres", step3Desc: "Analyse IA avec score et lettre de motivation sur votre smartphone.",
+    featTag: "// Fonctionnalites", featTitle: "Tout ce dont vous avez besoin.",
+    f1t: "Analyse IA precise", f1d: "Chaque offre notee sur 10 selon votre profil exact.",
+    f2t: "Alertes en temps reel", f2d: "Notifie sur smartphone uniquement pour les offres pertinentes.",
+    f3t: "Lettre de motivation auto", f3d: "Une lettre personnalisee pour chaque offre.",
+    f4t: "Concu pour la Suisse", f4d: "Cantons, langues, marche suisse, tout est pris en compte.",
+    f5t: "24h/24 sans interruption", f5d: "Le bot tourne meme quand vous dormez.",
+    f6t: "Donnees privees", f6d: "Votre profil reste confidentiel.",
+    priceTag: "// Tarifs", priceTitle: "Transparent, sans surprise.",
+    p1name: "GRATUIT", p1sub: "/ mois", p1f1: "1 recherche active", p1f2: "Alertes smartphone", p1f3: "JobUp uniquement", p1btn: "Commencer",
+    p2f1: "Toutes les recherches", p2f2: "JobUp + Jobs.ch", p2f3: "Lettres de motivation", p2f4: "Alertes prioritaires", p2btn: "S'inscrire en beta",
+    p3f1: "Tout Standard inclus", p3f2: "LinkedIn + Indeed", p3f3: "Optimisation CV IA", p3f4: "Support prioritaire", p3btn: "S'inscrire en beta",
+    popBadge: "POPULAIRE",
+    ctaTitle: "Pret a laisser l'IA chercher pour vous ?",
+    ctaDesc: "Rejoignez la liste d'attente et soyez parmi les premiers a acceder a Radarjob.",
+    ctaBtn: "Je veux acces en priorite"
+  },
+  de: {
+    flag: "🇩🇪",
+    navCta: "Beta beitreten",
+    heroBadge: "Beta offen — kostenloser Zugang",
+    heroTitle: "Ihre Jobsuche <em>wahrend</em> Sie schlafen.",
+    heroSub: "Radarjob durchsucht JobUp und Jobs.ch kontinuierlich, analysiert jedes Angebot mit KI und sendet nur passende Stellen direkt auf Ihr Smartphone.",
+    heroCta: "Warteliste beitreten", heroScroll: "Wie funktioniert es",
+    stat1: "Angebote / Stunde", stat2: "Seiten abgedeckt", stat3: "Schweiz",
+    howTag: "// Wie es funktioniert", howTitle: "So einfach wie eine SMS.",
+    step1Title: "Sie beschreiben Ihr Profil", step1Desc: "Beruf, Kantone, Sprachen, Arbeitszeiten. Zwei Minuten genugen.",
+    step2Title: "Der Bot scannt kontinuierlich", step2Desc: "JobUp und Jobs.ch stundlich analysiert, 24/7.",
+    step3Title: "Sie erhalten die besten Angebote", step3Desc: "KI-Analyse mit Motivationsschreiben auf Ihrem Smartphone.",
+    featTag: "// Funktionen", featTitle: "Alles was Sie brauchen.",
+    f1t: "Prazise KI-Analyse", f1d: "Jedes Angebot auf 10 bewertet.",
+    f2t: "Echtzeit-Benachrichtigungen", f2d: "Nur relevante Angebote auf Ihr Smartphone.",
+    f3t: "Automatisches Motivationsschreiben", f3d: "Personalisiertes Schreiben fur jedes Angebot.",
+    f4t: "Fur die Schweiz konzipiert", f4d: "Kantone, Sprachen, Schweizer Arbeitsmarkt.",
+    f5t: "24/7 ohne Unterbrechung", f5d: "Der Bot lauft auch wenn Sie schlafen.",
+    f6t: "Private Daten", f6d: "Ihr Profil bleibt vertraulich.",
+    priceTag: "// Preise", priceTitle: "Transparent, keine Uberraschungen.",
+    p1name: "KOSTENLOS", p1sub: "/ Monat", p1f1: "1 aktive Suche", p1f2: "Smartphone-Benachrichtigungen", p1f3: "Nur JobUp", p1btn: "Starten",
+    p2f1: "Alle Suchanfragen", p2f2: "JobUp + Jobs.ch", p2f3: "Motivationsschreiben", p2f4: "Prioritats-Benachrichtigungen", p2btn: "Beta beitreten",
+    p3f1: "Alles aus Standard", p3f2: "LinkedIn + Indeed", p3f3: "KI-Lebenslaufoptimierung", p3f4: "Prioritatssupport", p3btn: "Beta beitreten",
+    popBadge: "BELIEBT",
+    ctaTitle: "Bereit, die KI fur Sie suchen zu lassen?",
+    ctaDesc: "Treten Sie der Warteliste bei. Wahrend der Beta kostenlos.",
+    ctaBtn: "Ich mochte Prioritatszugang"
+  },
+  it: {
+    flag: "🇮🇹",
+    navCta: "Unisciti alla beta",
+    heroBadge: "Beta aperta — accesso gratuito",
+    heroTitle: "La tua ricerca di lavoro <em>mentre</em> dormi.",
+    heroSub: "Radarjob analizza JobUp e Jobs.ch in continuo e ti invia solo i posti che corrispondono al tuo profilo, con una lettera di motivazione pronta.",
+    heroCta: "Unisciti alla lista d'attesa", heroScroll: "Come funziona",
+    stat1: "offerte / ora", stat2: "siti coperti", stat3: "Svizzera",
+    howTag: "// Come funziona", howTitle: "Semplice come un SMS.",
+    step1Title: "Descrivi il tuo profilo", step1Desc: "Professione, cantoni, lingue, orari. Due minuti bastano.",
+    step2Title: "Il bot scansiona continuamente", step2Desc: "JobUp e Jobs.ch analizzati ogni ora, 24/24.",
+    step3Title: "Ricevi le migliori offerte", step3Desc: "Analisi IA con lettera di motivazione sul tuo smartphone.",
+    featTag: "// Funzionalita", featTitle: "Tutto cio di cui hai bisogno.",
+    f1t: "Analisi IA precisa", f1d: "Ogni offerta valutata su 10.",
+    f2t: "Avvisi in tempo reale", f2d: "Notificato solo per offerte pertinenti.",
+    f3t: "Lettera automatica", f3d: "Lettera personalizzata per ogni offerta.",
+    f4t: "Per la Svizzera", f4d: "Cantoni, lingue, mercato svizzero.",
+    f5t: "24/24 senza interruzioni", f5d: "Il bot funziona anche mentre dormi.",
+    f6t: "Dati privati", f6d: "Profilo confidenziale.",
+    priceTag: "// Prezzi", priceTitle: "Trasparente, senza sorprese.",
+    p1name: "GRATUITO", p1sub: "/ mese", p1f1: "1 ricerca attiva", p1f2: "Notifiche smartphone", p1f3: "Solo JobUp", p1btn: "Inizia",
+    p2f1: "Tutte le ricerche", p2f2: "JobUp + Jobs.ch", p2f3: "Lettere di motivazione", p2f4: "Notifiche prioritarie", p2btn: "Iscriviti alla beta",
+    p3f1: "Tutto Standard incluso", p3f2: "LinkedIn + Indeed", p3f3: "CV con IA", p3f4: "Supporto prioritario", p3btn: "Iscriviti alla beta",
+    popBadge: "POPOLARE",
+    ctaTitle: "Pronto a lasciare che l'IA cerchi per te?",
+    ctaDesc: "Unisciti alla lista d'attesa. Gratuito durante la beta.",
+    ctaBtn: "Voglio accesso prioritario"
+  },
+  en: {
+    flag: "🇬🇧",
+    navCta: "Join the beta",
+    heroBadge: "Beta open — free access",
+    heroTitle: "Your job search <em>while</em> you sleep.",
+    heroSub: "Radarjob continuously scans JobUp and Jobs.ch and sends only matching positions directly to your smartphone with a ready-to-send cover letter.",
+    heroCta: "Join the waitlist", heroScroll: "How it works",
+    stat1: "offers scanned / hour", stat2: "sites covered", stat3: "Switzerland",
+    howTag: "// How it works", howTitle: "As simple as sending a text.",
+    step1Title: "You describe your profile", step1Desc: "Job title, cantons, languages, hours. Two minutes is all it takes.",
+    step2Title: "The bot scans continuously", step2Desc: "JobUp and Jobs.ch analysed every hour, 24/7.",
+    step3Title: "You receive the best offers", step3Desc: "AI analysis with cover letter on your smartphone.",
+    featTag: "// Features", featTitle: "Everything you need.",
+    f1t: "Precise AI analysis", f1d: "Each offer scored out of 10.",
+    f2t: "Real-time alerts", f2d: "Notified only for relevant offers.",
+    f3t: "Automatic cover letter", f3d: "Personalised letter for each offer.",
+    f4t: "Built for Switzerland", f4d: "Cantons, languages, Swiss market.",
+    f5t: "24/7 without interruption", f5d: "The bot runs even when you sleep.",
+    f6t: "Private data", f6d: "Your profile stays confidential.",
+    priceTag: "// Pricing", priceTitle: "Transparent, no surprises.",
+    p1name: "FREE", p1sub: "/ month", p1f1: "1 active search", p1f2: "Smartphone alerts", p1f3: "JobUp only", p1btn: "Get started",
+    p2f1: "All searches", p2f2: "JobUp + Jobs.ch", p2f3: "Cover letters", p2f4: "Priority alerts", p2btn: "Join beta",
+    p3f1: "Everything in Standard", p3f2: "LinkedIn + Indeed", p3f3: "AI CV optimisation", p3f4: "Priority support", p3btn: "Join beta",
+    popBadge: "POPULAR",
+    ctaTitle: "Ready to let AI search for you?",
+    ctaDesc: "Join the waitlist and be among the first to access Radarjob. Free during beta.",
+    ctaBtn: "I want priority access"
+  },
+  pt: {
+    flag: "🇵🇹",
+    navCta: "Entrar na beta",
+    heroBadge: "Beta aberta — acesso gratuito",
+    heroTitle: "A sua busca de emprego <em>enquanto</em> dorme.",
+    heroSub: "Radarjob analisa JobUp e Jobs.ch continuamente e envia apenas os postos correspondentes ao seu perfil, com carta de motivacao pronta.",
+    heroCta: "Entrar na lista de espera", heroScroll: "Como funciona",
+    stat1: "ofertas / hora", stat2: "sites cobertos", stat3: "Suica",
+    howTag: "// Como funciona", howTitle: "Simples como uma mensagem.",
+    step1Title: "Descreve o seu perfil", step1Desc: "Profissao, cantoes, idiomas, horarios. Dois minutos chegam.",
+    step2Title: "O bot analisa continuamente", step2Desc: "JobUp e Jobs.ch analisados a cada hora, 24h/24.",
+    step3Title: "Recebe as melhores ofertas", step3Desc: "Analise IA com carta de motivacao no seu smartphone.",
+    featTag: "// Funcionalidades", featTitle: "Tudo o que precisa.",
+    f1t: "Analise IA precisa", f1d: "Cada oferta pontuada de 0 a 10.",
+    f2t: "Alertas em tempo real", f2d: "Notificado apenas para ofertas relevantes.",
+    f3t: "Carta automatica", f3d: "Carta personalizada para cada oferta.",
+    f4t: "Criado para a Suica", f4d: "Cantoes, idiomas, mercado suico.",
+    f5t: "24h/24 sem interrupcao", f5d: "O bot funciona mesmo quando dorme.",
+    f6t: "Dados privados", f6d: "Perfil confidencial.",
+    priceTag: "// Precos", priceTitle: "Transparente, sem surpresas.",
+    p1name: "GRATUITO", p1sub: "/ mes", p1f1: "1 pesquisa ativa", p1f2: "Alertas smartphone", p1f3: "Apenas JobUp", p1btn: "Comecar",
+    p2f1: "Todas as pesquisas", p2f2: "JobUp + Jobs.ch", p2f3: "Cartas de motivacao", p2f4: "Alertas prioritarios", p2btn: "Entrar na beta",
+    p3f1: "Tudo do Standard", p3f2: "LinkedIn + Indeed", p3f3: "CV com IA", p3f4: "Suporte prioritario", p3btn: "Entrar na beta",
+    popBadge: "POPULAR",
+    ctaTitle: "Pronto para deixar a IA procurar por si?",
+    ctaDesc: "Entre na lista de espera. Gratuito durante a beta.",
+    ctaBtn: "Quero acesso prioritario"
+  }
+};
+
+function toggleLang() {
+  document.getElementById('langSelector').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.getElementById('langSelector').contains(e.target)) {
+    document.getElementById('langSelector').classList.remove('open');
+  }
+});
+
+function setLang(lang) {
+  const t = translations[lang];
+  document.getElementById('currentFlag').textContent = t.flag;
+  document.getElementById('navCta').textContent = t.navCta;
+  document.getElementById('heroBadge').textContent = t.heroBadge;
+  typeTitle(t.heroTitle);
+  document.getElementById('heroSub').textContent = t.heroSub;
+  document.getElementById('heroCta').textContent = t.heroCta;
+  document.getElementById('heroScroll').textContent = t.heroScroll;
+  document.getElementById('stat1').textContent = t.stat1;
+  document.getElementById('stat2').textContent = t.stat2;
+  document.getElementById('stat3').textContent = t.stat3;
+  document.getElementById('howTag').textContent = t.howTag;
+  document.getElementById('howTitle').textContent = t.howTitle;
+  document.getElementById('step1Title').textContent = t.step1Title;
+  document.getElementById('step1Desc').textContent = t.step1Desc;
+  document.getElementById('step2Title').textContent = t.step2Title;
+  document.getElementById('step2Desc').textContent = t.step2Desc;
+  document.getElementById('step3Title').textContent = t.step3Title;
+  document.getElementById('step3Desc').textContent = t.step3Desc;
+  document.getElementById('featTag').textContent = t.featTag;
+  document.getElementById('featTitle').textContent = t.featTitle;
+  ['f1t','f1d','f2t','f2d','f3t','f3d','f4t','f4d','f5t','f5d','f6t','f6d'].forEach(id => {
+    document.getElementById(id).textContent = t[id];
+  });
+  document.getElementById('priceTag').textContent = t.priceTag;
+  document.getElementById('priceTitle').textContent = t.priceTitle;
+  document.getElementById('p1name').textContent = t.p1name;
+  document.getElementById('p1sub').textContent = t.p1sub;
+  ['p1f1','p1f2','p1f3','p1btn','p2f1','p2f2','p2f3','p2f4','p2btn','p3f1','p3f2','p3f3','p3f4','p3btn','popBadge','ctaTitle','ctaDesc','ctaBtn'].forEach(id => {
+    document.getElementById(id).textContent = t[id];
+  });
+  document.querySelectorAll('.lang-option').forEach(el => el.classList.remove('active'));
+  document.getElementById('langSelector').classList.remove('open');
+}
+
+// ── Effet typing sur le titre H1 ──
+let typeTimer = null;
+function typeTitle(html) {
+  const el = document.getElementById('heroTitle');
+  if (typeTimer) clearTimeout(typeTimer);
+  // Découpe le HTML en tokens (texte + balises em)
+  const tokens = [];
+  const regex = /<em>(.*?)<\/em>|([^<]+)/g;
+  let m;
+  while ((m = regex.exec(html)) !== null) {
+    if (m[1] !== undefined) {
+      for (const ch of m[1]) tokens.push({ ch, em: true });
+    } else if (m[2] !== undefined) {
+      for (const ch of m[2]) tokens.push({ ch, em: false });
+    }
+  }
+  let i = 0;
+  function step() {
+    let out = '';
+    let inEm = false;
+    for (let j = 0; j < i; j++) {
+      const tok = tokens[j];
+      if (tok.em && !inEm) { out += '<em>'; inEm = true; }
+      else if (!tok.em && inEm) { out += '</em>'; inEm = false; }
+      out += tok.ch;
+    }
+    if (inEm) out += '</em>';
+    const done = i >= tokens.length;
+    out += '<span class="type-cursor">' + (done ? '' : '|') + '</span>';
+    el.innerHTML = out;
+    if (!done) {
+      i++;
+      typeTimer = setTimeout(step, 45);
+    }
+  }
+  step();
+}
+
+// Lancer le typing au chargement
+window.addEventListener('load', function() {
+  typeTitle(translations.fr.heroTitle);
+});
+</script>
+</body>
+</html>

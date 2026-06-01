@@ -137,8 +137,9 @@
     .feat-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(200,240,37,0.08); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 1.25rem; }
     .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
     .feat-desc { font-size: 13px; color: var(--gray); line-height: 1.8; font-weight: 400; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
-    .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; display: flex; flex-direction: column; }
+    .plan-card .plan-btn { margin-top: auto; }
     .plan-card.featured { border-color: var(--accent); }
     .popular-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--black); font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
     .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
@@ -146,7 +147,9 @@
     .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); }
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
     .plan-features li { font-size: 13px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
-    .plan-features li::before { content: 'v'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .plan-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .plan-features li.no { color: #666; text-decoration: none; }
+    .plan-features li.no::before { content: '✕'; color: #e05555; }
     .plan-btn { display: block; text-align: center; padding: 12px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s, opacity 0.15s; }
     .plan-btn:hover { transform: translateY(-1px); opacity: 0.9; }
     .plan-btn.filled { background: var(--accent); color: var(--black); }
@@ -246,23 +249,49 @@
     <div class="plan-card">
       <div class="plan-name" id="p1name">GRATUIT</div>
       <div class="plan-price">0.- <sub id="p1sub">/ 1 mois</sub></div>
-      <ul class="plan-features"><li id="p1f1">1 recherche active</li><li id="p1f2">Alertes smartphone</li><li id="p1f3">JobUp uniquement</li><li>Sans carte bancaire</li></ul>
+      <ul class="plan-features">
+        <li id="p1f1">1 recherche active</li>
+        <li id="p1f2">Alertes smartphone</li>
+        <li id="p1f3">JobUp uniquement</li>
+        <li>Sans carte bancaire</li>
+        <li class="no">Jobs.ch</li>
+        <li class="no">Lettres de motivation IA</li>
+        <li class="no">Bot actif 24h/24</li>
+        <li class="no">Postulation automatique</li>
+      </ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p1btn">Commencer</a>
     </div>
     <div class="plan-card featured">
       <div class="popular-badge" id="popBadge">POPULAIRE</div>
       <div class="plan-name">STANDARD</div>
-      <div class="plan-price">9.90 <sub>CHF / mois</sub></div>
-      <ul class="plan-features"><li id="p2f1">5 recherches actives</li><li id="p2f2">JobUp + Jobs.ch</li><li id="p2f3">Lettres de motivation IA</li></ul>
+      <div class="plan-price">0.50 <sub>CHF / jour</sub></div>
+      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;">Moins qu'un café ☕ — 14.90 CHF/mois</div>
+      <ul class="plan-features">
+        <li id="p2f1">5 recherches actives</li>
+        <li id="p2f2">JobUp + Jobs.ch</li>
+        <li id="p2f3">Lettres de motivation IA</li>
+        <li>Bot actif 24h/24 🤖</li>
+        <li class="no">Postulation automatique</li>
+        <li class="no">Scan nouvelles offres en priorité</li>
+      </ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn filled" id="p2btn">S'inscrire en beta</a>
     </div>
     <div class="plan-card">
       <div class="plan-name">PREMIUM</div>
-      <div class="plan-price">19.90 <sub>CHF / mois</sub></div>
-      <ul class="plan-features"><li id="p3f1">14 recherches actives</li><li id="p3f2">JobUp + Jobs.ch</li><li id="p3f3">Lettres de motivation IA</li><li id="p3f4">🚀 Postulation automatique</li><li id="p3f5">Scan nouvelles offres en priorité</li></ul>
+      <div class="plan-price">0.83 <sub>CHF / jour</sub></div>
+      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;">Moins qu'un café ☕ — 24.90 CHF/mois</div>
+      <ul class="plan-features">
+        <li id="p3f1">14 recherches actives</li>
+        <li id="p3f2">JobUp + Jobs.ch</li>
+        <li id="p3f3">Lettres de motivation IA</li>
+        <li>Bot actif 24h/24 🤖</li>
+        <li id="p3f4">🚀 Postulation automatique</li>
+        <li id="p3f5">Scan nouvelles offres en priorité</li>
+      </ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn outline" id="p3btn">S'inscrire en beta</a>
     </div>
   </div>
+  <p style="text-align:center;color:#aaa;font-size:15px;font-weight:600;margin-top:24px;">✅ Sans engagement — annulez à tout moment</p>
 </div>
 
 <div class="cta-section">

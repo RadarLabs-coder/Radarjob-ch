@@ -29,12 +29,12 @@
         radial-gradient(ellipse 70% 50% at 50% -8%, rgba(0,255,102,0.08) 0%, transparent 60%);
     }
 
-    /* Matrix canvas — discret mais visible, fade out vers le bas */
+    /* Matrix canvas — visible, tête lumineuse, fade out vers le bas */
     #matrix-canvas {
       position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-      z-index: 0; opacity: 0.22; pointer-events: none;
-      mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
-      -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+      z-index: 0; opacity: 0.40; pointer-events: none;
+      mask-image: linear-gradient(to bottom, black 60%, transparent 98%);
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 98%);
     }
 
     /* All content above canvas */
@@ -104,10 +104,18 @@
     .radar-blip2 { animation: ant 1.5s ease-in-out infinite 0.8s; }
 
     .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
-      border: 1px solid rgba(0,255,102,0.2); padding: 6px 16px;
-      border-radius: 100px; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both;
+      display: inline-flex; align-items: center;
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      border: 1px solid rgba(0,255,102,0.35); padding: 0;
+      border-radius: 100px; margin-bottom: 1.5rem; overflow: hidden;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-tag-label {
+      background: var(--accent); color: #003314; font-weight: 600;
+      padding: 7px 13px; letter-spacing: 0.05em; font-size: 11px;
+    }
+    .hero-tag #heroBadge {
+      color: #5fff8f; padding: 7px 16px;
     }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s infinite; box-shadow: 0 0 8px var(--accent); }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.6)} }
@@ -437,7 +445,7 @@
       <rect x="52" y="131" width="30" height="5" rx="1" fill="#00ff66" opacity="0.3"/>
     </svg>
   </div>
-  <div class="hero-tag"><div class="dot"></div><span id="heroBadge">1 mois offert aux 100 premiers inscrits</span></div>
+  <div class="hero-tag"><span class="hero-tag-label">LANCEMENT</span><span id="heroBadge">1 mois offert aux 100 premiers</span></div>
   <h1 id="heroTitle"></h1>
   <p class="hero-sub" id="heroSub">RadarJob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment à votre profil, avec une lettre de motivation prête à envoyer.</p>
   <div class="hero-actions">
@@ -574,24 +582,47 @@ const ctx = canvas.getContext('2d');
 function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
-const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF';
-const fs = 14; let drops;
-function init() { drops = Array(Math.floor(canvas.width/fs)).fill(1); }
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF';
+const fs = 15; let drops;
+function init() {
+  // Démarrage instantané : colonnes à hauteurs aléatoires (écran rempli dès le départ)
+  const cols = Math.floor(canvas.width / fs);
+  drops = [];
+  for (let i = 0; i < cols; i++) drops[i] = Math.floor(Math.random() * (canvas.height / fs));
+}
 init();
 window.addEventListener('resize', init);
 function draw() {
-  ctx.fillStyle = 'rgba(10,15,10,0.06)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  for (let i=0; i<drops.length; i++) {
-    ctx.fillStyle = '#00ff66';
-    ctx.globalAlpha = Math.random()*0.5+0.5;
-    ctx.font = fs+'px monospace';
-    ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fs, drops[i]*fs);
-    ctx.globalAlpha = 1;
-    if (drops[i]*fs > canvas.height && Math.random()>0.98) drops[i]=0;
+  // Voile semi-transparent (crée la traînée derrière les têtes)
+  ctx.fillStyle = 'rgba(10,15,10,0.06)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = fs + 'px monospace';
+
+  // SCINTILLEMENT : des caractères apparaissent/changent aléatoirement un peu partout
+  // (effet "données qui grouillent")
+  const cols = drops.length;
+  const scintCount = Math.floor(cols * 0.4);
+  for (let k = 0; k < scintCount; k++) {
+    ctx.fillStyle = 'rgba(0,255,102,0.45)';
+    const sx = Math.floor(Math.random() * cols) * fs;
+    const sy = Math.floor(Math.random() * (canvas.height / fs)) * fs;
+    ctx.fillText(chars[Math.floor(Math.random() * chars.length)], sx, sy);
+  }
+
+  // Les colonnes qui tombent avec tête lumineuse
+  for (let i = 0; i < cols; i++) {
+    const x = i * fs;
+    const y = drops[i] * fs;
+    ctx.fillStyle = '#c8ffdc';
+    ctx.shadowColor = '#00ff66';
+    ctx.shadowBlur = 8;
+    ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, y);
+    ctx.shadowBlur = 0;
+    if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
     drops[i]++;
   }
 }
-setInterval(draw, 60);
+setInterval(draw, 55);
 </script>
 
 <script>
@@ -599,7 +630,7 @@ const translations = {
   fr: {
     flag: "🇫🇷",
     navCta: "Activer RadarJob",
-    heroBadge: "1 mois offert aux 100 premiers inscrits",
+    heroBadge: "1 mois offert aux 100 premiers",
     heroTitle: "Vos recherches d'emploi <em>pendant</em> que vous dormez.",
     heroSub: "RadarJob scanne JobUp et Jobs.ch en continu, analyse chaque offre avec l'IA et vous envoie directement sur votre smartphone uniquement les postes qui correspondent vraiment à votre profil.",
     heroCta: "Activer RadarJob", heroScroll: "Comment ça marche",
@@ -634,7 +665,7 @@ const translations = {
   de: {
     flag: "🇩🇪",
     navCta: "RadarJob aktivieren",
-    heroBadge: "1 Monat gratis für die ersten 100 Anmeldungen",
+    heroBadge: "1 Monat gratis für die ersten 100",
     heroTitle: "Ihre Jobsuche <em>während</em> Sie schlafen.",
     heroSub: "RadarJob durchsucht JobUp und Jobs.ch kontinuierlich, analysiert jedes Angebot mit KI und sendet nur passende Stellen direkt auf Ihr Smartphone.",
     heroCta: "RadarJob aktivieren", heroScroll: "Wie funktioniert es",
@@ -669,7 +700,7 @@ const translations = {
   it: {
     flag: "🇮🇹",
     navCta: "Attiva RadarJob",
-    heroBadge: "1 mese offerto ai primi 100 iscritti",
+    heroBadge: "1 mese offerto ai primi 100",
     heroTitle: "La tua ricerca di lavoro <em>mentre</em> dormi.",
     heroSub: "RadarJob analizza JobUp e Jobs.ch in continuo e ti invia solo i posti che corrispondono al tuo profilo, con una lettera di motivazione pronta.",
     heroCta: "Attiva RadarJob", heroScroll: "Come funziona",
@@ -704,7 +735,7 @@ const translations = {
   en: {
     flag: "🇬🇧",
     navCta: "Activate RadarJob",
-    heroBadge: "1 month free for the first 100 sign-ups",
+    heroBadge: "1 month free for the first 100",
     heroTitle: "Your job search <em>while</em> you sleep.",
     heroSub: "Radarjob continuously scans JobUp and Jobs.ch and sends only matching positions directly to your smartphone with a ready-to-send cover letter.",
     heroCta: "Activate RadarJob", heroScroll: "How it works",
@@ -739,7 +770,7 @@ const translations = {
   pt: {
     flag: "🇵🇹",
     navCta: "Ativar RadarJob",
-    heroBadge: "1 mês grátis para os 100 primeiros inscritos",
+    heroBadge: "1 mês grátis para os 100 primeiros",
     heroTitle: "A sua busca de emprego <em>enquanto</em> dorme.",
     heroSub: "RadarJob analisa JobUp e Jobs.ch continuamente e envia apenas os postos correspondentes ao seu perfil, com carta de motivação pronta.",
     heroCta: "Ativar RadarJob", heroScroll: "Como funciona",

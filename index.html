@@ -162,6 +162,10 @@
     /* SECTIONS */
     .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
     .section-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+    .section-tag .tag-cursor { display: inline-block; width: 2px; height: 12px; background: var(--accent); margin-left: 5px; vertical-align: middle; box-shadow: 0 0 5px rgba(0,255,102,0.6); }
+    .section-tag .tag-cursor.done { animation: tagBlink 1.1s step-end infinite; }
+    @keyframes tagBlink { 0%,50%{opacity:1;} 50.01%,100%{opacity:0;} }
+    @media (prefers-reduced-motion: reduce) { .section-tag .tag-cursor { display: none; } }
     h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 2.5rem; line-height: 1.3; color: #fff; }
 
     /* STEPS */
@@ -195,7 +199,7 @@
     .feat-desc { font-size: 13px; color: var(--text-body); line-height: 1.8; font-weight: 400; }
 
     /* PRICING */
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 360px)); gap: 16px; align-items: stretch; justify-content: center; }
     .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; overflow: hidden; cursor: pointer; }
     .plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.3); }
     .plan-card .plan-btn { margin-top: auto; }
@@ -205,7 +209,9 @@
       0%, 100% { box-shadow: 0 0 16px rgba(0,255,102,0.15); border-color: rgba(0,255,102,0.5); }
       50% { box-shadow: 0 0 32px rgba(0,255,102,0.4), 0 0 60px rgba(0,255,102,0.1); border-color: rgba(0,255,102,1); }
     }
-    .plan-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray); margin-bottom: 10px; }
+    .plan-name { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; letter-spacing: 0.18em; color: #fff; margin-bottom: 12px; text-transform: uppercase; }
+    .plan-card:not(.selected) .plan-name { color: var(--gray); }
+    .plan-card.selected .plan-name { color: var(--accent); text-shadow: 0 0 12px rgba(0,255,102,0.4); }
     .plan-price { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; }
     .plan-price sub { font-size: 13px; font-weight: 400; color: var(--gray); font-family: 'DM Mono', monospace; }
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 1.75rem; }
@@ -461,7 +467,7 @@
 </div>
 
 <div class="section-wrap" id="comment">
-  <div class="section-tag" id="howTag">// Comment ça marche</div>
+  <div class="section-tag reveal" id="howTag">// Comment ça marche</div>
   <h2 id="howTitle" class="reveal">Simple comme envoyer un SMS.</h2>
   <div class="steps-grid">
     <div class="step-card reveal d1"><div class="step-num">01</div><div class="step-icon"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#00ff66" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></div><div class="step-title" id="step1Title">Vous décrivez votre recherche</div><div class="step-desc" id="step1Desc">Métier, régions, langues, disponibilité. Deux minutes suffisent pour démarrer.</div></div>
@@ -471,7 +477,7 @@
 </div>
 
 <div class="section-wrap">
-  <div class="section-tag" id="featTag">// Fonctionnalités</div>
+  <div class="section-tag reveal" id="featTag">// Fonctionnalités</div>
   <h2 id="featTitle" class="reveal">Tout ce dont vous avez besoin.</h2>
   <div class="features-grid">
     <div class="feat-card reveal d1"><div class="feat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#00ff66" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div><div class="feat-title" id="f1t">Analyse IA précise</div><div class="feat-desc" id="f1d">Chaque offre notée sur 10 selon votre profil exact.</div></div>
@@ -484,25 +490,10 @@
 </div>
 
 <div class="section-wrap">
-  <div class="section-tag" id="priceTag">// Tarifs</div>
+  <div class="section-tag reveal" id="priceTag">// Tarifs</div>
   <h2 id="priceTitle" class="reveal">Transparent, sans surprise.</h2>
   <div class="pricing-grid">
-    <div class="plan-card reveal d1" id="card1" onclick="selectCard(1)">
-      <div class="plan-name" id="p1name">GRATUIT</div>
-      <div class="plan-price">0.- <sub id="p1sub">/ 1 mois</sub></div>
-      <ul class="plan-features">
-        <li id="p1f1">1 recherche active</li>
-        <li id="p1f2">Alertes smartphone</li>
-        <li id="p1f3">JobUp uniquement</li>
-        <li>Sans carte bancaire</li>
-        <li class="no">Jobs.ch</li>
-        <li class="no">Lettres de motivation IA</li>
-        <li class="no">Bot actif 24h/24</li>
-        <li class="no">Outil CV & conseils</li>
-      </ul>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn" id="p1btn">Essaye gratuitement</a>
-    </div>
-    <div class="plan-card selected reveal d2" id="card2" onclick="selectCard(2)">
+    <div class="plan-card reveal d1" id="card2" onclick="selectCard(2)">
       <div class="plan-name">STANDARD</div>
       <div class="plan-price">39.- <sub>CHF / mois</sub></div>
       <div style="font-size:12px;color:#c8f025;margin-bottom:12px;" id="p2cafe">1er mois offert ✨</div>
@@ -516,10 +507,10 @@
       </ul>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn" id="p2btn">Activer RadarJob</a>
     </div>
-    <div class="plan-card reveal d3" id="card3" onclick="selectCard(3)">
+    <div class="plan-card selected reveal d3" id="card3" onclick="selectCard(3)">
       <div class="plan-name">PREMIUM</div>
       <div class="plan-price">49.- <sub>CHF / mois</sub></div>
-      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;" id="p3cafe">1er mois offert ✨</div>
+      <div style="font-size:12px;color:#c8f025;margin-bottom:12px;" id="p3cafe">Pack complet ⭐</div>
       <ul class="plan-features">
         <li id="p3f1">14 recherches actives</li>
         <li id="p3f2">JobUp + Jobs.ch</li>
@@ -624,9 +615,9 @@ const translations = {
     f4t: "Conçu pour la Suisse", f4d: "Cantons, langues, marché suisse, tout est pris en compte.",
     f5t: "24h/24 sans interruption", f5d: "Le bot tourne même quand vous dormez ou êtes en entretien.",
     f6t: "Données privées", f6d: "Votre profil reste confidentiel. Aucune donnée partagée à des tiers.",
-    priceTag: "// Tarifs", priceTitle: "Transparent, sans surprise.",
+    priceTag: "// Tarifs", priceTitle: "Transparent, sans surprise.", planBadge: "Recommandé",
     p1name: "GRATUIT", p1sub: "/ 1 mois", p1f1: "1 recherche active", p1f2: "Alertes smartphone", p1f3: "JobUp uniquement", p1btn: "Essaye gratuitement",
-    p2cafe: "1er mois offert ✨", p3cafe: "1er mois offert ✨",
+    p2cafe: "1er mois offert ✨", p3cafe: "Pack complet ⭐",
     p2f1: "5 recherches actives", p2f2: "JobUp + Jobs.ch", p2f3: "Lettres de motivation IA", p2f4: "Bot actif 24h/24 🤖", p2f5: "Scan plus fréquent", p2f6: "Outil CV & conseils (à venir)", p2btn: "Activer RadarJob",
     p3f1: "14 recherches actives", p3f2: "JobUp + Jobs.ch", p3f3: "Lettres de motivation IA", p3f4: "Bot actif 24h/24 🤖", p3f5: "⚡ Scan plus fréquent", p3f6: "📄 Outil CV & conseils (à venir)", p3btn: "Activer RadarJob",
     faqTag: "// FAQ", faqTitle: "Questions fréquentes.",
@@ -659,9 +650,9 @@ const translations = {
     f4t: "Für die Schweiz konzipiert", f4d: "Kantone, Sprachen, Schweizer Arbeitsmarkt.",
     f5t: "24/7 ohne Unterbrechung", f5d: "Der Bot läuft auch wenn Sie schlafen.",
     f6t: "Private Daten", f6d: "Ihr Profil bleibt vertraulich. Keine Weitergabe an Dritte.",
-    priceTag: "// Preise", priceTitle: "Transparent, keine Überraschungen.",
+    priceTag: "// Preise", priceTitle: "Transparent, keine Überraschungen.", planBadge: "Empfohlen",
     p1name: "KOSTENLOS", p1sub: "/ 1 Monat", p1f1: "1 aktive Suche", p1f2: "Smartphone-Benachrichtigungen", p1f3: "Nur JobUp", p1btn: "Kostenlos testen",
-    p2cafe: "1. Monat gratis ✨", p3cafe: "1. Monat gratis ✨",
+    p2cafe: "1. Monat gratis ✨", p3cafe: "Komplettpaket ⭐",
     p2f1: "5 aktive Suchen", p2f2: "JobUp + Jobs.ch", p2f3: "KI-Motivationsschreiben", p2f4: "Bot rund um die Uhr aktiv 🤖", p2f5: "Häufigeres Scannen", p2f6: "CV-Tool & Tipps (bald)", p2btn: "RadarJob aktivieren",
     p3f1: "14 aktive Suchen", p3f2: "JobUp + Jobs.ch", p3f3: "KI-Motivationsschreiben", p3f4: "Bot rund um die Uhr aktiv 🤖", p3f5: "⚡ Häufigeres Scannen", p3f6: "📄 CV-Tool & Tipps (bald)", p3btn: "RadarJob aktivieren",
     faqTag: "// FAQ", faqTitle: "Häufige Fragen.",
@@ -694,9 +685,9 @@ const translations = {
     f4t: "Pensato per la Svizzera", f4d: "Cantoni, lingue, mercato svizzero.",
     f5t: "24/24 senza interruzioni", f5d: "Il bot funziona anche mentre dormi.",
     f6t: "Dati privati", f6d: "Profilo confidenziale. Nessun dato condiviso a terzi.",
-    priceTag: "// Prezzi", priceTitle: "Trasparente, senza sorprese.",
+    priceTag: "// Prezzi", priceTitle: "Trasparente, senza sorprese.", planBadge: "Consigliato",
     p1name: "GRATUITO", p1sub: "/ 1 mese", p1f1: "1 ricerca attiva", p1f2: "Notifiche smartphone", p1f3: "Solo JobUp", p1btn: "Prova gratis",
-    p2cafe: "1° mese offerto ✨", p3cafe: "1° mese offerto ✨",
+    p2cafe: "1° mese offerto ✨", p3cafe: "Pacchetto completo ⭐",
     p2f1: "5 ricerche attive", p2f2: "JobUp + Jobs.ch", p2f3: "Lettere di motivazione IA", p2f4: "Bot attivo 24/24 🤖", p2f5: "Scansione più frequente", p2f6: "Strumento CV e consigli (in arrivo)", p2btn: "Attiva RadarJob",
     p3f1: "14 ricerche attive", p3f2: "JobUp + Jobs.ch", p3f3: "Lettere di motivazione IA", p3f4: "Bot attivo 24/24 🤖", p3f5: "⚡ Scansione più frequente", p3f6: "📄 Strumento CV e consigli (in arrivo)", p3btn: "Attiva RadarJob",
     faqTag: "// FAQ", faqTitle: "Domande frequenti.",
@@ -729,9 +720,9 @@ const translations = {
     f4t: "Built for Switzerland", f4d: "Cantons, languages, Swiss market.",
     f5t: "24/7 without interruption", f5d: "The bot runs even when you sleep.",
     f6t: "Private data", f6d: "Your profile stays confidential. No data shared with third parties.",
-    priceTag: "// Pricing", priceTitle: "Transparent, no surprises.",
+    priceTag: "// Pricing", priceTitle: "Transparent, no surprises.", planBadge: "Recommended",
     p1name: "FREE", p1sub: "/ 1 month", p1f1: "1 active search", p1f2: "Smartphone alerts", p1f3: "JobUp only", p1btn: "Try for free",
-    p2cafe: "1st month free ✨", p3cafe: "1st month free ✨",
+    p2cafe: "1st month free ✨", p3cafe: "Complete pack ⭐",
     p2f1: "5 active searches", p2f2: "JobUp + Jobs.ch", p2f3: "AI cover letters", p2f4: "Bot active 24/7 🤖", p2f5: "More frequent scanning", p2f6: "CV tool & tips (coming soon)", p2btn: "Activate RadarJob",
     p3f1: "14 active searches", p3f2: "JobUp + Jobs.ch", p3f3: "AI cover letters", p3f4: "Bot active 24/7 🤖", p3f5: "⚡ More frequent scanning", p3f6: "📄 CV tool & tips (coming soon)", p3btn: "Activate RadarJob",
     faqTag: "// FAQ", faqTitle: "Frequently asked questions.",
@@ -764,9 +755,9 @@ const translations = {
     f4t: "Criado para a Suíça", f4d: "Cantões, idiomas, mercado suíço.",
     f5t: "24h/24 sem interrupção", f5d: "O bot funciona mesmo quando dorme.",
     f6t: "Dados privados", f6d: "Perfil confidencial. Nenhum dado partilhado a terceiros.",
-    priceTag: "// Preços", priceTitle: "Transparente, sem surpresas.",
+    priceTag: "// Preços", priceTitle: "Transparente, sem surpresas.", planBadge: "Recomendado",
     p1name: "GRATUITO", p1sub: "/ 1 mês", p1f1: "1 pesquisa ativa", p1f2: "Alertas smartphone", p1f3: "Apenas JobUp", p1btn: "Experimente grátis",
-    p2cafe: "1º mês oferecido ✨", p3cafe: "1º mês oferecido ✨",
+    p2cafe: "1º mês oferecido ✨", p3cafe: "Pacote completo ⭐",
     p2f1: "5 pesquisas ativas", p2f2: "JobUp + Jobs.ch", p2f3: "Cartas de motivação IA", p2f4: "Bot ativo 24h/24 🤖", p2f5: "Scan mais frequente", p2f6: "Ferramenta CV e conselhos (em breve)", p2btn: "Ativar RadarJob",
     p3f1: "14 pesquisas ativas", p3f2: "JobUp + Jobs.ch", p3f3: "Cartas de motivação IA", p3f4: "Bot ativo 24h/24 🤖", p3f5: "⚡ Scan mais frequente", p3f6: "📄 Ferramenta CV e conselhos (em breve)", p3btn: "Ativar RadarJob",
     faqTag: "// FAQ", faqTitle: "Perguntas frequentes.",
@@ -799,6 +790,21 @@ function selectCard(n) {
   }
 }
 
+// Met à jour le texte d'un tag de section en respectant l'effet typing.
+// - stocke le nouveau texte dans data-fulltext (référence pour typeTag)
+// - si le tag a déjà été "typé" (visible), on réaffiche le texte complet + curseur clignotant
+// - sinon (pas encore scrollé), on pose juste le texte, le typing se fera au scroll
+function setTag(id, text) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.setAttribute('data-fulltext', text);
+  if (el.getAttribute('data-typed') === '1') {
+    el.innerHTML = '<span class="tag-txt">' + text + '</span><span class="tag-cursor done"></span>';
+  } else {
+    el.textContent = text;
+  }
+}
+
 function setLang(lang) {
   const t = translations[lang];
   document.getElementById('currentFlag').textContent = t.flag;
@@ -811,7 +817,7 @@ function setLang(lang) {
   document.getElementById('stat1').textContent = t.stat1;
   document.getElementById('stat2').textContent = t.stat2;
   document.getElementById('stat3').textContent = t.stat3;
-  document.getElementById('howTag').textContent = t.howTag;
+  setTag('howTag', t.howTag);
   document.getElementById('howTitle').textContent = t.howTitle;
   document.getElementById('step1Title').textContent = t.step1Title;
   document.getElementById('step1Desc').textContent = t.step1Desc;
@@ -819,16 +825,15 @@ function setLang(lang) {
   document.getElementById('step2Desc').textContent = t.step2Desc;
   document.getElementById('step3Title').textContent = t.step3Title;
   document.getElementById('step3Desc').textContent = t.step3Desc;
-  document.getElementById('featTag').textContent = t.featTag;
+  setTag('featTag', t.featTag);
   document.getElementById('featTitle').textContent = t.featTitle;
   ['f1t','f1d','f2t','f2d','f3t','f3d','f4t','f4d','f5t','f5d','f6t','f6d'].forEach(id => {
     document.getElementById(id).textContent = t[id];
   });
-  document.getElementById('priceTag').textContent = t.priceTag;
+  setTag('priceTag', t.priceTag);
   document.getElementById('priceTitle').textContent = t.priceTitle;
-  document.getElementById('p1name').textContent = t.p1name;
-  document.getElementById('p1sub').textContent = t.p1sub;
-  ['p1f1','p1f2','p1f3','p1btn','p2cafe','p2f1','p2f2','p2f3','p2f4','p2f5','p2f6','p2btn','p3cafe','p3f1','p3f2','p3f3','p3f4','p3f5','p3f6','p3btn','faqTag','faqTitle','faqQ1','faqA1','faqQ2','faqA2','faqQ3','faqA3','faqQ4','faqA4','faqQ5','faqA5','faqQ6','faqA6','ctaTitle','ctaDesc','ctaBtn'].forEach(id => {
+  setTag('faqTag', t.faqTag);
+  ['p2cafe','p2f1','p2f2','p2f3','p2f4','p2f5','p2f6','p2btn','p3cafe','p3f1','p3f2','p3f3','p3f4','p3f5','p3f6','p3btn','faqTitle','faqQ1','faqA1','faqQ2','faqA2','faqQ3','faqA3','faqQ4','faqA4','faqQ5','faqA5','faqQ6','faqA6','ctaTitle','ctaDesc','ctaBtn'].forEach(id => {
     const el = document.getElementById(id);
     if (el && t[id] !== undefined) el.textContent = t[id];
   });
@@ -892,12 +897,38 @@ const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      // Si c'est un tag de section, lancer l'effet machine à écrire
+      if (entry.target.classList.contains('section-tag')) {
+        typeTag(entry.target);
+      }
       revealObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Effet "machine à écrire" sur les tags de section (// COMMENT ÇA MARCHE, etc.)
+function typeTag(el) {
+  // Le texte de référence est stocké dans data-fulltext (mis à jour par setLang),
+  // sinon on prend le textContent actuel.
+  const full = el.getAttribute('data-fulltext') || el.textContent;
+  el.setAttribute('data-fulltext', full);
+  el.setAttribute('data-typed', '1');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = full;
+    return;
+  }
+  el.innerHTML = '<span class="tag-txt"></span><span class="tag-cursor"></span>';
+  const txt = el.querySelector('.tag-txt');
+  const cur = el.querySelector('.tag-cursor');
+  let i = 0;
+  const iv = setInterval(() => {
+    txt.textContent = full.slice(0, i + 1);
+    i++;
+    if (i >= full.length) { clearInterval(iv); cur.classList.add('done'); }
+  }, 55);
+}
 
 // 2) COMPTEURS ANIMÉS — les stats s'incrémentent de 0 à leur valeur
 function animateCounter(el, target, suffix, duration) {

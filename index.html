@@ -387,9 +387,10 @@
       /* Cartes : padding réduit */
       .feat-card, .plan-card { padding: 1.5rem; }
 
-      /* FAQ : questions un peu plus compactes */
-      .faq-q { padding: 20px 18px; font-size: 14.5px; }
-      .faq-a-inner { padding: 0 18px 20px; }
+      /* FAQ : compacte sur mobile (modèle premium) */
+      .faq-q { padding: 20px 16px; font-size: 14.5px; gap: 12px; }
+      .faq-idx { min-width: 20px; font-size: 12px; }
+      .faq-a-inner { margin: 0 18px 20px 48px; padding-top: 14px; }
 
       /* CTA final : padding adapté (le titre suit déjà via clamp) */
       .radar-stage { padding: 3.25rem 1.1rem 2.75rem; }
@@ -518,44 +519,64 @@
     .faq-item:nth-child(5) { width: 90%; }
     .faq-item:nth-child(6) { width: 100%; }
     .faq-item {
-      background: radial-gradient(circle at 30% 0%, rgba(0,255,102,0.04), transparent 65%), var(--card-bg); border: 1px solid var(--border);
-      border-bottom: none; overflow: hidden;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+      background: linear-gradient(165deg, #131c13 0%, #0b110b 100%);
+      border: 1px solid rgba(0,255,102,0.12); border-bottom: none;
+      transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;
     }
-    /* Effet escalier : coin droit de chaque marche arrondi (border-radius: haut-G haut-D bas-D bas-G) */
+    /* Effet escalier : coin droit de chaque marche arrondi */
     .faq-item { border-radius: 0 16px 16px 0; }
     .faq-item:first-child { border-radius: 16px 16px 16px 0; }
-    .faq-item:last-child { border-radius: 0 16px 16px 16px; border-bottom: 1px solid var(--border); }
-    .faq-item.open {
-      border-color: rgba(0,255,102,0.35);
-      box-shadow: 0 0 24px rgba(0,255,102,0.08);
+    .faq-item:last-child { border-radius: 0 16px 16px 16px; border-bottom: 1px solid rgba(0,255,102,0.12); }
+    /* Liseré d'accent à gauche, qui s'illumine à l'ouverture */
+    .faq-item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; z-index: 1;
+      background: linear-gradient(180deg, rgba(0,255,102,0.5), rgba(0,255,102,0.05));
+      opacity: 0.35; transition: opacity 0.35s, width 0.35s; pointer-events: none;
     }
+    .faq-item.open {
+      border-color: rgba(0,255,102,0.4);
+      box-shadow: 0 0 30px rgba(0,255,102,0.1), inset 0 0 24px rgba(0,255,102,0.03);
+    }
+    .faq-item.open::before { opacity: 1; width: 3px; box-shadow: 0 0 12px rgba(0,255,102,0.6); }
+    .faq-item:hover:not(.open) { border-color: rgba(0,255,102,0.22); }
     .faq-q {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 28px 26px; cursor: pointer;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; gap: 18px; padding: 26px 26px; cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15.5px; font-weight: 600;
       color: #eaf2e6; transition: color 0.2s; list-style: none;
     }
     .faq-q:hover { color: var(--accent); }
-    .faq-icon {
-      flex-shrink: 0; width: 22px; height: 22px; position: relative;
-      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    /* Numéro d'index éditorial */
+    .faq-idx {
+      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent);
+      flex-shrink: 0; min-width: 26px; letter-spacing: 0.04em; opacity: 0.7;
+      transition: opacity 0.3s, text-shadow 0.3s;
     }
+    .faq-item.open .faq-idx { opacity: 1; text-shadow: 0 0 12px rgba(0,255,102,0.6); }
+    .faq-qtext { flex: 1; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+    .faq-q:hover .faq-qtext { transform: translateX(3px); }
+    /* Icône +/− affinée dans une pastille */
+    .faq-icon {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; position: relative;
+      border: 1px solid rgba(0,255,102,0.25);
+      background: radial-gradient(circle at 35% 25%, rgba(0,255,102,0.12), transparent 70%);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(180deg); border-color: rgba(0,255,102,0.5); box-shadow: 0 0 14px rgba(0,255,102,0.3); }
     .faq-icon::before, .faq-icon::after {
       content: ''; position: absolute; background: var(--accent);
       border-radius: 2px; transition: transform 0.35s, opacity 0.3s;
     }
-    .faq-icon::before { top: 50%; left: 2px; right: 2px; height: 2px; transform: translateY(-50%); }
-    .faq-icon::after { left: 50%; top: 2px; bottom: 2px; width: 2px; transform: translateX(-50%); }
-    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-icon::before { top: 50%; left: 8px; right: 8px; height: 2px; transform: translateY(-50%); }
+    .faq-icon::after { left: 50%; top: 8px; bottom: 8px; width: 2px; transform: translateX(-50%); }
     .faq-item.open .faq-icon::after { transform: translateX(-50%) scaleY(0); opacity: 0; }
     .faq-a {
       max-height: 0; overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+      transition: max-height 0.42s cubic-bezier(0.16,1,0.3,1);
     }
     .faq-a-inner {
-      padding: 0 24px 22px; font-size: 14px; line-height: 1.8;
-      color: var(--text-body); font-weight: 400;
+      margin: 0 26px 24px 70px; padding-top: 18px; border-top: 1px solid rgba(0,255,102,0.12);
+      font-size: 14px; line-height: 1.8; color: var(--text-body); font-weight: 400;
     }
   
     /* ===== Titre héros : décodage sans reflux ===== */
@@ -668,6 +689,12 @@
     .plan-price sub { -webkit-text-fill-color: var(--gray); color: var(--gray); }
     /* Survol des stats : halo via filter (le text-shadow est invisible sur du texte clippé) */
     .hero-stats:hover .stat-num { text-shadow: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 16px rgba(0,255,102,0.5)); }
+
+    /* FAQ : sur mobile/tablette, l'escalier disparaît → cartes pleine largeur.
+       (Placé en fin de feuille pour passer APRÈS les largeurs en escalier.) */
+    @media (max-width: 900px) {
+      .faq-item { width: 100% !important; }
+    }
 </style>
 </head>
 <body>
@@ -822,27 +849,27 @@
   <h2 class="reveal" id="faqTitle">Questions fréquentes.</h2>
   <div class="faq-list">
     <div class="faq-item reveal d1">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ1">C'est vraiment gratuit ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">01</span><span class="faq-qtext" id="faqQ1">C'est vraiment gratuit ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA1">Oui, vos 2 premiers mois sont offerts pendant notre lancement, sans engagement. Vous découvrez le service, vous recevez de vraies offres, et vous décidez ensuite si vous souhaitez continuer. Vous pouvez annuler à tout moment.</div></div>
     </div>
     <div class="faq-item reveal d2">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ2">Sur quels sites le robot cherche-t-il ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">02</span><span class="faq-qtext" id="faqQ2">Sur quels sites le robot cherche-t-il ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA2">Le robot analyse en continu JobUp et Jobs.ch, les deux plus grandes plateformes d'emploi de Suisse. Il couvre ainsi la grande majorité des offres publiées dans le pays.</div></div>
     </div>
     <div class="faq-item reveal d3">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ3">Comment je reçois les offres ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">03</span><span class="faq-qtext" id="faqQ3">Comment je reçois les offres ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA3">Directement par email. Chaque alerte contient l'offre, un score de correspondance et une lettre de motivation déjà prête. Vous n'avez plus qu'à postuler.</div></div>
     </div>
     <div class="faq-item reveal d4">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ4">La lettre de motivation est-elle vraiment personnalisée ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">04</span><span class="faq-qtext" id="faqQ4">La lettre de motivation est-elle vraiment personnalisée ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA4">Oui. Pour chaque offre pertinente, l'IA rédige une lettre adaptée au poste et à votre profil. Vous la recevez en PDF, prête à envoyer, et vous pouvez bien sûr la modifier si vous le souhaitez.</div></div>
     </div>
     <div class="faq-item reveal d5">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ5">Mes données sont-elles protégées ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">05</span><span class="faq-qtext" id="faqQ5">Mes données sont-elles protégées ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA5">Votre profil reste strictement confidentiel. Vos informations ne sont jamais partagées ni revendues à des tiers. Elles servent uniquement à vous trouver les meilleures offres.</div></div>
     </div>
     <div class="faq-item reveal d6">
-      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ6">Comment annuler ?</span><span class="faq-icon" aria-hidden="true"></span></button>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-idx" aria-hidden="true">06</span><span class="faq-qtext" id="faqQ6">Comment annuler ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA6">À tout moment, en un seul message. Aucun engagement, aucune justification à fournir. Vous gardez le contrôle total sur votre abonnement.</div></div>
     </div>
   </div>

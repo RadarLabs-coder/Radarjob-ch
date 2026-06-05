@@ -433,46 +433,10 @@
       color: var(--text-body); font-weight: 400;
     }
   
-    /* ===== Titre héros : effet de décodage ===== */
+    /* ===== Titre héros : décodage sans reflux ===== */
     .dc { position: relative; }
     .dc.scr { color: transparent; }
     .dc.scr::after { content: attr(data-g); position: absolute; left: 0; color: var(--accent); pointer-events: none; }
-
-    /* ===== "Comment ça marche" : étapes + radar en deux colonnes ===== */
-    .how-layout { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
-    .scan-panel { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-    .scan-head { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent-soft); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 9px; }
-    .scan-live { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 9px var(--accent); animation: scanLive 1.6s ease-in-out infinite; }
-    @keyframes scanLive { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.35; transform:scale(0.7);} }
-    .scan-radar { position: relative; width: 300px; height: 300px; }
-    .scan-disc { position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
-      background-color: rgba(8,13,8,0.82);
-      background-image:
-        radial-gradient(circle, rgba(0,255,102,0.08) 0%, transparent 72%),
-        repeating-radial-gradient(circle, transparent 0 48px, rgba(0,255,102,0.11) 48px 49px);
-      border: 1px solid rgba(0,255,102,0.22); }
-    .scan-disc::before { content: ''; position: absolute; inset: 0; border-radius: 50%;
-      background: conic-gradient(from 0deg, rgba(0,255,102,0.30), rgba(0,255,102,0.04) 22%, transparent 32%);
-      animation: scanSweep 3s linear infinite; }
-    .scan-cx, .scan-cy { position: absolute; background: rgba(0,255,102,0.12); }
-    .scan-cx { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-0.5px); }
-    .scan-cy { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-0.5px); }
-    @keyframes scanSweep { to { transform: rotate(360deg); } }
-    .scan-blip { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
-      box-shadow: 0 0 11px var(--accent); transform: translate(-50%,-50%) scale(0.4); opacity: 0;
-      animation: scanPing 3s ease-out infinite; }
-    .scan-blip .scan-lbl { position: absolute; left: 16px; top: -7px; white-space: nowrap;
-      font-family: 'DM Mono', monospace; font-size: 11px; color: #9bffc4; text-shadow: 0 0 8px rgba(0,255,102,0.5); }
-    @keyframes scanPing {
-      0%,100% { opacity: 0; transform: translate(-50%,-50%) scale(0.4); }
-      7%  { opacity: 1; transform: translate(-50%,-50%) scale(1.35); }
-      30% { opacity: 0.9; transform: translate(-50%,-50%) scale(1); }
-      60% { opacity: 0; }
-    }
-    @media (max-width: 860px) {
-      .how-layout { grid-template-columns: 1fr; gap: 30px; }
-      .scan-radar { width: 72vw; height: 72vw; max-width: 300px; max-height: 300px; }
-    }
 </style>
 </head>
 <body>
@@ -560,21 +524,10 @@
 <div class="section-wrap" id="comment">
   <div class="section-tag reveal" id="howTag">// Comment ça marche</div>
   <h2 id="howTitle" class="reveal">Simple comme envoyer un SMS.</h2>
-  <div class="how-layout">
   <div class="steps-grid">
     <div class="step-card reveal d1"><div class="step-inner"><div class="step-num">01</div><div class="step-body"><div class="step-title" id="step1Title">Vous décrivez votre recherche</div><div class="step-desc" id="step1Desc">Métier, régions, langues, disponibilité. Deux minutes suffisent pour démarrer.</div></div></div></div>
     <div class="step-card reveal d2"><div class="step-inner"><div class="step-num">02</div><div class="step-body"><div class="step-title" id="step2Title">Le robot prend le relais</div><div class="step-desc" id="step2Desc">Il scanne les sites d'emploi suisses en continu pour vous, 24h/24 et 7j/7.</div></div></div></div>
     <div class="step-card reveal d3"><div class="step-inner"><div class="step-num">03</div><div class="step-body"><div class="step-title" id="step3Title">Vous recevez les bonnes offres</div><div class="step-desc" id="step3Desc">Notre IA sélectionne uniquement les offres qui vous correspondent, avec une lettre de motivation déjà prête.</div></div></div></div>
-  </div>
-    <div class="scan-panel reveal d2">
-      <div class="scan-head"><span class="scan-live"></span>En direct — le radar scanne</div>
-      <div class="scan-radar">
-        <div class="scan-disc"><span class="scan-cx"></span><span class="scan-cy"></span></div>
-        <span class="scan-blip" style="left:72%; top:24%; animation-delay:0.30s;"><span class="scan-lbl">Comptable · 94%</span></span>
-        <span class="scan-blip" style="left:80%; top:66%; animation-delay:0.95s;"><span class="scan-lbl">Aide-soignant · 89%</span></span>
-        <span class="scan-blip" style="left:33%; top:80%; animation-delay:1.70s;"><span class="scan-lbl">Chef de chantier · 91%</span></span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1085,6 +1038,36 @@ window.addEventListener('load', function() {
 // ═══════════════════════════════════════════
 
 // 1) SCROLL REVEAL — les éléments apparaissent quand ils entrent à l'écran
+// Titres de section qui se décodent à leur apparition
+const DECODE_IDS = new Set(['howTitle', 'featTitle', 'priceTitle', 'faqTitle']);
+function decodeTitle(el) {
+  const text = el.textContent;
+  const esc = c => c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : c;
+  let out = '';
+  for (const ch of text) { out += (ch === ' ') ? ' ' : '<span class="dc">' + esc(ch) + '</span>'; }
+  el.innerHTML = out;
+  const spans = el.querySelectorAll('.dc');
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const pool = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%/*=+{}?\u30A2\u30AB\u30B5\u30BF\u30CA\u30CF\u30DE\u30E4\u30E9";
+  let settled = 0, tick = 0, timer = null;
+  function step() {
+    for (let k = 0; k < spans.length; k++) {
+      if (k < settled) {
+        if (spans[k].hasAttribute('data-g')) { spans[k].classList.remove('scr'); spans[k].removeAttribute('data-g'); }
+      } else {
+        spans[k].classList.add('scr');
+        spans[k].setAttribute('data-g', pool[(Math.random() * pool.length) | 0]);
+      }
+    }
+    if (settled < spans.length) {
+      tick++;
+      if (tick % 2 === 0) settled++;
+      timer = setTimeout(step, 45);
+    }
+  }
+  step();
+}
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1092,6 +1075,8 @@ const revealObserver = new IntersectionObserver((entries) => {
       // Si c'est un tag de section, lancer l'effet machine à écrire
       if (entry.target.classList.contains('section-tag')) {
         typeTag(entry.target);
+      } else if (DECODE_IDS.has(entry.target.id)) {
+        decodeTitle(entry.target);
       }
       revealObserver.unobserve(entry.target);
     }

@@ -606,6 +606,68 @@
         transform: none !important;
       }
     }
+
+    /* ═══════════════════════════════════════════
+       DALLES PREMIUM — bordure dégradée, profondeur, tuiles d'icônes
+       (surcharge le style de base des cartes, structure HTML inchangée)
+       ═══════════════════════════════════════════ */
+    .feat-card, .step-card, .plan-card {
+      border: 1px solid transparent;
+      background:
+        linear-gradient(165deg, #131c13 0%, #0b110b 100%) padding-box,
+        linear-gradient(160deg, rgba(0,255,102,0.45), rgba(0,255,102,0.06) 38%, rgba(0,255,102,0.02) 72%) border-box;
+    }
+    .feat-card:hover, .step-card:hover, .plan-card:hover {
+      background:
+        linear-gradient(165deg, #16221a 0%, #0c130d 100%) padding-box,
+        linear-gradient(160deg, rgba(0,255,102,0.85), rgba(0,255,102,0.18) 42%, rgba(0,255,102,0.05) 75%) border-box;
+    }
+    /* Carte de prix sélectionnée : liseré accent net */
+    .plan-card.selected {
+      background:
+        linear-gradient(165deg, #16221a 0%, #0c130d 100%) padding-box,
+        linear-gradient(160deg, #00ff66, rgba(0,255,102,0.3) 45%, rgba(0,255,102,0.08)) border-box;
+    }
+    /* Tuile d'icône lumineuse (Fonctionnalités) */
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 13px;
+      background: radial-gradient(circle at 30% 22%, rgba(0,255,102,0.25), rgba(0,255,102,0.04));
+      border: 1px solid rgba(0,255,102,0.32);
+      box-shadow: inset 0 0 14px rgba(0,255,102,0.16);
+    }
+    .feat-body { border-left: none; padding-left: 0; }
+    .feat-card:hover .feat-icon {
+      transform: scale(1.1) rotate(-4deg);
+      box-shadow: inset 0 0 18px rgba(0,255,102,0.3), 0 0 20px rgba(0,255,102,0.35);
+    }
+    /* Numéros d'étapes en dégradé lumineux */
+    .step-num {
+      background: linear-gradient(172deg, #eafff1 0%, #46ff97 34%, #00d957 50%, #00ff66 66%, #0c8f3e 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 14px rgba(0,255,102,0.35));
+      transition: filter 0.35s;
+    }
+    .step-card:hover .step-num { color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 22px rgba(0,255,102,0.6)); }
+    /* Badge "Recommandé" sur la carte mise en avant */
+    .plan-badge {
+      position: absolute; top: 14px; right: 14px; z-index: 3;
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #003314; background: var(--accent);
+      padding: 4px 10px; border-radius: 100px; box-shadow: 0 0 14px rgba(0,255,102,0.5);
+    }
+    /* Vert poli également sur les prix et les chiffres de stats du héros */
+    .plan-price, .stat-num {
+      background: linear-gradient(172deg, #eafff1 0%, #46ff97 34%, #00d957 50%, #00ff66 66%, #0c8f3e 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 12px rgba(0,255,102,0.28));
+    }
+    /* Le « CHF / mois » reste gris (pas d'effet poli) */
+    .plan-price sub { -webkit-text-fill-color: var(--gray); color: var(--gray); }
+    /* Survol des stats : halo via filter (le text-shadow est invisible sur du texte clippé) */
+    .hero-stats:hover .stat-num { text-shadow: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 16px rgba(0,255,102,0.5)); }
 </style>
 </head>
 <body>
@@ -737,6 +799,7 @@
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="plan-btn" id="p2btn">Activer RadarJob</a>
     </div>
     <div class="plan-card selected reveal d3" id="card3" onclick="selectCard(3)">
+      <div class="plan-badge" id="planBadge">Recommandé</div>
       <div class="plan-name">PREMIUM</div>
       <div class="plan-price">49.- <sub>CHF / mois</sub></div>
       <div style="font-size:12px;color:#c8f025;margin-bottom:12px;" id="p3cafe">Pack complet ⭐</div>
@@ -1229,7 +1292,7 @@ function setLang(lang) {
   setTag('priceTag', t.priceTag);
   document.getElementById('priceTitle').textContent = t.priceTitle;
   setTag('faqTag', t.faqTag);
-  ['p2cafe','p2f1','p2f2','p2f3','p2f4','p2f5','p2f6','p2btn','p3cafe','p3f1','p3f2','p3f3','p3f4','p3f5','p3f6','p3btn','faqTitle','faqQ1','faqA1','faqQ2','faqA2','faqQ3','faqA3','faqQ4','faqA4','faqQ5','faqA5','faqQ6','faqA6','ctaBtn'].forEach(id => {
+  ['planBadge','p2cafe','p2f1','p2f2','p2f3','p2f4','p2f5','p2f6','p2btn','p3cafe','p3f1','p3f2','p3f3','p3f4','p3f5','p3f6','p3btn','faqTitle','faqQ1','faqA1','faqQ2','faqA2','faqQ3','faqA3','faqQ4','faqA4','faqQ5','faqA5','faqQ6','faqA6','ctaBtn'].forEach(id => {
     const el = document.getElementById(id);
     if (el && t[id] !== undefined) el.textContent = t[id];
   });

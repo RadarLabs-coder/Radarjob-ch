@@ -3,7 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radarjob.ch</title>
+  <!-- SEO -->
+  <title>RadarJob.ch — Votre recherche d'emploi automatisée en Suisse</title>
+  <meta name="description" content="RadarJob scanne JobUp et Jobs.ch en continu et vous envoie par email uniquement les offres qui correspondent à votre profil, avec une lettre de motivation prête à envoyer." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0f0a" />
+  <link rel="canonical" href="https://radarjob.ch/" />
+
+  <!-- Favicon : radar vert (SVG inline, aucun fichier externe à héberger) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230a0f0a'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='9'%20fill='none'%20stroke='%2300ff66'%20stroke-width='2'/%3E%3Cpath%20d='M16%2016%20L16%207%20A9%209%200%200%201%2023%2012%20Z'%20fill='%2300ff66'%20opacity='0.4'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='3'%20fill='%2300ff66'/%3E%3C/svg%3E" />
+
+  <!-- Open Graph (aperçu de partage : WhatsApp, LinkedIn, Facebook…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RadarJob" />
+  <meta property="og:title" content="RadarJob.ch — Votre recherche d'emploi automatisée en Suisse" />
+  <meta property="og:description" content="Recevez par email uniquement les offres qui correspondent vraiment à votre profil, avec une lettre de motivation déjà prête." />
+  <meta property="og:url" content="https://radarjob.ch/" />
+  <meta property="og:locale" content="fr_CH" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="RadarJob.ch — Recherche d'emploi automatisée en Suisse" />
+  <meta name="twitter:description" content="Recevez par email uniquement les offres qui correspondent à votre profil, avec une lettre de motivation prête à envoyer." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GCM6QPCBG0"></script>
@@ -32,13 +54,13 @@
     /* Matrix canvas — visible, tête lumineuse, fade out vers le bas */
     #matrix-canvas {
       position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-      z-index: 0; opacity: 0.58; pointer-events: none;
+      z-index: 0; opacity: 0.65; pointer-events: none;
       mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
     }
 
     /* All content above canvas */
-    nav, .hero, .ticker-wrap, .section-wrap, .cta-section, footer { position: relative; z-index: 2; }
+    nav, .hero, .ticker-wrap, .section-wrap, .radar-cta, footer { position: relative; z-index: 2; }
 
     /* NAV */
     nav {
@@ -131,8 +153,8 @@
     h1 {
       font-family: 'Orbitron', monospace;
       font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700;
-      line-height: 1.35; letter-spacing: -0.01em; max-width: 620px;
-      color: #eaf2e6; min-height: 1.35em; margin: 0 auto;
+      line-height: 1.25; letter-spacing: -0.01em; max-width: 620px;
+      color: #eaf2e6; min-height: 1.25em; margin: 0 auto;
       animation: fadeUp 0.6s 0.1s ease both; opacity: 0; animation-fill-mode: forwards;
     }
     h1 em { font-style: normal; color: var(--accent); }
@@ -140,7 +162,7 @@
     @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     .hero-sub {
       font-size: 1.05rem; color: var(--text-body); max-width: 560px;
-      line-height: 1.85; margin-top: 1.75rem; font-weight: 400;
+      line-height: 1.7; margin-top: 1.75rem; font-weight: 400;
       animation: fadeUp 0.6s 0.2s ease both; opacity: 0; animation-fill-mode: forwards;
     }
     .hero-actions {
@@ -158,6 +180,15 @@
     .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,102,0.3); }
     .btn-ghost { color: var(--gray); font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; text-decoration: none; transition: color 0.15s; }
     .btn-ghost:hover { color: var(--accent); }
+    /* Ligne de réassurance sous le CTA (sans engagement, etc.) */
+    .hero-reassure {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px;
+      margin-top: 1.5rem; font-family: 'DM Mono', monospace; font-size: 12.5px;
+      color: var(--gray); letter-spacing: 0.01em;
+      animation: fadeUp 0.6s 0.35s ease both; opacity: 0; animation-fill-mode: forwards;
+    }
+    .hero-reassure span { display: inline-flex; align-items: center; gap: 7px; }
+    .hero-reassure span::before { content: '✓'; color: var(--accent); font-weight: 700; }
     .hero-stats {
       display: flex; gap: 4rem; margin-top: 4rem;
       padding-top: 2.5rem; border-top: 1px solid var(--border);
@@ -178,8 +209,8 @@
 
     /* SECTIONS */
     .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
-    .section-tag { font-family: 'DM Mono', monospace; font-size: 17px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.1rem; text-shadow: 0 0 12px rgba(0,255,102,0.4); }
-    .section-tag .tag-cursor { display: inline-block; width: 2px; height: 18px; background: var(--accent); margin-left: 6px; vertical-align: middle; box-shadow: 0 0 6px rgba(0,255,102,0.7); }
+    .section-tag { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.1rem; text-shadow: 0 0 12px rgba(0,255,102,0.4); }
+    .section-tag .tag-cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); margin-left: 6px; vertical-align: middle; box-shadow: 0 0 6px rgba(0,255,102,0.7); }
     .section-tag .tag-cursor.done { animation: tagBlink 1.1s step-end infinite; }
     @keyframes tagBlink { 0%,50%{opacity:1;} 50.01%,100%{opacity:0;} }
     @media (prefers-reduced-motion: reduce) { .section-tag .tag-cursor { display: none; } }
@@ -237,7 +268,7 @@
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 1.75rem; }
     .plan-features li { font-size: 14px; color: var(--text-body); display: flex; align-items: center; gap: 8px; }
     .plan-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
-    .plan-features li.no { color: #5a6a55; }
+    .plan-features li.no { color: #889583; }
     .plan-features li.no::before { content: '✕'; color: #c25555; }
     .plan-btn { display: block; text-align: center; padding: 13px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s, background 0.2s, color 0.2s, border-color 0.2s; }
     .plan-btn:hover { transform: translateY(-1px); }
@@ -248,19 +279,57 @@
     .plan-card.selected .plan-btn:hover { box-shadow: 0 4px 16px rgba(0,255,102,0.3); }
     .plan-card:not(.selected) .plan-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* CTA */
-    .cta-section { margin: 0 5% 5rem; background: radial-gradient(circle at 50% 120%, rgba(0,255,102,0.22), transparent 65%), #070b07; border: 1px solid rgba(0,255,102,0.35); border-radius: 24px; padding: 4rem 2rem; text-align: center; position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(0,255,102,0.1); }
-    .cta-rings { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); pointer-events: none; }
-    .cta-rings span { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50%; border: 1px solid rgba(0,255,102,0.18); }
-    .cta-rings span:nth-child(1) { width: 340px; height: 340px; bottom: -130px; border-color: rgba(0,255,102,0.22); }
-    .cta-rings span:nth-child(2) { width: 230px; height: 230px; bottom: -90px; border-color: rgba(0,255,102,0.32); }
-    .cta-rings span:nth-child(3) { width: 120px; height: 120px; bottom: -50px; border-color: rgba(0,255,102,0.42); }
-    .cta-content { position: relative; z-index: 1; }
-    .cta-section h2 { font-size: 31px; color: #eaf2e6; margin-bottom: 0.85rem; letter-spacing: -0.01em; }
-    .cta-section h2 .cta-accent { color: var(--accent); }
-    .cta-offer-big { font-size: 16px; font-weight: 700; color: #eaf2e6; margin-bottom: 0.3rem; }
-    .cta-offer-date { font-size: 13px; color: #9aa59a; margin-bottom: 2rem; }
-    .cta-offer-date .cta-date-accent { color: var(--accent); font-weight: 600; }
+    /* ═══ CTA FINAL — RADAR SCOPE PREMIUM ═══ */
+    .radar-cta { margin: 0 5% 5rem; border-radius: 26px; padding: 1px; overflow: hidden;
+      background: linear-gradient(180deg, rgba(0,255,102,0.6), rgba(0,255,102,0.05) 42%, rgba(0,255,102,0.02));
+      box-shadow: 0 34px 80px rgba(0,0,0,0.6), 0 0 70px rgba(0,255,102,0.1); }
+    .radar-stage { position: relative; border-radius: 25px; overflow: hidden; padding: 5rem 1.5rem 4rem; text-align: center;
+      background: radial-gradient(120% 85% at 50% -8%, rgba(0,255,102,0.12), transparent 55%), radial-gradient(110% 110% at 50% 120%, rgba(0,170,85,0.1), transparent 60%), #040704; }
+    .radar-stage::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(125% 95% at 50% 48%, transparent 52%, rgba(0,0,0,0.6)); }
+    .radar-grid { position: absolute; inset: 0; z-index: 0; opacity: .55;
+      background: repeating-linear-gradient(0deg, rgba(0,255,102,0.07) 0 1px, transparent 1px 38px), repeating-linear-gradient(90deg, rgba(0,255,102,0.07) 0 1px, transparent 1px 38px);
+      -webkit-mask-image: radial-gradient(circle at 50% 47%, black 22%, transparent 70%); mask-image: radial-gradient(circle at 50% 47%, black 22%, transparent 70%); }
+    .scope { position: absolute; left: 50%; top: 47%; transform: translate(-50%,-50%); width: 460px; max-width: 98%; z-index: 0; opacity: .6; pointer-events: none; }
+    .scope .sweep { transform-box: view-box; transform-origin: 230px 230px; animation: ctaSpin 7s linear infinite; }
+    @keyframes ctaSpin { to { transform: rotate(360deg); } }
+    .radar-rings { position: absolute; left: 50%; top: 47%; transform: translate(-50%,-50%); z-index: 0; pointer-events: none; }
+    .radar-rings span { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); border: 1px solid rgba(0,255,102,0.45); border-radius: 50%; animation: ctaPing 3.4s ease-out infinite; }
+    .radar-rings span:nth-child(2) { animation-delay: 1.13s; }
+    .radar-rings span:nth-child(3) { animation-delay: 2.26s; }
+    @keyframes ctaPing { 0% { width: 50px; height: 50px; opacity: .9; } 100% { width: 540px; height: 540px; opacity: 0; } }
+    .blip { position: absolute; z-index: 1; width: 7px; height: 7px; border-radius: 50%; background: #d8ffe6; box-shadow: 0 0 12px var(--accent), 0 0 5px #fff; opacity: 0; animation: ctaBlip 5s ease-in-out infinite; }
+    .blip.b2 { animation-delay: 1.7s; } .blip.b3 { animation-delay: 3.1s; } .blip.b4 { animation-delay: 4.2s; }
+    @keyframes ctaBlip { 0% { opacity: 0; transform: scale(.3); } 6% { opacity: 1; transform: scale(1); } 16% { opacity: .85; } 34% { opacity: 0; } 100% { opacity: 0; } }
+    .hud-tx { position: absolute; z-index: 3; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .16em; color: rgba(120,200,150,.6); text-transform: uppercase; }
+    .hud-tx.tl { top: 20px; left: 22px; } .hud-tx.tr { top: 20px; right: 22px; }
+    .hud-tx.bl { bottom: 20px; left: 22px; } .hud-tx.br { bottom: 20px; right: 22px; }
+    .hud-tx .live { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); margin-right: 7px; vertical-align: middle; animation: ctaLive 1.4s infinite; }
+    @keyframes ctaLive { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+    .hud-corners { position: absolute; inset: 14px; pointer-events: none; z-index: 3; border-radius: 6px;
+      background:
+        linear-gradient(var(--accent),var(--accent)) 0 0/20px 2px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 0 0/2px 20px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 100% 0/20px 2px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 100% 0/2px 20px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 0 100%/20px 2px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 0 100%/2px 20px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 100% 100%/20px 2px no-repeat,
+        linear-gradient(var(--accent),var(--accent)) 100% 100%/2px 20px no-repeat;
+      filter: drop-shadow(0 0 4px rgba(0,255,102,.8)); opacity: .7; }
+    .radar-inner { position: relative; z-index: 2; }
+    .radar-h { font-family: 'Orbitron', monospace; font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 700; line-height: 1.28; color: var(--white); text-shadow: 0 2px 30px rgba(0,0,0,.6); margin-bottom: 0; }
+    .radar-h .lock { color: var(--accent); position: relative; text-shadow: 0 0 24px rgba(0,255,102,.8); padding: 0 16px; margin: 0 2px; white-space: nowrap; }
+    .radar-h .lock::before, .radar-h .lock::after { content: ''; position: absolute; top: -5px; bottom: -5px; width: 10px; border: 2px solid var(--accent); box-shadow: 0 0 8px rgba(0,255,102,.6); animation: ctaLock 2.4s ease-in-out infinite; }
+    .radar-h .lock::before { left: -3px; border-right: none; }
+    .radar-h .lock::after { right: -3px; border-left: none; }
+    @keyframes ctaLock { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+    .radar-offer { margin: 1.25rem 0 1.75rem; }
+    .radar-offer .ro-big { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; color: var(--accent); }
+    .radar-offer .ro-date { font-size: 12.5px; color: var(--gray); margin-top: 5px; letter-spacing: .04em; }
+    .cta-date-accent { color: var(--accent); font-weight: 600; }
+    .radar-reassure { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin-top: 1.5rem; font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--gray); }
+    .radar-reassure span { display: inline-flex; align-items: center; gap: 6px; }
+    .radar-reassure span::before { content: '✓'; color: var(--accent); }
     .btn-dark { background: var(--accent); color: #003314; border: none; padding: 17px 44px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s, box-shadow 0.2s; box-shadow: 0 6px 30px rgba(0,255,102,0.4); }
     .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(0,255,102,0.55); }
 
@@ -270,10 +339,66 @@
 
     @media (max-width: 900px) {
       .steps-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
-      .cta-section { margin: 0 5% 3rem; padding: 3rem 1.5rem; }
+      .radar-cta { margin: 0 5% 3rem; }
+      .radar-stage { padding: 3rem 1.5rem; }
       /* Sur mobile, la pente diagonale de la FAQ disparaît : toutes les cartes pleine largeur */
       .faq-item:nth-child(1), .faq-item:nth-child(2), .faq-item:nth-child(3),
       .faq-item:nth-child(4), .faq-item:nth-child(5), .faq-item:nth-child(6) { width: 100%; }
+    }
+
+    /* TABLETTE — les 6 fonctionnalités restent sur 2 colonnes (moins de scroll) */
+    @media (min-width: 601px) and (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ═══════════════════════════════════════════
+       MOBILE ≤600px — rythme resserré, hiérarchie nette
+       (la majorité du trafic vient du téléphone)
+       ═══════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      /* Nav un peu plus compacte */
+      nav { padding: 0.9rem 5%; }
+      .nav-cta { padding: 8px 16px; font-size: 13px; }
+
+      /* Héros : on enlève la hauteur forcée (évite les trous avec la barre
+         d'URL mobile) et on aère sans excès */
+      .hero { min-height: auto; padding: 2.5rem 6% 3rem; }
+      .robot-wrap svg { width: 112px; height: auto; }
+      .robot-wrap { margin-bottom: 1.5rem; }
+      .hero-sub { font-size: 1rem; line-height: 1.7; margin-top: 1.25rem; }
+      .hero-actions { margin-top: 2rem; gap: 12px; }
+      .btn-main { padding: 14px 30px; }
+
+      /* Stats : espacement maîtrisé, plus de gap géant qui casse le rythme */
+      .hero-stats { gap: 1.5rem 2.25rem; margin-top: 2.5rem; padding-top: 1.75rem; }
+      .stat-num { font-size: 1.5rem; }
+
+      /* Sections : padding vertical divisé ~par 2 pour un défilement plus dense */
+      .section-wrap { padding: 3.5rem 6%; }
+      .section-tag { font-size: 13px; margin-bottom: 0.85rem; }
+      h2 { margin-bottom: 1.75rem; }
+
+      /* Étapes : numéro et marges adaptés au petit écran */
+      .step-card { padding: 20px 18px; }
+      .step-inner { gap: 16px; }
+      .step-num { font-size: 38px; min-width: 50px; }
+      .step-body { padding-left: 16px; }
+
+      /* Cartes : padding réduit */
+      .feat-card, .plan-card { padding: 1.5rem; }
+
+      /* FAQ : questions un peu plus compactes */
+      .faq-q { padding: 20px 18px; font-size: 14.5px; }
+      .faq-a-inner { padding: 0 18px 20px; }
+
+      /* CTA final : padding adapté (le titre suit déjà via clamp) */
+      .radar-stage { padding: 3.25rem 1.1rem 2.75rem; }
+      .hud-tx { font-size: 9px; letter-spacing: .1em; }
+      .hud-tx.tl, .hud-tx.tr { top: 14px; }
+      .hud-tx.bl, .hud-tx.br { bottom: 14px; }
+
+      /* Footer empilé et lisible plutôt que tassé sur une ligne */
+      footer { flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 2rem 6%; }
     }
 
     /* ═══════════════════════════════════════════
@@ -437,6 +562,50 @@
     .dc { position: relative; }
     .dc.scr { color: transparent; }
     .dc.scr::after { content: attr(data-g); position: absolute; left: 0; color: var(--accent); pointer-events: none; }
+
+    /* ═══════════════════════════════════════════
+       ACCESSIBILITÉ — focus clavier visible + resets boutons
+       ═══════════════════════════════════════════ */
+    /* Anneau de focus vert, visible UNIQUEMENT au clavier (pas au clic souris) */
+    a:focus-visible, button:focus-visible,
+    .faq-q:focus-visible, .lang-option:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    /* La FAQ et le sélecteur de langue deviennent de vrais <button> :
+       on neutralise les styles natifs pour garder l'apparence d'origine */
+    .faq-q {
+      width: 100%; background: none; border: none;
+      font-family: 'Plus Jakarta Sans', sans-serif; text-align: left;
+    }
+    .lang-option {
+      background: none; border: none; width: 100%; font-family: inherit;
+    }
+
+    /* ═══════════════════════════════════════════
+       MOUVEMENT RÉDUIT — respect de prefers-reduced-motion
+       (vertiges / troubles vestibulaires)
+       ═══════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      /* Animations décoratives en boucle : robot, radar, halo, ticker, etc. */
+      .robot-wrap, .robot-wrap::after,
+      .antenna-dot, .radar-sweep, .radar-blip, .radar-blip2,
+      .radar-ring, .dot, .ticker, .plan-card.selected,
+      .btn-main::after, .nav-cta::after, .btn-dark::after,
+      .feat-card::after, .step-card::after, .plan-card::after,
+      .scope .sweep, .radar-rings span, .blip, .hud-tx .live,
+      .radar-h .lock::before, .radar-h .lock::after {
+        animation: none !important;
+      }
+      /* Effets d'ENTRÉE du héros : on affiche le contenu directement
+         (sinon il resterait invisible, car opacity:0 au départ) */
+      .hero-tag-wrap, h1, .hero-sub, .hero-actions, .hero-reassure, .hero-stats {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
 </style>
 </head>
 <body>
@@ -447,16 +616,16 @@
   <div class="logo">Radar<span>Job</span>.ch</div>
   <div class="nav-right">
     <div class="lang-selector" id="langSelector">
-      <button class="lang-btn" onclick="toggleLang()">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-haspopup="true" aria-expanded="false" aria-label="Choisir la langue">
         <span id="currentFlag" style="font-size:22px;">🇫🇷</span>
-        <span style="font-size:11px; color: var(--gray);">▾</span>
+        <span style="font-size:11px; color: var(--gray);" aria-hidden="true">▾</span>
       </button>
-      <div class="lang-dropdown">
-        <div class="lang-option active" onclick="setLang('fr')">🇫🇷</div>
-        <div class="lang-option" onclick="setLang('de')">🇩🇪</div>
-        <div class="lang-option" onclick="setLang('it')">🇮🇹</div>
-        <div class="lang-option" onclick="setLang('en')">🇬🇧</div>
-        <div class="lang-option" onclick="setLang('pt')">🇵🇹</div>
+      <div class="lang-dropdown" role="menu" aria-label="Langues">
+        <button type="button" class="lang-option active" role="menuitem" data-lang="fr" onclick="setLang('fr')" aria-label="Français">🇫🇷</button>
+        <button type="button" class="lang-option" role="menuitem" data-lang="de" onclick="setLang('de')" aria-label="Deutsch">🇩🇪</button>
+        <button type="button" class="lang-option" role="menuitem" data-lang="it" onclick="setLang('it')" aria-label="Italiano">🇮🇹</button>
+        <button type="button" class="lang-option" role="menuitem" data-lang="en" onclick="setLang('en')" aria-label="English">🇬🇧</button>
+        <button type="button" class="lang-option" role="menuitem" data-lang="pt" onclick="setLang('pt')" aria-label="Português">🇵🇹</button>
       </div>
     </div>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="nav-cta" id="navCta">Activer RadarJob</a>
@@ -498,6 +667,11 @@
   <div class="hero-actions">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-main" id="heroCta">Activer RadarJob</a>
     <a href="#comment" class="btn-ghost" id="heroScroll">Comment ça marche</a>
+  </div>
+  <div class="hero-reassure" id="heroReassure">
+    <span id="heroR1">Sans engagement</span>
+    <span id="heroR2">Activation en 2 minutes</span>
+    <span id="heroR3">Annulation à tout moment</span>
   </div>
   <div class="hero-stats">
     <div class="stat-item"><div class="stat-num">22<span>+</span></div><div class="stat-label" id="stat1">offres scannées / heure</div></div>
@@ -585,39 +759,68 @@
   <h2 class="reveal" id="faqTitle">Questions fréquentes.</h2>
   <div class="faq-list">
     <div class="faq-item reveal d1">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ1">C'est vraiment gratuit ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ1">C'est vraiment gratuit ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA1">Oui, vos 2 premiers mois sont offerts pendant notre lancement, sans engagement. Vous découvrez le service, vous recevez de vraies offres, et vous décidez ensuite si vous souhaitez continuer. Vous pouvez annuler à tout moment.</div></div>
     </div>
     <div class="faq-item reveal d2">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ2">Sur quels sites le robot cherche-t-il ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ2">Sur quels sites le robot cherche-t-il ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA2">Le robot analyse en continu JobUp et Jobs.ch, les deux plus grandes plateformes d'emploi de Suisse. Il couvre ainsi la grande majorité des offres publiées dans le pays.</div></div>
     </div>
     <div class="faq-item reveal d3">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ3">Comment je reçois les offres ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ3">Comment je reçois les offres ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA3">Directement par email. Chaque alerte contient l'offre, un score de correspondance et une lettre de motivation déjà prête. Vous n'avez plus qu'à postuler.</div></div>
     </div>
     <div class="faq-item reveal d4">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ4">La lettre de motivation est-elle vraiment personnalisée ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ4">La lettre de motivation est-elle vraiment personnalisée ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA4">Oui. Pour chaque offre pertinente, l'IA rédige une lettre adaptée au poste et à votre profil. Vous la recevez en PDF, prête à envoyer, et vous pouvez bien sûr la modifier si vous le souhaitez.</div></div>
     </div>
     <div class="faq-item reveal d5">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ5">Mes données sont-elles protégées ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ5">Mes données sont-elles protégées ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA5">Votre profil reste strictement confidentiel. Vos informations ne sont jamais partagées ni revendues à des tiers. Elles servent uniquement à vous trouver les meilleures offres.</div></div>
     </div>
     <div class="faq-item reveal d6">
-      <div class="faq-q" onclick="toggleFaq(this)"><span id="faqQ6">Comment annuler ?</span><span class="faq-icon"></span></div>
+      <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span id="faqQ6">Comment annuler ?</span><span class="faq-icon" aria-hidden="true"></span></button>
       <div class="faq-a"><div class="faq-a-inner" id="faqA6">À tout moment, en un seul message. Aucun engagement, aucune justification à fournir. Vous gardez le contrôle total sur votre abonnement.</div></div>
     </div>
   </div>
 </div>
 
-<div class="cta-section">
-  <div class="cta-rings"><span></span><span></span><span></span></div>
-  <div class="cta-content">
-    <h2 id="ctaTitle">Chercher un travail ?<br><span class="cta-accent">RadarJob s'en occupe.</span></h2>
-    <div class="cta-offer-big" id="ctaOffer">Profitez de 2 mois offerts</div>
-    <div class="cta-offer-date" id="ctaDesc">offre valable jusqu'au <span class="cta-date-accent" id="ctaDate">4 juillet 2026</span></div>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark" id="ctaBtn">Activer RadarJob</a>
+<div class="radar-cta">
+  <div class="hud-corners"></div>
+  <div class="radar-stage">
+    <div class="radar-grid"></div>
+    <svg class="scope" viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="230" cy="230" r="220" stroke="#00ff66" stroke-opacity=".22" stroke-width="7" stroke-dasharray="2 17"/>
+      <circle cx="230" cy="230" r="200" stroke="#00ff66" stroke-opacity=".16"/>
+      <circle cx="230" cy="230" r="150" stroke="#00ff66" stroke-opacity=".14"/>
+      <circle cx="230" cy="230" r="95" stroke="#00ff66" stroke-opacity=".14"/>
+      <circle cx="230" cy="230" r="45" stroke="#00ff66" stroke-opacity=".2"/>
+      <line x1="230" y1="22" x2="230" y2="438" stroke="#00ff66" stroke-opacity=".1"/>
+      <line x1="22" y1="230" x2="438" y2="230" stroke="#00ff66" stroke-opacity=".1"/>
+      <g class="sweep">
+        <path d="M230 230 L230 25 A205 205 0 0 1 322 56 Z" fill="#00ff66" fill-opacity=".10"/>
+        <line x1="230" y1="230" x2="230" y2="25" stroke="#00ff66" stroke-opacity=".55" stroke-width="2"/>
+      </g>
+      <circle cx="230" cy="230" r="3.5" fill="#00ff66"/>
+    </svg>
+    <div class="radar-rings"><span></span><span></span><span></span></div>
+    <span class="blip" style="left:64%;top:33%" aria-hidden="true"></span>
+    <span class="blip b2" style="left:37%;top:57%" aria-hidden="true"></span>
+    <span class="blip b3" style="left:58%;top:63%" aria-hidden="true"></span>
+    <span class="blip b4" style="left:43%;top:32%" aria-hidden="true"></span>
+    <div class="hud-tx tl" aria-hidden="true"><span class="live"></span>radar // scan actif</div>
+    <div class="hud-tx tr" aria-hidden="true">47.37°N · 8.54°E</div>
+    <div class="hud-tx bl" aria-hidden="true">jobup + jobs.ch</div>
+    <div class="hud-tx br" aria-hidden="true">v2.4 · live</div>
+    <div class="radar-inner">
+      <h2 class="radar-h" id="ctaTitle">Chercher un travail ?<br><span class="lock">RadarJob</span> s'en occupe.</h2>
+      <div class="radar-offer">
+        <div class="ro-big" id="ctaOffer">Profitez de 2 mois offerts</div>
+        <div class="ro-date" id="ctaDesc">offre valable jusqu'au <span class="cta-date-accent" id="ctaDate">4 juillet 2026</span></div>
+      </div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1zm0QDr7L-Rwu0ZDvFu_cdmjtkX8kWxt-2ASdnhfU0IX3jA/viewform?usp=header" target="_blank" class="btn-dark" id="ctaBtn">Activer RadarJob</a>
+      <div class="radar-reassure"><span id="ctaR1">Sans engagement</span><span id="ctaR2">Activation en 2 minutes</span><span id="ctaR3">Annulation à tout moment</span></div>
+    </div>
   </div>
 </div>
 
@@ -628,52 +831,100 @@
 </footer>
 
 <script>
+// ═══════════════════════════════════════════
+//  PLUIE MATRIX — moteur optimisé
+//  • requestAnimationFrame cadencé (au lieu de setInterval)
+//  • pause automatique quand l'onglet est caché (batterie)
+//  • plus de shadowBlur par caractère (c'était le gros coût CPU/GPU) :
+//    la tête lumineuse est simulée par une couleur claire
+//  • allégé sur petit écran + resize debouncé (anti-flicker mobile)
+//  • respecte prefers-reduced-motion (image statique, pas de boucle)
+// ═══════════════════════════════════════════
 const canvas = document.getElementById('matrix-canvas');
 const ctx = canvas.getContext('2d');
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resize();
-window.addEventListener('resize', resize);
 const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF';
-const fs = 15; let drops;
+const fs = 15;
+let drops, mCols, mRows, lastW = 0;
+const mReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Sur téléphone on redessine beaucoup moins de caractères scintillants
+const scintFactor = window.innerWidth < 600 ? 0.3 : 0.6;
+
+function mResize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  mCols = Math.floor(canvas.width / fs);
+  mRows = Math.floor(canvas.height / fs);
+}
 function init() {
+  mResize();
   // Démarrage instantané : colonnes à hauteurs aléatoires (écran rempli dès le départ)
-  const cols = Math.floor(canvas.width / fs);
   drops = [];
-  for (let i = 0; i < cols; i++) drops[i] = Math.floor(Math.random() * (canvas.height / fs));
+  for (let i = 0; i < mCols; i++) drops[i] = Math.floor(Math.random() * mRows);
+  lastW = window.innerWidth;
 }
 init();
-window.addEventListener('resize', init);
-function draw() {
-  // Voile semi-transparent (crée la traînée derrière les têtes)
-  ctx.fillStyle = 'rgba(10,15,10,0.06)';
+
+// Resize debouncé. On ignore les variations de SEULE hauteur (barre d'URL
+// mobile qui apparaît/disparaît) → évite le flicker et les réinitialisations.
+let mResizeTimer = null;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === lastW) { mResize(); return; }
+  clearTimeout(mResizeTimer);
+  mResizeTimer = setTimeout(init, 200);
+});
+
+function drawFrame() {
+  // Voile semi-transparent (crée la traînée derrière les têtes).
+  // Plus l'alpha est faible, plus la traînée reste longtemps visible (longue).
+  ctx.fillStyle = 'rgba(10,15,10,0.045)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.font = fs + 'px monospace';
 
-  // SCINTILLEMENT : des caractères apparaissent/changent aléatoirement un peu partout
-  // (effet "données qui grouillent") — vert vif comme le robot
-  const cols = drops.length;
-  const scintCount = Math.floor(cols * 0.6);
+  // SCINTILLEMENT : caractères qui grouillent un peu partout (vert vif)
+  ctx.fillStyle = 'rgba(0,255,102,0.85)';
+  const scintCount = Math.floor(mCols * scintFactor);
   for (let k = 0; k < scintCount; k++) {
-    ctx.fillStyle = 'rgba(0,255,102,0.85)';
-    const sx = Math.floor(Math.random() * cols) * fs;
-    const sy = Math.floor(Math.random() * (canvas.height / fs)) * fs;
-    ctx.fillText(chars[Math.floor(Math.random() * chars.length)], sx, sy);
+    const sx = ((Math.random() * mCols) | 0) * fs;
+    const sy = ((Math.random() * mRows) | 0) * fs;
+    ctx.fillText(chars[(Math.random() * chars.length) | 0], sx, sy);
   }
 
-  // Les colonnes qui tombent avec tête lumineuse (vert vif comme le robot)
-  for (let i = 0; i < cols; i++) {
+  // Colonnes qui tombent — effet de profondeur « Matrix » à deux tons :
+  //   • corps de traînée en vert sombre (#0a8a3a) juste au-dessus de la tête
+  //   • tête en vert vif (#00ff66) → contraste lumineux sans coût de flou
+  // La traînée plus ancienne s'efface ensuite via le voile semi-transparent.
+  for (let i = 0; i < mCols; i++) {
     const x = i * fs;
     const y = drops[i] * fs;
+    ctx.fillStyle = '#13a345';
+    ctx.fillText(chars[(Math.random() * chars.length) | 0], x, y - fs);
     ctx.fillStyle = '#00ff66';
-    ctx.shadowColor = '#00ff66';
-    ctx.shadowBlur = 10;
-    ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, y);
-    ctx.shadowBlur = 0;
+    ctx.fillText(chars[(Math.random() * chars.length) | 0], x, y);
     if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
     drops[i]++;
   }
 }
-setInterval(draw, 55);
+
+if (mReduce) {
+  // Mouvement réduit : une seule image statique, aucune boucle.
+  drawFrame();
+} else {
+  // Boucle rAF cadencée (~50 ms) qui se met en pause quand l'onglet est caché.
+  let rafId = null, last = 0;
+  const STEP = 50;
+  function loop(now) {
+    rafId = requestAnimationFrame(loop);
+    if (now - last < STEP) return;
+    last = now;
+    drawFrame();
+  }
+  function startMatrix() { if (rafId === null) { last = 0; rafId = requestAnimationFrame(loop); } }
+  function stopMatrix() { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopMatrix(); else startMatrix();
+  });
+  startMatrix();
+}
 
 // ═══════════════════════════════════════════
 //  DÉCOMPTE OFFRE DE LANCEMENT (2 mois offerts jusqu'au 4 juillet 2026)
@@ -733,6 +984,7 @@ const translations = {
     heroTitle: "Vos recherches d'emploi <em>pendant</em> que vous dormez.",
     heroSub: "RadarJob scanne JobUp et Jobs.ch en continu, analyse chaque offre et vous envoie directement dans votre boîte mail uniquement les postes qui correspondent vraiment à votre profil.",
     heroCta: "Activer RadarJob", heroScroll: "Comment ça marche",
+    reassure1: "Sans engagement", reassure2: "Activation en 2 minutes", reassure3: "Annulation à tout moment",
     stat1: "offres scannées / heure", stat2: "sites couverts", stat3: "Suisse romande",
     howTag: "// Comment ça marche", howTitle: "Simple comme envoyer un SMS.",
     step1Title: "Vous décrivez votre recherche", step1Desc: "Métier, régions, langues, disponibilité. Deux minutes suffisent pour démarrer.",
@@ -757,7 +1009,7 @@ const translations = {
     faqQ4: "La lettre de motivation est-elle vraiment personnalisée ?", faqA4: "Oui. Pour chaque offre pertinente, l'IA rédige une lettre adaptée au poste et à votre profil. Vous la recevez en PDF, prête à envoyer, et vous pouvez bien sûr la modifier si vous le souhaitez.",
     faqQ5: "Mes données sont-elles protégées ?", faqA5: "Votre profil reste strictement confidentiel. Vos informations ne sont jamais partagées ni revendues à des tiers. Elles servent uniquement à vous trouver les meilleures offres.",
     faqQ6: "Comment annuler ?", faqA6: "À tout moment, en un seul message. Aucun engagement, aucune justification à fournir. Vous gardez le contrôle total sur votre abonnement.",
-    ctaTitle: "Chercher un travail ?<br><span class=\"cta-accent\">RadarJob s'en occupe.</span>",
+    ctaTitle: "Chercher un travail ?<br><span class=\"lock\">RadarJob</span> s'en occupe.",
     ctaOffer: "Profitez de 2 mois offerts", ctaValid: "offre valable jusqu'au", ctaOfferEnded: "1 mois offert", ctaNoCommit: "sans engagement",
     ctaBtn: "Activer RadarJob"
   },
@@ -768,6 +1020,7 @@ const translations = {
     heroTitle: "Ihre Jobsuche <em>während</em> Sie schlafen.",
     heroSub: "RadarJob durchsucht JobUp und Jobs.ch kontinuierlich, analysiert jedes Angebot und sendet nur passende Stellen direkt in Ihr Postfach.",
     heroCta: "RadarJob aktivieren", heroScroll: "Wie funktioniert es",
+    reassure1: "Ohne Verpflichtung", reassure2: "In 2 Minuten aktiviert", reassure3: "Jederzeit kündbar",
     stat1: "Angebote / Stunde", stat2: "abgedeckte Seiten", stat3: "Schweiz",
     howTag: "// Wie es funktioniert", howTitle: "So einfach wie eine SMS.",
     step1Title: "Sie beschreiben Ihre Suche", step1Desc: "Beruf, Regionen, Sprachen, Verfügbarkeit. Zwei Minuten genügen.",
@@ -792,7 +1045,7 @@ const translations = {
     faqQ4: "Ist das Motivationsschreiben wirklich personalisiert?", faqA4: "Ja. Für jedes passende Angebot verfasst die KI ein auf die Stelle und Ihr Profil zugeschnittenes Schreiben. Sie erhalten es als PDF, versandfertig, und können es natürlich anpassen.",
     faqQ5: "Sind meine Daten geschützt?", faqA5: "Ihr Profil bleibt streng vertraulich. Ihre Daten werden niemals an Dritte weitergegeben oder verkauft. Sie dienen ausschliesslich dazu, Ihnen die besten Angebote zu finden.",
     faqQ6: "Wie kündige ich?", faqA6: "Jederzeit, mit einer einzigen Nachricht. Keine Verpflichtung, keine Begründung nötig. Sie behalten die volle Kontrolle über Ihr Abonnement.",
-    ctaTitle: "Einen Job suchen?<br><span class=\"cta-accent\">RadarJob übernimmt das.</span>",
+    ctaTitle: "Einen Job suchen?<br><span class=\"lock\">RadarJob</span> übernimmt das.",
     ctaOffer: "2 Monate gratis", ctaValid: "Angebot gültig bis", ctaOfferEnded: "1 Monat gratis", ctaNoCommit: "ohne Verpflichtung",
     ctaBtn: "RadarJob aktivieren"
   },
@@ -803,6 +1056,7 @@ const translations = {
     heroTitle: "La tua ricerca di lavoro <em>mentre</em> dormi.",
     heroSub: "RadarJob analizza JobUp e Jobs.ch in continuo e ti invia solo i posti che corrispondono al tuo profilo, con una lettera di motivazione pronta.",
     heroCta: "Attiva RadarJob", heroScroll: "Come funziona",
+    reassure1: "Senza impegno", reassure2: "Attivazione in 2 minuti", reassure3: "Disdici quando vuoi",
     stat1: "offerte / ora", stat2: "siti coperti", stat3: "Svizzera",
     howTag: "// Come funziona", howTitle: "Semplice come un SMS.",
     step1Title: "Descrivi la tua ricerca", step1Desc: "Professione, regioni, lingue, disponibilità. Bastano due minuti.",
@@ -827,7 +1081,7 @@ const translations = {
     faqQ4: "La lettera di motivazione è davvero personalizzata?", faqA4: "Sì. Per ogni offerta pertinente, l'IA redige una lettera adatta al posto e al tuo profilo. La ricevi in PDF, pronta da inviare, e puoi modificarla se lo desideri.",
     faqQ5: "I miei dati sono protetti?", faqA5: "Il tuo profilo resta strettamente confidenziale. Le tue informazioni non vengono mai condivise né rivendute a terzi. Servono unicamente a trovarti le migliori offerte.",
     faqQ6: "Come annullo?", faqA6: "In qualsiasi momento, con un solo messaggio. Nessun impegno, nessuna giustificazione richiesta. Mantieni il pieno controllo del tuo abbonamento.",
-    ctaTitle: "Cerchi lavoro?<br><span class=\"cta-accent\">Ci pensa RadarJob.</span>",
+    ctaTitle: "Cerchi lavoro?<br>Ci pensa <span class=\"lock\">RadarJob</span>.",
     ctaOffer: "2 mesi offerti", ctaValid: "offerta valida fino al", ctaOfferEnded: "1 mese offerto", ctaNoCommit: "senza impegno",
     ctaBtn: "Attiva RadarJob"
   },
@@ -838,6 +1092,7 @@ const translations = {
     heroTitle: "Your job search <em>while</em> you sleep.",
     heroSub: "Radarjob continuously scans JobUp and Jobs.ch and sends only matching positions directly to your inbox with a ready-to-send cover letter.",
     heroCta: "Activate RadarJob", heroScroll: "How it works",
+    reassure1: "No commitment", reassure2: "Set up in 2 minutes", reassure3: "Cancel anytime",
     stat1: "offers scanned / hour", stat2: "sites covered", stat3: "Switzerland",
     howTag: "// How it works", howTitle: "As simple as sending a text.",
     step1Title: "You describe your search", step1Desc: "Job title, regions, languages, availability. Two minutes is all it takes.",
@@ -862,7 +1117,7 @@ const translations = {
     faqQ4: "Is the cover letter really personalised?", faqA4: "Yes. For each relevant offer, the AI writes a letter tailored to the role and your profile. You receive it as a PDF, ready to send, and you can edit it if you wish.",
     faqQ5: "Is my data protected?", faqA5: "Your profile stays strictly confidential. Your information is never shared or sold to third parties. It is used solely to find you the best offers.",
     faqQ6: "How do I cancel?", faqA6: "At any time, in a single message. No commitment, no justification required. You keep full control over your subscription.",
-    ctaTitle: "Looking for a job?<br><span class=\"cta-accent\">RadarJob handles it.</span>",
+    ctaTitle: "Looking for a job?<br><span class=\"lock\">RadarJob</span> handles it.",
     ctaOffer: "Get 2 months free", ctaValid: "offer valid until", ctaOfferEnded: "1 month free", ctaNoCommit: "no commitment",
     ctaBtn: "Activate RadarJob"
   },
@@ -873,6 +1128,7 @@ const translations = {
     heroTitle: "A sua busca de emprego <em>enquanto</em> dorme.",
     heroSub: "RadarJob analisa JobUp e Jobs.ch continuamente e envia apenas os postos correspondentes ao seu perfil, com carta de motivação pronta.",
     heroCta: "Ativar RadarJob", heroScroll: "Como funciona",
+    reassure1: "Sem compromisso", reassure2: "Ativação em 2 minutos", reassure3: "Cancele quando quiser",
     stat1: "ofertas / hora", stat2: "sites cobertos", stat3: "Suíça",
     howTag: "// Como funciona", howTitle: "Simples como uma mensagem.",
     step1Title: "Descreve a sua procura", step1Desc: "Profissão, regiões, idiomas, disponibilidade. Dois minutos chegam.",
@@ -897,19 +1153,22 @@ const translations = {
     faqQ4: "A carta de motivação é mesmo personalizada?", faqA4: "Sim. Para cada oferta relevante, a IA redige uma carta adaptada ao posto e ao seu perfil. Recebe-a em PDF, pronta a enviar, e pode modificá-la se quiser.",
     faqQ5: "Os meus dados estão protegidos?", faqA5: "O seu perfil permanece estritamente confidencial. As suas informações nunca são partilhadas nem revendidas a terceiros. Servem unicamente para lhe encontrar as melhores ofertas.",
     faqQ6: "Como cancelo?", faqA6: "A qualquer momento, com uma única mensagem. Sem compromisso, sem justificação necessária. Mantém o controlo total da sua subscrição.",
-    ctaTitle: "Procura trabalho?<br><span class=\"cta-accent\">RadarJob trata disso.</span>",
+    ctaTitle: "Procura trabalho?<br><span class=\"lock\">RadarJob</span> trata disso.",
     ctaOffer: "2 meses grátis", ctaValid: "oferta válida até", ctaOfferEnded: "1 mês grátis", ctaNoCommit: "sem compromisso",
     ctaBtn: "Ativar RadarJob"
   }
 };
 
 function toggleLang() {
-  document.getElementById('langSelector').classList.toggle('open');
+  const sel = document.getElementById('langSelector');
+  const open = sel.classList.toggle('open');
+  document.getElementById('langBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
 }
 
 document.addEventListener('click', function(e) {
   if (!document.getElementById('langSelector').contains(e.target)) {
     document.getElementById('langSelector').classList.remove('open');
+    document.getElementById('langBtn').setAttribute('aria-expanded', 'false');
   }
 });
 
@@ -938,6 +1197,7 @@ function setTag(id, text) {
 let currentLang = 'fr';
 function setLang(lang) {
   currentLang = lang;
+  document.documentElement.lang = lang;
   const t = translations[lang];
   document.getElementById('currentFlag').textContent = t.flag;
   document.getElementById('navCta').textContent = t.navCta;
@@ -947,6 +1207,9 @@ function setLang(lang) {
   document.getElementById('heroSub').textContent = t.heroSub;
   document.getElementById('heroCta').textContent = t.heroCta;
   document.getElementById('heroScroll').textContent = t.heroScroll;
+  ['heroR1','ctaR1'].forEach(id => { const el = document.getElementById(id); if (el && t.reassure1) el.textContent = t.reassure1; });
+  ['heroR2','ctaR2'].forEach(id => { const el = document.getElementById(id); if (el && t.reassure2) el.textContent = t.reassure2; });
+  ['heroR3','ctaR3'].forEach(id => { const el = document.getElementById(id); if (el && t.reassure3) el.textContent = t.reassure3; });
   document.getElementById('stat1').textContent = t.stat1;
   document.getElementById('stat2').textContent = t.stat2;
   document.getElementById('stat3').textContent = t.stat3;
@@ -975,8 +1238,9 @@ function setLang(lang) {
   if (ctaTitleEl && t.ctaTitle) ctaTitleEl.innerHTML = t.ctaTitle;
   // Le sous-titre (offre + date) est géré par updateCountdown
   if (typeof updateCountdown === 'function') updateCountdown();
-  document.querySelectorAll('.lang-option').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lang-option').forEach(el => el.classList.toggle('active', el.getAttribute('data-lang') === lang));
   document.getElementById('langSelector').classList.remove('open');
+  document.getElementById('langBtn').setAttribute('aria-expanded', 'false');
   // Recalculer la hauteur des FAQ ouvertes (le texte traduit peut changer de longueur)
   document.querySelectorAll('.faq-item.open .faq-a').forEach(a => {
     a.style.maxHeight = a.scrollHeight + 'px';
@@ -1159,6 +1423,7 @@ function toggleFaq(el) {
     if (other !== item) {
       other.classList.remove('open');
       other.querySelector('.faq-a').style.maxHeight = null;
+      other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
     }
   });
   // Basculer celui cliqué
@@ -1169,7 +1434,21 @@ function toggleFaq(el) {
     item.classList.add('open');
     answer.style.maxHeight = answer.scrollHeight + 'px';
   }
+  el.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
 }
+
+// Accessibilité FAQ : relier chaque bouton-question à son panneau de réponse
+// (aria-controls + role=region) pour les lecteurs d'écran.
+document.querySelectorAll('.faq-item').forEach((item, i) => {
+  const btn = item.querySelector('.faq-q');
+  const panel = item.querySelector('.faq-a');
+  if (btn && panel) {
+    const pid = 'faqPanel' + (i + 1);
+    panel.id = pid;
+    panel.setAttribute('role', 'region');
+    btn.setAttribute('aria-controls', pid);
+  }
+});
 
 // Démarrage du décompte — placé ici pour s'exécuter APRÈS la définition de translations
 updateCountdown();

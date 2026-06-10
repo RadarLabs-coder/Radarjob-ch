@@ -180,6 +180,15 @@
   .fc-chips span::before{content:"✓";color:var(--red);font-weight:800}
   .fc-cta{flex-shrink:0}
 
+  /* Capture email (newsletter / liste d'attente) */
+  .capture-card{background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 44px;text-align:center}
+  .capture-card h2{font-size:clamp(22px,2.6vw,30px);margin-bottom:10px}
+  .capture-card p{color:var(--muted);font-size:16px;max-width:480px;margin:0 auto 22px}
+  .cap-form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap}
+  .cap-form input{flex:1;min-width:200px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-family:"Figtree",sans-serif;font-size:15px;color:var(--ink)}
+  .cap-form input:focus{outline:2px solid var(--red);outline-offset:1px;border-color:var(--red)}
+  .cap-msg{color:#1a8a4f;font-weight:700;margin-top:14px}
+
   /* Sections */
   section.block{padding:90px 0}
   .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:44px}
@@ -232,12 +241,12 @@
   .plan.featured .note{color:#ff8a80}
   .plan ul{list-style:none;margin:18px 0 24px;display:flex;flex-direction:column;gap:11px}
   .plan li{display:flex;gap:10px;font-size:14.5px}
-  .plan li svg{color:var(--red);flex-shrink:0;margin-top:3px}
-  .plan.featured li svg{color:#ff6a5d}
+  .plan li svg{color:#1a8a4f;flex-shrink:0;margin-top:3px}
+  .plan.featured li svg{color:#3ddc84}
   .plan li.no{color:var(--muted)}
-  .plan li.no svg{color:#c25c54}
+  .plan li.no svg{color:var(--red)}
   .plan.featured li.no{color:rgba(255,255,255,.5)}
-  .plan.featured li.no svg{color:rgba(255,255,255,.42)}
+  .plan.featured li.no svg{color:#ff6a5d}
   .plan .btn{width:100%}
   .plan .soon-line{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--muted);margin-top:12px;text-align:center}
 
@@ -523,6 +532,20 @@
   </div>
 </section>
 
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="capture-card reveal">
+      <h2>Reste informé, en avant-première.</h2>
+      <p>Laisse ton email : nouveautés, conseils pour ta recherche d'emploi et accès prioritaire à RadarJob.</p>
+      <form class="cap-form" id="captureForm" novalidate>
+        <input type="email" required placeholder="ton@email.ch" aria-label="Adresse email">
+        <button type="submit" class="btn btn-primary">M'avertir</button>
+      </form>
+      <p class="cap-msg" id="capMsg" hidden>✓ Merci ! On te tient au courant.</p>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot">
     <div class="logo">
@@ -568,6 +591,21 @@
       el.textContent=j+'j '+pad(h)+'h '+pad(m)+'m '+pad(s)+'s';
     }
     tick();
+  })();
+
+  // Capture email — confirmation visuelle (envoi reel a brancher : Brevo / /api/subscribe)
+  (function(){
+    var f=document.getElementById('captureForm');
+    if(!f) return;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input=f.querySelector('input');
+      if(!input.value || input.value.indexOf('@')<1){ input.focus(); return; }
+      // TODO: POST de l'email vers Brevo (formulaire Brevo) ou vers /api/subscribe de l'outil CV.
+      if(typeof gtag==='function'){ gtag('event','lead_email',{ source:'capture' }); }
+      f.style.display='none';
+      var msg=document.getElementById('capMsg'); if(msg) msg.hidden=false;
+    });
   })();
 
   // Suivi des clics CTA (Google Analytics) — pour mesurer ce qui convertit

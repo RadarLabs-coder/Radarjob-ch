@@ -144,6 +144,17 @@
   .cov-stats strong{font-family:"Archivo",sans-serif;font-weight:800;color:var(--red)}
   .cov-dot{color:var(--border)}
 
+  /* Carte aimant : outil CV gratuit */
+  .freecv-card{position:relative;overflow:hidden;background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:46px 44px;display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+  .freecv-card .fc-text{flex:1;min-width:280px}
+  .fc-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+  .freecv-card h2{font-size:clamp(23px,2.8vw,32px);margin-bottom:12px}
+  .freecv-card p{color:var(--muted);font-size:17px;line-height:1.6;max-width:540px}
+  .fc-chips{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:18px}
+  .fc-chips span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--border);padding:6px 13px;border-radius:999px}
+  .fc-chips span::before{content:"✓";color:var(--red);font-weight:800}
+  .fc-cta{flex-shrink:0}
+
   /* Sections */
   section.block{padding:90px 0}
   .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:44px}
@@ -417,6 +428,22 @@
           <div class="founder-nm">Cédric Equeter</div>
           <div class="founder-role">Fondateur de Radar<span class="brand-job">Job</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="freecv-card reveal">
+      <div class="fc-text">
+        <div class="fc-eyebrow">Gratuit · sans inscription</div>
+        <h2>Pas encore prêt à t'abonner ? Commence par ton CV.</h2>
+        <p>Adapte ton CV à une offre en 2 minutes : mise en page au standard suisse, PDF téléchargeable. 100 % gratuit.</p>
+        <div class="fc-chips"><span>Gratuit</span><span>Standard suisse</span><span>PDF prêt à envoyer</span></div>
+      </div>
+      <div class="fc-cta">
+        <a href="https://cv.radarjob.ch" target="_blank" rel="noopener" class="btn btn-primary" style="padding:15px 28px;font-size:16px">Adapter mon CV gratuitement →</a>
       </div>
     </div>
   </div>

@@ -144,6 +144,31 @@
   .cov-stats strong{font-family:"Archivo",sans-serif;font-weight:800;color:var(--red)}
   .cov-dot{color:var(--border)}
 
+  /* Exemple d'alerte recue (maquette email) */
+  .alert-demo{display:flex;justify-content:center}
+  .ad-mail{width:100%;max-width:560px;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .ad-head{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--border)}
+  .ad-brand{font-family:"Archivo",sans-serif;font-weight:800;font-size:16px;color:var(--ink)}
+  .ad-brand span{color:var(--red)}
+  .ad-tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;color:var(--red)}
+  .ad-body{padding:22px 24px}
+  .ad-intro{font-size:13.5px;color:var(--muted);margin-bottom:10px}
+  .ad-title{font-family:"Archivo",sans-serif;font-weight:800;font-size:19px;color:var(--ink);margin-bottom:14px}
+  .ad-score{display:flex;align-items:center;gap:12px;background:#eafaf0;border:1px solid #c8f0d8;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+  .ad-score b{font-family:"Archivo",sans-serif;font-weight:900;font-size:26px;color:#0a8d3f;line-height:1}
+  .ad-score b small{font-size:13px;font-weight:600;color:#5aa87a}
+  .ad-score em{font-style:normal;font-size:14px;font-weight:700;color:#2a6b45}
+  .ad-rows{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .ad-rows td{padding:7px 0;font-size:13.5px;border-top:1px solid #f0f2f5}
+  .ad-rows tr:first-child td{border-top:none}
+  .ad-rows td:first-child{color:var(--muted);width:104px}
+  .ad-rows td:last-child{color:var(--ink);font-weight:600}
+  .ad-why{border-left:3px solid var(--red);padding:2px 0 2px 14px;margin-bottom:16px}
+  .ad-why .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--red);margin-bottom:6px}
+  .ad-why p{font-size:13.5px;color:#4a5560;line-height:1.6}
+  .ad-attach{display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--ink)}
+  .ad-btn{display:block;text-align:center;background:var(--red);color:#fff;font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;padding:14px;border-radius:10px}
+
   /* Carte aimant : outil CV gratuit */
   .freecv-card{position:relative;overflow:hidden;background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:46px 44px;display:flex;align-items:center;gap:40px;flex-wrap:wrap}
   .freecv-card .fc-text{flex:1;min-width:280px}
@@ -412,6 +437,37 @@
       <div class="feat reveal">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
         <div><h3>24h/24 sans interruption</h3><p>Radar<span class="brand-job">Job</span> tourne même quand vous dormez ou êtes en entretien.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="seclabel reveal"><h2>L'alerte que vous recevez</h2><span class="line"></span></div>
+    <p class="lead-sub reveal">Tout arrive par email, prêt à l'emploi : l'offre, son score de correspondance, et la lettre de motivation en pièce jointe.</p>
+    <div class="alert-demo reveal">
+      <div class="ad-mail">
+        <div class="ad-head">
+          <span class="ad-brand">Radar<span>Job</span></span>
+          <span class="ad-tag">NOUVELLE OFFRE</span>
+        </div>
+        <div class="ad-body">
+          <div class="ad-intro">Bonjour, une nouvelle offre correspond à votre profil :</div>
+          <div class="ad-title">Aide-soignant·e diplômé·e</div>
+          <div class="ad-score"><b>9<small>/10</small></b><em>Très bonne correspondance</em></div>
+          <table class="ad-rows">
+            <tr><td>Entreprise</td><td>EMS Les Tilleuls</td></tr>
+            <tr><td>Lieu</td><td>Genève</td></tr>
+            <tr><td>Contrat</td><td>CDI · 80–100%</td></tr>
+          </table>
+          <div class="ad-why">
+            <div class="lbl">POURQUOI CETTE OFFRE</div>
+            <p>Votre expérience en soins gériatriques et votre disponibilité immédiate correspondent au poste, à Genève et en français.</p>
+          </div>
+          <div class="ad-attach">📎 Lettre de motivation personnalisée jointe (PDF)</div>
+          <span class="ad-btn">Voir l'offre et postuler →</span>
+        </div>
       </div>
     </div>
   </div>

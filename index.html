@@ -134,6 +134,16 @@
   .attach svg{color:var(--muted)}
   .offer .mini-btn{margin-top:14px;display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;font-family:"Archivo";font-weight:700;font-size:13px;padding:9px 16px;border-radius:7px}
 
+  /* Bande couverture (sources + faits) */
+  .coverage{background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .coverage-in{padding:30px 24px;text-align:center;max-width:1120px;margin:0 auto}
+  .cov-label{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .cov-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
+  .cov-chip{font-family:"Archivo",sans-serif;font-weight:800;font-size:18px;color:var(--ink);background:#fff;border:1px solid var(--border);padding:9px 18px;border-radius:10px;box-shadow:0 1px 2px rgba(14,15,17,.05)}
+  .cov-stats{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 18px;font-size:14.5px;color:var(--muted)}
+  .cov-stats strong{font-family:"Archivo",sans-serif;font-weight:800;color:var(--red)}
+  .cov-dot{color:var(--border)}
+
   /* Sections */
   section.block{padding:90px 0}
   .seclabel{display:flex;align-items:center;gap:14px;margin-bottom:44px}
@@ -329,6 +339,21 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="coverage">
+  <div class="coverage-in">
+    <div class="cov-label">RadarJob scanne en continu</div>
+    <div class="cov-row">
+      <span class="cov-chip">jobup.ch</span>
+      <span class="cov-chip">jobs.ch</span>
+    </div>
+    <div class="cov-stats">
+      <span><strong>24h/24 · 7j/7</strong> en continu</span>
+      <span class="cov-dot">•</span>
+      <span><strong>Toute la Suisse romande</strong> couverte</span>
     </div>
   </div>
 </section>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Inscription gratuite — RadarJob</title>
+<meta name="description" content="Inscrivez-vous gratuitement à RadarJob : décrivez le poste recherché, RadarJob scanne JobUp et Jobs.ch et vous envoie les offres faites pour vous avec une lettre de motivation déjà rédigée.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="canonical" href="https://radarjob.ch/inscription.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230E0F11'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='9'%20fill='none'%20stroke='%23ffffff'%20stroke-width='2'%20opacity='.35'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='5'%20fill='none'%20stroke='%23ffffff'%20stroke-width='2'%20opacity='.6'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='3'%20fill='%23E1251B'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RadarJob">
+<meta property="og:title" content="Inscription gratuite — RadarJob">
+<meta property="og:description" content="Décrivez le poste recherché, RadarJob s'occupe du reste. 2 mois offerts, sans engagement.">
+<meta property="og:url" content="https://radarjob.ch/inscription.html">
+<meta property="og:image" content="https://radarjob.ch/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GCM6QPCBG0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GCM6QPCBG0');
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF;--soft:#F5F6F7;--ink:#0E0F11;--muted:#5B6066;
+    --red:#E1251B;--red-700:#B81B12;--border:#E5E6E9;
+    --shadow:0 1px 2px rgba(14,15,17,.04), 0 18px 44px rgba(14,15,17,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light;background:#fff}
+  body{font-family:"Figtree",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:"Archivo",sans-serif;line-height:1.05;letter-spacing:-.025em;font-weight:800}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:"IBM Plex Mono",monospace;letter-spacing:.02em}
+  .brand-job{color:var(--red)}
+  .swiss{width:16px;height:16px;background:var(--red);border-radius:3px;display:inline-grid;place-items:center;flex-shrink:0}
+  .swiss::before{content:"";position:relative;width:9px;height:9px;background:
+    linear-gradient(#fff,#fff) center/9px 3px no-repeat,
+    linear-gradient(#fff,#fff) center/3px 9px no-repeat}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1120px;margin:0 auto;padding:0 24px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:"Archivo";font-weight:900;font-size:21px;letter-spacing:-.03em}
+  .nav-links{display:flex;align-items:center;gap:32px}
+  .nav-links a{color:var(--muted);font-weight:500;font-size:14.5px;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:"Archivo";font-weight:700;font-size:14.5px;border:none;cursor:pointer;border-radius:8px;padding:12px 22px;transition:transform .15s, background .2s, box-shadow .2s;letter-spacing:-.01em}
+  .btn-primary{background:var(--red);color:#fff;box-shadow:0 8px 18px rgba(225,37,27,.24)}
+  .btn-primary:hover{background:var(--red-700);transform:translateY(-2px);box-shadow:0 12px 24px rgba(225,37,27,.3)}
+  .btn-primary[disabled]{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+  a:focus-visible,.btn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+  /* Intro */
+  .intro{padding:54px 0 26px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border);background:var(--soft);font-size:12.5px;font-weight:600;padding:8px 15px;border-radius:999px;margin-bottom:22px;text-transform:uppercase}
+  .intro h1{font-size:clamp(30px,5vw,46px)}
+  .intro p{color:var(--muted);font-size:17px;max-width:560px;margin:16px auto 0}
+  .offer{display:inline-flex;align-items:center;gap:8px;margin-top:22px;background:#0E0F11;color:#fff;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600}
+  .offer b{color:#ff8077}
+  .microtrust{margin-top:16px;color:var(--muted);font-size:13px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .microtrust span{white-space:nowrap}
+
+  /* Form card */
+  .card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:38px 38px 34px;box-shadow:var(--shadow);margin-bottom:80px}
+  .field{margin-bottom:22px}
+  .field > label{display:block;font-weight:600;font-size:14.5px;margin-bottom:8px}
+  .field .req{color:var(--red)}
+  .hint{color:var(--muted);font-size:12.5px;margin-top:6px}
+  .row2{display:flex;gap:16px}
+  .row2 .field{flex:1}
+  input[type=text],input[type=email],textarea,select{
+    width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;
+    padding:13px 15px;font-family:"Figtree",sans-serif;font-size:15px;color:var(--ink)
+  }
+  textarea{min-height:120px;resize:vertical;line-height:1.5}
+  input:focus,textarea:focus,select:focus{border-color:var(--red);outline:none;box-shadow:0 0 0 3px rgba(225,37,27,.12)}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235B6066' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:40px}
+
+  /* Chips (cases / choix) */
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{position:relative;display:inline-flex;align-items:center;cursor:pointer;user-select:none}
+  .chip input{position:absolute;opacity:0;width:0;height:0}
+  .chip span{border:1px solid var(--border);background:#fff;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;color:var(--ink);transition:all .15s}
+  .chip:hover span{border-color:var(--ink)}
+  .chip:has(input:checked) span{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 6px 14px rgba(225,37,27,.22)}
+  .chip:has(input:focus-visible) span{outline:2px solid var(--red);outline-offset:2px}
+
+  .submit-row{margin-top:30px}
+  .submit-row .btn{width:100%;padding:16px;font-size:16px}
+  .form-msg{margin-top:14px;text-align:center;font-weight:700;color:var(--red);font-size:14.5px}
+  .form-msg[hidden]{display:none}
+
+  /* Success */
+  .done{display:none;text-align:center;padding:10px 4px}
+  .done.show{display:block}
+  .done .tick{width:64px;height:64px;border-radius:50%;background:#eafaf0;display:grid;place-items:center;margin:0 auto 18px}
+  .done h2{font-size:26px;margin-bottom:10px}
+  .done p{color:var(--muted);font-size:15.5px;max-width:440px;margin:0 auto 8px}
+  .done .back{margin-top:22px;display:inline-block}
+
+  /* Footer */
+  footer{padding:44px 0;border-top:1px solid var(--border)}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:13.5px;max-width:1120px;margin:0 auto;padding:0 24px}
+  .foot .logo{font-size:18px}
+  .foot .mono{font-size:12.5px}
+
+  @media(max-width:620px){
+    .nav-links a:not(.btn){display:none}
+    .card{padding:26px 20px}
+    .row2{flex-direction:column;gap:0}
+    .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="/">
+      <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13" stroke="#0E0F11" stroke-width="2" opacity=".22"/><circle cx="15" cy="15" r="8" stroke="#0E0F11" stroke-width="2" opacity=".5"/><circle cx="15" cy="15" r="3.4" fill="#E1251B"/></svg>
+      <span>Radar<span class="brand-job">Job</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#how">Comment ça marche</a>
+      <a href="/#pricing">Tarifs</a>
+      <a href="https://cv.radarjob.ch" target="_blank" rel="noopener">Adapter mon CV</a>
+    </nav>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <span class="eyebrow"><span class="swiss"></span> Inscription gratuite · Suisse</span>
+    <h1>Lancez votre <span class="brand-job">recherche</span> en 2 minutes.</h1>
+    <p>Décrivez le poste qui vous intéresse. Radar<span class="brand-job">Job</span> scanne JobUp et Jobs.ch en continu et vous envoie les offres faites pour vous, avec une lettre de motivation déjà rédigée.</p>
+    <div class="offer">🎁 Offre de lancement · <b>2 mois offerts</b></div>
+    <div class="microtrust"><span>Sans engagement</span><span>·</span><span>Conçu en Suisse</span><span>·</span><span>Annulation à tout moment</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="card">
+    <form id="signupForm" novalidate>
+      <div class="row2">
+        <div class="field">
+          <label for="prenom">Prénom <span class="req">*</span></label>
+          <input type="text" id="prenom" name="prenom" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="nom">Nom <span class="req">*</span></label>
+          <input type="text" id="nom" name="nom" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req">*</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="vous@email.ch" required>
+        <div class="hint">C'est sur cette adresse que vous recevrez vos offres.</div>
+      </div>
+
+      <div class="field">
+        <label for="description">Décrivez le poste recherché et vos critères importants <span class="req">*</span></label>
+        <textarea id="description" name="description" required placeholder="Ex : Aide-comptable ou assistant administratif, 80-100%, expérience en PME, à l'aise avec Excel. J'aimerais éviter les longs trajets et privilégier un environnement bienveillant."></textarea>
+        <div class="hint">Plus c'est précis, plus la sélection des offres est juste.</div>
+      </div>
+
+      <div class="field">
+        <label>Cantons acceptés</label>
+        <div class="chips" id="cantons">
+          <label class="chip"><input type="checkbox" name="cantons" value="VD"><span>VD</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="FR"><span>FR</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="BE"><span>BE</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="GE"><span>GE</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="VS"><span>VS</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="NE"><span>NE</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="ZH"><span>ZH</span></label>
+          <label class="chip"><input type="checkbox" name="cantons" value="Toute la Suisse"><span>Toute la Suisse</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Langues</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="langues" value="Français"><span>Français</span></label>
+          <label class="chip"><input type="checkbox" name="langues" value="Allemand"><span>Allemand</span></label>
+          <label class="chip"><input type="checkbox" name="langues" value="Anglais"><span>Anglais</span></label>
+          <label class="chip"><input type="checkbox" name="langues" value="Italien"><span>Italien</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Type de poste</label>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="typePoste" value="Temps plein 100%"><span>Temps plein 100%</span></label>
+          <label class="chip"><input type="radio" name="typePoste" value="Temps partiel"><span>Temps partiel</span></label>
+          <label class="chip"><input type="radio" name="typePoste" value="Les deux"><span>Les deux</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="source">Comment avez-vous entendu parler de RadarJob ? <span class="req">*</span></label>
+        <select id="source" name="source" required>
+          <option value="" selected disabled>Choisir…</option>
+          <option>LinkedIn</option>
+          <option>Bouche à oreille</option>
+          <option>Google</option>
+          <option>Reddit</option>
+          <option>Facebook/Instagram</option>
+          <option>Forum emploi</option>
+          <option>TikTok</option>
+          <option>Youtube</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary" id="submitBtn">Lancer ma recherche gratuitement</button>
+        <p class="form-msg" id="formMsg" hidden></p>
+      </div>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1a8a4f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Inscription reçue !</h2>
+      <p>Merci, votre demande est bien arrivée. Radar<span class="brand-job">Job</span> prépare votre recherche et vous recevrez vos premières offres très bientôt par email.</p>
+      <p>Pensez à vérifier vos spams les premiers jours, et à ajouter <span class="mono">contact@radarjob.ch</span> à vos contacts.</p>
+      <a class="btn btn-primary back" href="/">Retour à l'accueil</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot">
+    <a class="logo" href="/">
+      <svg width="24" height="24" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13" stroke="#0E0F11" stroke-width="2" opacity=".22"/><circle cx="15" cy="15" r="8" stroke="#0E0F11" stroke-width="2" opacity=".5"/><circle cx="15" cy="15" r="3.4" fill="#E1251B"/></svg>
+      <span>Radar<span class="brand-job">Job</span></span>
+    </a>
+    <div class="mono">radarjob.ch · contact@radarjob.ch</div>
+    <div class="mono">© 2026 Radar<span class="brand-job">Job</span></div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var ENDPOINT='https://cv.radarjob.ch/api/signup';
+    var f=document.getElementById('signupForm');
+    var btn=document.getElementById('submitBtn');
+    var msg=document.getElementById('formMsg');
+    var done=document.getElementById('done');
+    if(!f) return;
+
+    function showMsg(t){ msg.textContent=t; msg.hidden=false; }
+    function checkedVals(name){
+      return [].slice.call(f.querySelectorAll('input[name="'+name+'"]:checked')).map(function(i){return i.value});
+    }
+
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      msg.hidden=true;
+
+      var data={
+        prenom:f.prenom.value.trim(),
+        nom:f.nom.value.trim(),
+        email:f.email.value.trim(),
+        description:f.description.value.trim(),
+        cantons:checkedVals('cantons'),
+        langues:checkedVals('langues'),
+        typePoste:(f.querySelector('input[name="typePoste"]:checked')||{}).value||'',
+        source:f.source.value
+      };
+
+      if(!data.prenom||!data.nom){ showMsg('Merci d\'indiquer votre prénom et votre nom.'); return; }
+      if(!data.email||data.email.indexOf('@')<1){ f.email.focus(); showMsg('Merci d\'indiquer un email valide.'); return; }
+      if(!data.description){ f.description.focus(); showMsg('Merci de décrire le poste recherché.'); return; }
+      if(!data.source){ f.source.focus(); showMsg('Merci d\'indiquer comment vous avez connu RadarJob.'); return; }
+
+      var label=btn.textContent;
+      btn.disabled=true; btn.textContent='Envoi…';
+
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+      }).then(function(r){
+        return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,data:d};});
+      }).then(function(res){
+        if(res.ok){
+          if(typeof gtag==='function'){ gtag('event','sign_up',{ method:'form', source:data.source }); }
+          f.style.display='none';
+          done.classList.add('show');
+          window.scrollTo({top:0,behavior:'smooth'});
+        }else{
+          btn.disabled=false; btn.textContent=label;
+          showMsg((res.data&&res.data.error)||'Une erreur est survenue. Réessayez.');
+        }
+      }).catch(function(){
+        btn.disabled=false; btn.textContent=label;
+        showMsg('Connexion impossible. Réessayez dans un instant.');
+      });
+    });
+  })();
+</script>
+</body>
+</html>

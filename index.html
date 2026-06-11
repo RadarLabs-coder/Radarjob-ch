@@ -188,6 +188,7 @@
   .cap-form input{flex:1;min-width:200px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-family:"Figtree",sans-serif;font-size:15px;color:var(--ink)}
   .cap-form input:focus{outline:2px solid var(--red);outline-offset:1px;border-color:var(--red)}
   .cap-msg{color:#1a8a4f;font-weight:700;margin-top:14px}
+  .cap-msg.err{color:var(--red)}
 
   /* Sections */
   section.block{padding:90px 0}
@@ -532,6 +533,20 @@
   </div>
 </section>
 
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="capture-card reveal">
+      <h2>Reste informé, en avant-première.</h2>
+      <p>Laisse ton email : nouveautés, conseils pour ta recherche d'emploi et accès prioritaire à RadarJob.</p>
+      <form class="cap-form" id="captureForm" novalidate>
+        <input type="email" required placeholder="ton@email.ch" aria-label="Adresse email">
+        <button type="submit" class="btn btn-primary">M'avertir</button>
+      </form>
+      <p class="cap-msg" id="capMsg" hidden>✓ Merci ! On te tient au courant.</p>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot">
     <div class="logo">
@@ -579,18 +594,45 @@
     tick();
   })();
 
-  // Capture email — confirmation visuelle (envoi reel a brancher : Brevo / /api/subscribe)
+  // Capture email — envoi reel vers l'API de l'outil CV (ajout du contact dans Brevo)
   (function(){
     var f=document.getElementById('captureForm');
     if(!f) return;
+    var ENDPOINT='https://cv.radarjob.ch/api/subscribe';
+    var input=f.querySelector('input');
+    var btn=f.querySelector('button');
+    var msg=document.getElementById('capMsg');
+    function showMsg(text, ok){
+      if(!msg) return;
+      msg.textContent=text;
+      msg.classList.toggle('err', !ok);
+      msg.hidden=false;
+    }
     f.addEventListener('submit', function(e){
       e.preventDefault();
-      var input=f.querySelector('input');
-      if(!input.value || input.value.indexOf('@')<1){ input.focus(); return; }
-      // TODO: POST de l'email vers Brevo (formulaire Brevo) ou vers /api/subscribe de l'outil CV.
-      if(typeof gtag==='function'){ gtag('event','lead_email',{ source:'capture' }); }
-      f.style.display='none';
-      var msg=document.getElementById('capMsg'); if(msg) msg.hidden=false;
+      var email=(input.value||'').trim();
+      if(!email || email.indexOf('@')<1){ input.focus(); return; }
+      var label=btn?btn.textContent:'';
+      if(btn){ btn.disabled=true; btn.textContent='Envoi…'; }
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ email:email })
+      }).then(function(r){
+        return r.json().catch(function(){ return {}; }).then(function(d){ return { ok:r.ok, data:d }; });
+      }).then(function(res){
+        if(res.ok){
+          if(typeof gtag==='function'){ gtag('event','lead_email',{ source:'capture' }); }
+          f.style.display='none';
+          showMsg('✓ Merci ! On te tient au courant.', true);
+        } else {
+          if(btn){ btn.disabled=false; btn.textContent=label; }
+          showMsg((res.data && res.data.error) || 'Une erreur est survenue. Réessaie.', false);
+        }
+      }).catch(function(){
+        if(btn){ btn.disabled=false; btn.textContent=label; }
+        showMsg('Connexion impossible. Réessaie dans un instant.', false);
+      });
     });
   })();
 

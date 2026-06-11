@@ -330,6 +330,7 @@
       <a href="#how">Comment ça marche</a>
       <a href="#pricing">Tarifs</a>
       <a href="https://cv.radarjob.ch" target="_blank" rel="noopener">Adapter mon CV</a>
+      <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener">Tester mon CV</a>
       <a href="/inscription.html" class="btn btn-primary">Commencer</a>
     </nav>
   </div>
@@ -476,8 +477,9 @@
         <p>Adapte ton CV à une offre en 2 minutes : mise en page au standard suisse, PDF téléchargeable. 100 % gratuit.</p>
         <div class="fc-chips"><span>Gratuit</span><span>Standard suisse</span><span>PDF prêt à envoyer</span></div>
       </div>
-      <div class="fc-cta">
+      <div class="fc-cta" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
         <a href="https://cv.radarjob.ch" target="_blank" rel="noopener" class="btn btn-primary" style="padding:15px 28px;font-size:16px">Adapter mon CV gratuitement →</a>
+        <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:13px 28px;font-size:15px">🔎 Tester sa compatibilité ATS</a>
       </div>
     </div>
   </div>
@@ -644,7 +646,9 @@
     });
     document.querySelectorAll('a').forEach(function(a){
       var t=(a.textContent||'').trim();
+      var href=a.getAttribute('href')||'';
       if(t==='Adapter mon CV') a.addEventListener('click', function(){ track('adapter_cv'); });
+      if(href.indexOf('/test-ats')>-1) a.addEventListener('click', function(){ track('test_ats'); });
     });
   })();
 </script>

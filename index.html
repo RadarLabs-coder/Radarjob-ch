@@ -214,6 +214,14 @@
   .fc-chips span::before{content:"✓";color:var(--red);font-weight:800}
   .fc-cta{flex-shrink:0}
 
+  /* Temoignage(s) clients */
+  .testi{display:flex;justify-content:center}
+  .testi-card{position:relative;max-width:720px;background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 46px;text-align:center}
+  .testi-mark{font-family:"Archivo";font-weight:900;font-size:58px;line-height:.5;color:var(--red);opacity:.22;margin-bottom:10px}
+  .testi-quote{font-family:"Archivo",sans-serif;font-weight:600;font-size:clamp(18px,2.3vw,22px);line-height:1.5;color:var(--ink);letter-spacing:-.01em;margin-bottom:22px}
+  .testi-author{font-size:14.5px;color:var(--muted)}
+  .testi-author b{color:var(--ink);font-weight:700}
+
   /* Capture email (newsletter / liste d'attente) */
   .capture-card{background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 44px;text-align:center}
   .capture-card h2{font-size:clamp(22px,2.6vw,30px);margin-bottom:10px}
@@ -547,6 +555,19 @@
         <a href="https://cv.radarjob.ch" target="_blank" rel="noopener" class="btn btn-primary" style="padding:15px 28px;font-size:16px">Adapter mon CV gratuitement →</a>
         <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:13px 28px;font-size:15px">🔎 Tester sa compatibilité ATS</a>
         <a href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:13px 28px;font-size:15px">🎤 Préparer un entretien</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="avis" style="padding-top:0">
+  <div class="wrap">
+    <div class="seclabel reveal"><h2>Ils utilisent RadarJob</h2><span class="line"></span></div>
+    <div class="testi reveal">
+      <div class="testi-card">
+        <div class="testi-mark" aria-hidden="true">“</div>
+        <p class="testi-quote">Je suis très satisfaite du service : complet, pertinent et simple à utiliser. Les offres correspondent bien à ce que je recherche, et pouvoir vérifier la compatibilité de mon CV avec les systèmes ATS puis l'adapter à une offre est particulièrement utile.</p>
+        <div class="testi-author">— <b>Julie</b>, cliente RadarJob</div>
       </div>
     </div>
   </div>

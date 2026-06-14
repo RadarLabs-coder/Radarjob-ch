@@ -214,13 +214,15 @@
   .fc-chips span::before{content:"✓";color:var(--red);font-weight:800}
   .fc-cta{flex-shrink:0}
 
-  /* Temoignage(s) clients */
+  /* Temoignage(s) clients — style avis verifie */
   .testi{display:flex;justify-content:center}
-  .testi-card{position:relative;max-width:720px;background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 46px;text-align:center}
-  .testi-mark{font-family:"Archivo";font-weight:900;font-size:58px;line-height:.5;color:var(--red);opacity:.22;margin-bottom:10px}
-  .testi-quote{font-family:"Archivo",sans-serif;font-weight:600;font-size:clamp(18px,2.3vw,22px);line-height:1.5;color:var(--ink);letter-spacing:-.01em;margin-bottom:22px}
-  .testi-author{font-size:14.5px;color:var(--muted)}
-  .testi-author b{color:var(--ink);font-weight:700}
+  .testi-card{max-width:720px;width:100%;background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:32px 36px}
+  .testi-head{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin-bottom:16px}
+  .testi-avatar{width:52px;height:52px;border-radius:50%;background:var(--red);color:#fff;font-family:"Archivo";font-weight:900;font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .testi-name{font-family:"Archivo";font-weight:800;font-size:16px;color:var(--ink)}
+  .testi-stars{color:var(--red);letter-spacing:3px;font-size:15px}
+  .testi-badge{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#1a8a4f;background:rgba(26,138,79,.1);border:1px solid rgba(26,138,79,.25);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .testi-quote{font-family:"Archivo",sans-serif;font-weight:500;font-size:17px;line-height:1.55;color:var(--ink)}
 
   /* Capture email (newsletter / liste d'attente) */
   .capture-card{background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 44px;text-align:center}
@@ -565,9 +567,15 @@
     <div class="seclabel reveal"><h2>Ils utilisent RadarJob</h2><span class="line"></span></div>
     <div class="testi reveal">
       <div class="testi-card">
-        <div class="testi-mark" aria-hidden="true">“</div>
+        <div class="testi-head">
+          <div class="testi-avatar" aria-hidden="true">J</div>
+          <div>
+            <div class="testi-name">Julie</div>
+            <div class="testi-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+          </div>
+          <span class="testi-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a8a4f" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Avis client</span>
+        </div>
         <p class="testi-quote">Je suis très satisfaite du service : complet, pertinent et simple à utiliser. Les offres correspondent bien à ce que je recherche, et pouvoir vérifier la compatibilité de mon CV avec les systèmes ATS puis l'adapter à une offre est particulièrement utile.</p>
-        <div class="testi-author">— <b>Julie</b></div>
       </div>
     </div>
   </div>

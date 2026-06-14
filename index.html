@@ -89,6 +89,36 @@
   /* Focus clavier visible (rouge marque), invisible a la souris */
   a:focus-visible,.btn:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 
+  /* Menu deroulant "Outils CV" (desktop) */
+  .nav-drop{position:relative}
+  .nav-drop-btn{display:inline-flex;align-items:center;gap:7px;font-family:"Figtree",sans-serif;font-weight:600;font-size:14.5px;color:var(--ink);background:var(--soft);border:1px solid var(--border);padding:8px 14px;border-radius:9px;cursor:pointer;transition:border-color .2s}
+  .nav-drop-btn:hover,.nav-drop.open .nav-drop-btn{border-color:var(--ink)}
+  .nav-drop-btn .nd-tools{color:var(--red)}
+  .nav-drop-btn .nd-chev{transition:transform .2s}
+  .nav-drop.open .nd-chev{transform:rotate(180deg)}
+  .nav-drop-menu{position:absolute;top:calc(100% + 14px);right:0;width:300px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:8px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s;z-index:60}
+  .nav-drop.open .nav-drop-menu{opacity:1;visibility:visible;transform:translateY(0)}
+  .ndi{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;transition:background .15s}
+  .ndi:hover{background:var(--soft)}
+  .ndi-ico{width:36px;height:36px;border-radius:9px;background:rgba(225,37,27,.09);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ndi-tx b{display:block;font-family:"Archivo";font-weight:700;font-size:13.5px;color:var(--ink);line-height:1.15}
+  .ndi-tx small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+
+  /* Hamburger (mobile) */
+  .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:none;border:1px solid var(--border);border-radius:10px;cursor:pointer;padding:0 11px}
+  .nav-burger span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,opacity .2s}
+  .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-burger.open span:nth-child(2){opacity:0}
+  .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* Menu mobile (panneau deroulant) */
+  .mobile-menu{display:none;flex-direction:column;padding:8px 24px 22px;border-top:1px solid var(--border);background:rgba(255,255,255,.98)}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a:not(.btn){padding:14px 4px;font-weight:600;font-size:16px;color:var(--ink);border-bottom:1px solid var(--border)}
+  .mobile-menu a.mm-tool{display:flex;align-items:center;gap:10px}
+  .mm-label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:18px 4px 4px}
+  .mm-cta{margin-top:18px;width:100%}
+
   /* Hero */
   /* FOND DU HERO — pour une vraie photo : remplace le 2e calque (le dégradé bleu pâle) par url('lien-de-ta-photo.jpg') */
   .hero{position:relative;overflow:hidden;text-align:center;padding:112px 0 88px;
@@ -288,7 +318,8 @@
     .steps{grid-template-columns:1fr;gap:30px}
     .steps::before{display:none}
     .features,.plans{grid-template-columns:1fr}
-    .nav-links a:not(.btn){display:none}
+    .nav-links{display:none}
+    .nav-burger{display:flex}
     section.block{padding:62px 0}
     .founder-card{padding:48px 26px}
   }
@@ -333,11 +364,41 @@
     <nav class="nav-links">
       <a href="#how">Comment ça marche</a>
       <a href="#pricing">Tarifs</a>
-      <a href="https://cv.radarjob.ch" target="_blank" rel="noopener">Adapter mon CV</a>
-      <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener">Tester mon CV</a>
-      <a href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener">Préparer un entretien</a>
+      <div class="nav-drop" id="navDrop">
+        <button type="button" class="nav-drop-btn" id="toolsBtn" aria-expanded="false" aria-haspopup="true">
+          <svg class="nd-tools" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h13"/></svg>
+          Outils CV
+          <svg class="nd-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5B6066" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-drop-menu" role="menu" aria-label="Outils CV gratuits">
+          <a class="ndi" href="https://cv.radarjob.ch" target="_blank" rel="noopener" role="menuitem">
+            <span class="ndi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1251B" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
+            <span class="ndi-tx"><b>Adapter mon CV</b><small>Ton CV réécrit pour l'offre visée</small></span>
+          </a>
+          <a class="ndi" href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener" role="menuitem">
+            <span class="ndi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1251B" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span class="ndi-tx"><b>Tester mon CV (ATS)</b><small>Score de compatibilité + conseils</small></span>
+          </a>
+          <a class="ndi" href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener" role="menuitem">
+            <span class="ndi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1251B" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+            <span class="ndi-tx"><b>Préparer un entretien</b><small>Questions probables + réponses</small></span>
+          </a>
+        </div>
+      </div>
       <a href="/inscription.html" class="btn btn-primary">Commencer</a>
     </nav>
+    <button type="button" class="nav-burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how">Comment ça marche</a>
+    <a href="#pricing">Tarifs</a>
+    <div class="mm-label">Outils CV gratuits</div>
+    <a class="mm-tool" href="https://cv.radarjob.ch" target="_blank" rel="noopener">📄 Adapter mon CV</a>
+    <a class="mm-tool" href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener">🔎 Tester mon CV (ATS)</a>
+    <a class="mm-tool" href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener">🎤 Préparer un entretien</a>
+    <a href="/inscription.html" class="btn btn-primary mm-cta">Commencer</a>
   </div>
 </header>
 
@@ -651,12 +712,44 @@
       a.addEventListener('click', function(){ track('commencer'); });
     });
     document.querySelectorAll('a').forEach(function(a){
-      var t=(a.textContent||'').trim();
       var href=a.getAttribute('href')||'';
-      if(t==='Adapter mon CV') a.addEventListener('click', function(){ track('adapter_cv'); });
-      if(href.indexOf('/test-ats')>-1) a.addEventListener('click', function(){ track('test_ats'); });
-      if(href.indexOf('/preparer-entretien')>-1) a.addEventListener('click', function(){ track('prepa_entretien'); });
+      if(href.indexOf('/test-ats')>-1){ a.addEventListener('click', function(){ track('test_ats'); }); }
+      else if(href.indexOf('/preparer-entretien')>-1){ a.addEventListener('click', function(){ track('prepa_entretien'); }); }
+      else if(href.indexOf('cv.radarjob.ch')>-1){ a.addEventListener('click', function(){ track('adapter_cv'); }); }
     });
+  })();
+
+  // Menu "Outils CV" (dropdown desktop) + hamburger (mobile)
+  (function(){
+    var drop=document.getElementById('navDrop');
+    var toolsBtn=document.getElementById('toolsBtn');
+    if(drop && toolsBtn){
+      toolsBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var open=drop.classList.toggle('open');
+        toolsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e){
+        if(!drop.contains(e.target)){ drop.classList.remove('open'); toolsBtn.setAttribute('aria-expanded','false'); }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key==='Escape'){ drop.classList.remove('open'); toolsBtn.setAttribute('aria-expanded','false'); }
+      });
+    }
+    var burger=document.getElementById('burgerBtn');
+    var mobile=document.getElementById('mobileMenu');
+    if(burger && mobile){
+      burger.addEventListener('click', function(){
+        var open=mobile.classList.toggle('open');
+        burger.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      mobile.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          mobile.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false');
+        });
+      });
+    }
   })();
 </script>
 </body>

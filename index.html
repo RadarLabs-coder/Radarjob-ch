@@ -335,6 +335,7 @@
       <a href="#pricing">Tarifs</a>
       <a href="https://cv.radarjob.ch" target="_blank" rel="noopener">Adapter mon CV</a>
       <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener">Tester mon CV</a>
+      <a href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener">Préparer un entretien</a>
       <a href="/inscription.html" class="btn btn-primary">Commencer</a>
     </nav>
   </div>
@@ -484,6 +485,7 @@
       <div class="fc-cta" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
         <a href="https://cv.radarjob.ch" target="_blank" rel="noopener" class="btn btn-primary" style="padding:15px 28px;font-size:16px">Adapter mon CV gratuitement →</a>
         <a href="https://cv.radarjob.ch/test-ats" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:13px 28px;font-size:15px">🔎 Tester sa compatibilité ATS</a>
+        <a href="https://cv.radarjob.ch/preparer-entretien" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:13px 28px;font-size:15px">🎤 Préparer un entretien</a>
       </div>
     </div>
   </div>
@@ -653,6 +655,7 @@
       var href=a.getAttribute('href')||'';
       if(t==='Adapter mon CV') a.addEventListener('click', function(){ track('adapter_cv'); });
       if(href.indexOf('/test-ats')>-1) a.addEventListener('click', function(){ track('test_ats'); });
+      if(href.indexOf('/preparer-entretien')>-1) a.addEventListener('click', function(){ track('prepa_entretien'); });
     });
   })();
 </script>

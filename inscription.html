@@ -211,6 +211,12 @@
       </div>
 
       <div class="field">
+        <label for="exclues">Entreprises à exclure</label>
+        <input type="text" id="exclues" name="exclues" placeholder="Ex : Rolex, Patek Philippe">
+        <div class="hint">Des sociétés où vous ne souhaitez pas postuler (anciens employeurs, etc.) ? Séparez-les par des virgules. Facultatif.</div>
+      </div>
+
+      <div class="field">
         <label for="source">Comment avez-vous entendu parler de RadarJob ? <span class="req">*</span></label>
         <select id="source" name="source" required>
           <option value="" selected disabled>Choisir…</option>
@@ -294,7 +300,8 @@
         cantons:checkedVals('cantons'),
         langues:checkedVals('langues'),
         typePoste:(f.querySelector('input[name="typePoste"]:checked')||{}).value||'',
-        source:f.source.value
+        source:f.source.value,
+        exclues:(f.exclues.value||'').trim()
       };
 
       if(!data.prenom||!data.nom){ showMsg('Merci d\'indiquer votre prénom et votre nom.'); return; }

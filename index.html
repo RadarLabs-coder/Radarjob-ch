@@ -121,21 +121,27 @@
 
   /* Hero */
   /* FOND DU HERO — pour une vraie photo : remplace le 2e calque (le dégradé bleu pâle) par url('lien-de-ta-photo.jpg') */
-  .hero{position:relative;overflow:hidden;text-align:center;padding:112px 0 88px;
-    background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.80) 25%,rgba(255,255,255,.58) 45%,rgba(255,255,255,.50) 58%,rgba(255,255,255,.30) 75%,rgba(255,255,255,.5) 100%),
-              url("hero.jpg");
-    background-size:cover;background-position:center 40%}
+  .hero{position:relative;overflow:hidden;padding:84px 0 92px;
+    background:linear-gradient(100deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.60) 38%, rgba(255,255,255,.20) 60%, rgba(255,255,255,.04) 80%),
+              linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(255,255,255,.85) 100%),
+              url("https://images.unsplash.com/photo-1507039915464-9d829b6d2d78?q=80&w=2400&auto=format&fit=crop");
+    background-size:cover;background-position:center 42%}
   .hero .wrap{position:relative;z-index:1}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .hero-copy{text-align:left}
+  .hero-mail{position:relative}
+  .hero-mail::before{content:"";position:absolute;inset:auto 10% -26px;height:120px;background:radial-gradient(ellipse at center,rgba(225,37,27,.12),transparent 70%);z-index:0}
+  .hero-mail .ad-mail{position:relative;z-index:1}
   .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border);background:var(--soft);font-size:12.5px;font-weight:600;padding:8px 15px;border-radius:999px;margin-bottom:26px;text-transform:uppercase}
   .eyebrow .swiss{width:14px;height:14px}
-  h1{font-size:clamp(40px,6vw,68px);font-weight:900;max-width:14ch;margin:0 auto}
-  .hero .lead{font-size:clamp(17px,1.5vw,20px);color:#2b2f35;margin:24px auto 32px;max-width:600px}
-  .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
-  .microtrust{margin-top:24px;font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center}
+  h1{font-size:clamp(34px,4.4vw,54px);font-weight:900;margin:0}
+  .hero .lead{font-size:clamp(17px,1.4vw,19px);color:#3a3f45;margin:22px 0 30px;max-width:46ch}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-start}
+  .microtrust{margin-top:24px;font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:flex-start}
   .microtrust span{display:inline-flex;align-items:center;gap:7px}
   .microtrust .mt-sep{color:var(--border)}
   .microtrust svg{color:var(--red)}
-  .hero-offer{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .hero-offer{margin-top:18px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
   .hero-tag{display:inline-flex;align-items:stretch;background:#fff;border-radius:999px;overflow:hidden;box-shadow:0 3px 14px rgba(14,15,17,.12)}
   .hero-tag .lab{display:flex;align-items:center;background:var(--red);color:#fff;font-family:"IBM Plex Mono";font-weight:600;font-size:11px;letter-spacing:.06em;padding:0 14px}
   .hero-tag .val{display:flex;align-items:center;color:var(--red-700);font-family:"Archivo";font-weight:700;font-size:13.5px;padding:8px 16px}
@@ -337,6 +343,14 @@
   }
 
   @media (max-width:860px){
+    .hero{background:linear-gradient(180deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.55) 46%,rgba(255,255,255,.88) 100%),url("https://images.unsplash.com/photo-1507039915464-9d829b6d2d78?q=80&w=1400&auto=format&fit=crop");background-size:cover;background-position:center}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero-copy{text-align:center}
+    .hero-copy h1{margin-left:auto;margin-right:auto;max-width:18ch}
+    .hero .lead{margin-left:auto;margin-right:auto}
+    .cta-row,.microtrust{justify-content:center}
+    .hero-offer{align-items:center}
+    .hero-mail::before{inset:auto 18% -26px}
     .steps{grid-template-columns:1fr;gap:30px}
     .steps::before{display:none}
     .features,.plans{grid-template-columns:1fr}
@@ -426,21 +440,50 @@
 
 <section class="hero">
   <div class="wrap">
-    <h1>Arrêtez de chercher. RadarJob trouve votre emploi en <span class="brand-job">Suisse romande</span>.</h1>
-    <p class="lead">Notre radar surveille JobUp et Jobs.ch 24h/24, sélectionne avec l'IA les offres qui correspondent vraiment à votre profil, et vous les envoie par e-mail — <strong style="color:var(--ink)">lettre de motivation incluse</strong>.</p>
-    <div class="cta-row">
-      <a href="/inscription.html" class="btn btn-primary">Créer mon radar — gratuit</a>
-    </div>
-    <div class="hero-offer" id="heroOffer">
-      <div class="hero-tag"><span class="lab" id="heroTagLabel">LANCEMENT</span><span class="val" id="heroBadge">2 mois offerts</span></div>
-      <div class="hero-count" id="countdown">…</div>
-    </div>
-    <div class="microtrust">
-      <span>Toute la Suisse romande</span>
-      <span class="mt-sep">·</span>
-      <span>Prêt en 2 minutes</span>
-      <span class="mt-sep">·</span>
-      <span>Sans engagement</span>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="swiss"></span>Lettre de motivation incluse</div>
+        <h1>Consultez uniquement les offres faites pour vous, <span class="brand-job">directement dans vos emails</span>.</h1>
+        <p class="lead">RadarJob surveille JobUp et Jobs.ch en continu et ne vous envoie que les offres qui correspondent vraiment — chacune avec son score et sa lettre de motivation.</p>
+        <div class="cta-row">
+          <a href="/inscription.html" class="btn btn-primary">Créer mon radar — gratuit</a>
+        </div>
+        <div class="hero-offer" id="heroOffer">
+          <div class="hero-tag"><span class="lab" id="heroTagLabel">LANCEMENT</span><span class="val" id="heroBadge">2 mois offerts</span></div>
+          <div class="hero-count" id="countdown">…</div>
+        </div>
+        <div class="microtrust">
+          <span>Toute la Suisse romande</span>
+          <span class="mt-sep">·</span>
+          <span>Prêt en 2 minutes</span>
+          <span class="mt-sep">·</span>
+          <span>Sans engagement</span>
+        </div>
+      </div>
+      <div class="hero-mail">
+        <div class="ad-mail">
+          <div class="ad-head">
+            <span class="ad-brand">Radar<span>Job</span></span>
+            <span class="ad-tag">NOUVELLE OFFRE</span>
+          </div>
+          <div class="ad-body">
+            <div class="ad-intro">Bonjour, une nouvelle offre correspond à votre profil :</div>
+            <div class="ad-title">Aide-soignant·e diplômé·e</div>
+            <div class="ad-score"><b>9<small>/10</small></b><em>Très bonne correspondance</em></div>
+            <table class="ad-rows">
+              <tr><td>Entreprise</td><td>EMS Les Tilleuls</td></tr>
+              <tr><td>Lieu</td><td>Genève</td></tr>
+              <tr><td>Contrat</td><td>CDI · 80–100%</td></tr>
+            </table>
+            <div class="ad-why">
+              <div class="lbl">POURQUOI CETTE OFFRE</div>
+              <p>Votre expérience en soins gériatriques et votre disponibilité immédiate correspondent au poste, à Genève et en français.</p>
+            </div>
+            <div class="ad-attach">📎 Lettre de motivation personnalisée jointe (PDF)</div>
+            <span class="ad-btn">Voir l'offre et postuler →</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -503,37 +546,6 @@
       <div class="feat reveal">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
         <div><h3>24h/24 sans interruption</h3><p>Radar<span class="brand-job">Job</span> tourne même quand vous dormez ou êtes en entretien.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" style="padding-top:0">
-  <div class="wrap">
-    <div class="seclabel reveal"><h2>L'alerte que vous recevez</h2><span class="line"></span></div>
-    <p class="lead-sub reveal">Tout arrive par email, prêt à l'emploi : l'offre, son score de correspondance, et la lettre de motivation en pièce jointe.</p>
-    <div class="alert-demo reveal">
-      <div class="ad-mail">
-        <div class="ad-head">
-          <span class="ad-brand">Radar<span>Job</span></span>
-          <span class="ad-tag">NOUVELLE OFFRE</span>
-        </div>
-        <div class="ad-body">
-          <div class="ad-intro">Bonjour, une nouvelle offre correspond à votre profil :</div>
-          <div class="ad-title">Aide-soignant·e diplômé·e</div>
-          <div class="ad-score"><b>9<small>/10</small></b><em>Très bonne correspondance</em></div>
-          <table class="ad-rows">
-            <tr><td>Entreprise</td><td>EMS Les Tilleuls</td></tr>
-            <tr><td>Lieu</td><td>Genève</td></tr>
-            <tr><td>Contrat</td><td>CDI · 80–100%</td></tr>
-          </table>
-          <div class="ad-why">
-            <div class="lbl">POURQUOI CETTE OFFRE</div>
-            <p>Votre expérience en soins gériatriques et votre disponibilité immédiate correspondent au poste, à Genève et en français.</p>
-          </div>
-          <div class="ad-attach">📎 Lettre de motivation personnalisée jointe (PDF)</div>
-          <span class="ad-btn">Voir l'offre et postuler →</span>
-        </div>
       </div>
     </div>
   </div>
@@ -700,12 +712,12 @@
       <svg width="24" height="24" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13" stroke="#0E0F11" stroke-width="2" opacity=".22"/><circle cx="15" cy="15" r="8" stroke="#0E0F11" stroke-width="2" opacity=".5"/><circle cx="15" cy="15" r="3.4" fill="#E1251B"/></svg>
       <span>Radar<span class="brand-job">Job</span></span>
     </div>
-    <div class="mono">radarjob.ch · contact@radarjob.ch</div>
+    <div class="mono">radarjob.ch · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c6a5a9a8b2a7a5b286b4a7a2a7b4aca9a4e8a5ae">[email&#160;protected]</a></div>
     <div class="mono">© 2026 Radar<span class="brand-job">Job</span></div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   (function(){
     var els=document.querySelectorAll('.reveal');
     if(!('IntersectionObserver' in window)){ els.forEach(function(el){el.classList.add('in')}); return; }

@@ -131,8 +131,9 @@
   h1{font-size:clamp(40px,6vw,68px);font-weight:900;max-width:14ch;margin:0 auto}
   .hero .lead{font-size:clamp(17px,1.5vw,20px);color:#2b2f35;margin:24px auto 32px;max-width:600px}
   .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
-  .microtrust{margin-top:24px;font-size:13.5px;color:var(--ink);display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center}
+  .microtrust{margin-top:24px;font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center}
   .microtrust span{display:inline-flex;align-items:center;gap:7px}
+  .microtrust .mt-sep{color:var(--border)}
   .microtrust svg{color:var(--red)}
   .hero-offer{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:8px}
   .hero-tag{display:inline-flex;align-items:stretch;background:#fff;border-radius:999px;overflow:hidden;box-shadow:0 3px 14px rgba(14,15,17,.12)}
@@ -412,22 +413,21 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow"><span class="swiss"></span> Recherche d'emploi automatisée · Suisse</span>
-    <h1>Trouvez un emploi en Suisse, sans y passer des heures.</h1>
-    <p class="lead">Radar<span class="brand-job">Job</span> scanne JobUp et Jobs.ch en continu, sélectionne les offres faites pour vous, et vous les envoie avec une lettre de motivation déjà rédigée. Vous n'avez plus qu'à postuler.</p>
+    <h1>Arrêtez de chercher. RadarJob trouve votre emploi en <span class="brand-job">Suisse romande</span>.</h1>
+    <p class="lead">Notre radar surveille JobUp et Jobs.ch 24h/24, sélectionne avec l'IA les offres qui correspondent vraiment à votre profil, et vous les envoie par e-mail — <strong style="color:var(--ink)">lettre de motivation incluse</strong>.</p>
     <div class="cta-row">
-      <a href="/inscription.html" class="btn btn-primary">Commencer</a>
-      <a href="https://cv.radarjob.ch" target="_blank" rel="noopener" class="btn btn-ghost">Adapter mon CV</a>
-      <a href="#how" class="btn btn-ghost">Comment ça marche</a>
+      <a href="/inscription.html" class="btn btn-primary">Créer mon radar — gratuit</a>
     </div>
     <div class="hero-offer" id="heroOffer">
       <div class="hero-tag"><span class="lab" id="heroTagLabel">LANCEMENT</span><span class="val" id="heroBadge">2 mois offerts</span></div>
       <div class="hero-count" id="countdown">…</div>
     </div>
     <div class="microtrust">
-      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> Sans engagement</span>
-      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> Conçu en Suisse</span>
-      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> Annulation à tout moment</span>
+      <span>Toute la Suisse romande</span>
+      <span class="mt-sep">·</span>
+      <span>Prêt en 2 minutes</span>
+      <span class="mt-sep">·</span>
+      <span>Sans engagement</span>
     </div>
   </div>
 </section>

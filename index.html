@@ -226,6 +226,19 @@
   .testi-badge{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#3ddc84;background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.3);padding:5px 11px;border-radius:999px;white-space:nowrap}
   .testi-quote{font-family:"Archivo",sans-serif;font-weight:500;font-size:17px;line-height:1.55;color:rgba(255,255,255,.92)}
 
+  /* FAQ (accordeon) */
+  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .faq details{background:var(--soft);border:1px solid var(--border);border-radius:14px}
+  .faq summary{list-style:none;cursor:pointer;padding:18px 22px;font-family:"Archivo";font-weight:700;font-size:16px;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:"Archivo";font-weight:800;font-size:22px;color:var(--red);flex-shrink:0;line-height:1}
+  .faq details[open] summary::after{content:"–"}
+  .faq .faq-a{padding:0 22px 18px;color:var(--muted);font-size:15px;line-height:1.6}
+
+  /* Bloc reassurance */
+  .reassure{margin:20px auto 0;max-width:640px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center}
+  .reassure .sep{color:var(--border)}
+
   /* Capture email (newsletter / liste d'attente) */
   .capture-card{background:var(--soft);border:1px solid var(--border);border-radius:22px;padding:42px 44px;text-align:center}
   .capture-card h2{font-size:clamp(22px,2.6vw,30px);margin-bottom:10px}
@@ -547,8 +560,8 @@
     <div class="freecv-card reveal">
       <div class="fc-text">
         <div class="fc-eyebrow">Gratuit · sans inscription</div>
-        <h2>Pas encore prêt à t'abonner ? Commence par ton CV.</h2>
-        <p>Adapte ton CV à une offre en 2 minutes : mise en page au standard suisse, PDF téléchargeable. 100 % gratuit.</p>
+        <h2>Pas encore prêt à vous abonner ? Commencez par votre CV.</h2>
+        <p>Adaptez votre CV à une offre en 2 minutes : mise en page au standard suisse, PDF téléchargeable. 100 % gratuit.</p>
         <div class="fc-chips"><span>Gratuit</span><span>Standard suisse</span><span>PDF prêt à envoyer</span></div>
       </div>
       <div class="fc-cta" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
@@ -630,6 +643,7 @@
       <h2>Laissez Radar<span class="brand-job">Job</span> chercher pour vous.</h2>
       <p>Configurez votre recherche en deux minutes, et recevez vos premières offres dès demain.</p>
       <a href="/inscription.html" class="btn btn-primary" style="padding:15px 30px;font-size:16px">Commencer</a>
+      <p class="reassure"><span>2 mois offerts</span><span class="sep">·</span><span>Vos données restent privées, jamais revendues</span><span class="sep">·</span><span>Zéro spam</span><span class="sep">·</span><span>Désinscription en 1 clic</span></p>
     </div>
   </div>
 </section>
@@ -637,13 +651,45 @@
 <section class="block" style="padding-top:0">
   <div class="wrap">
     <div class="capture-card reveal">
-      <h2>Reste informé, en avant-première.</h2>
-      <p>Laisse ton email : nouveautés, conseils pour ta recherche d'emploi et accès prioritaire à RadarJob.</p>
+      <h2>Restez informé, en avant-première.</h2>
+      <p>Laissez votre e-mail : nouveautés, conseils pour votre recherche d'emploi et accès prioritaire à RadarJob.</p>
       <form class="cap-form" id="captureForm" novalidate>
-        <input type="email" required placeholder="ton@email.ch" aria-label="Adresse email">
+        <input type="email" required placeholder="vous@email.ch" aria-label="Adresse e-mail">
         <button type="submit" class="btn btn-primary">M'avertir</button>
       </form>
-      <p class="cap-msg" id="capMsg" hidden>✓ Merci ! On te tient au courant.</p>
+      <p class="cap-msg" id="capMsg" hidden>✓ Merci ! On vous tient au courant.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="seclabel reveal"><h2>Questions fréquentes</h2><span class="line"></span></div>
+    <div class="faq reveal">
+      <details>
+        <summary>C'est vraiment gratuit ?</summary>
+        <div class="faq-a">Vous commencez avec 2 mois offerts, sans engagement. Ensuite, le forfait Standard est à 39 CHF/mois, et vous arrêtez quand vous voulez.</div>
+      </details>
+      <details>
+        <summary>Combien d'e-mails vais-je recevoir ?</summary>
+        <div class="faq-a">Uniquement les offres qui correspondent à votre profil — jusqu'à 2 alertes par jour. Jamais de spam.</div>
+      </details>
+      <details>
+        <summary>Est-ce que ça marche vraiment ?</summary>
+        <div class="faq-a">Radar<span class="brand-job">Job</span> scanne JobUp et Jobs.ch en continu et l'IA fait le tri. Vous ne recevez que ce qui correspond à votre métier et votre région.</div>
+      </details>
+      <details>
+        <summary>Que faites-vous de mes données ?</summary>
+        <div class="faq-a">Elles servent uniquement à votre recherche d'emploi. Jamais revendues. Vous pouvez tout supprimer quand vous voulez.</div>
+      </details>
+      <details>
+        <summary>Dois-je installer quelque chose ?</summary>
+        <div class="faq-a">Non, tout passe par e-mail. Un court formulaire une fois, et c'est parti.</div>
+      </details>
+      <details>
+        <summary>Comment j'arrête ?</summary>
+        <div class="faq-a">En 1 clic, à tout moment. Sans engagement.</div>
+      </details>
     </div>
   </div>
 </section>
@@ -725,7 +771,7 @@
         if(res.ok){
           if(typeof gtag==='function'){ gtag('event','lead_email',{ source:'capture' }); }
           f.style.display='none';
-          showMsg('✓ Merci ! On te tient au courant.', true);
+          showMsg('✓ Merci ! On vous tient au courant.', true);
         } else {
           if(btn){ btn.disabled=false; btn.textContent=label; }
           showMsg((res.data && res.data.error) || 'Une erreur est survenue. Réessaie.', false);
